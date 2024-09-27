@@ -2,18 +2,105 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/mainMenu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/background_main"
+        android:layout_marginBottom="-24dp"/>
+
+    <View
+        android:id="@+id/logoMain"
+        android:layout_width="176dp"
+        android:layout_height="60dp"
+        android:background="@drawable/logo_main"
+        app:layout_constraintBottom_toTopOf="@+id/mainMenu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:id="@+id/mainMenu"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create"
+                android:textAppearance="@style/TextBold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnNewAppointment"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_appointment_new"
+                android:text="@string/new_appointment" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnNewMedcard"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_medcard"
+                android:text="@string/new_medcard" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/watch"
+                android:textAppearance="@style/TextBold" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnPets"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_pet"
+                android:text="@string/pets" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnOwners"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_people"
+                android:text="@string/owners" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnVets"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_vet"
+                android:text="@string/vets" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnMedHistory"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_medhistory"
+                android:text="@string/medhistory" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAppointments"
+                style="@style/ButtonMain"
+                android:drawableStart="@drawable/ic_appointment_history"
+                android:text="@string/appointment_history" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

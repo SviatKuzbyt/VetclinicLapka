@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">VetclinicLapka</string>
+    <string name="app_name">Ветклініка Лапка</string>
+    <string name="new_appointment">Запис на прийом</string>
+    <string name="create">Створення</string>
+    <string name="new_medcard">Медична карта</string>
+    <string name="watch">Перегляд</string>
+    <string name="pets">Домашні улюбленці</string>
+    <string name="owners">Хазяїни</string>
+    <string name="vets">Ветеринари</string>
+    <string name="medhistory">Медична історія</string>
+    <string name="appointment_history">Записи на прийом</string>
 </resources>

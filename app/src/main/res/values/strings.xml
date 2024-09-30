@@ -9,4 +9,6 @@
     <string name="vets">Ветеринари</string>
     <string name="medhistory">Медична історія</string>
     <string name="appointment_history">Записи на прийом</string>
+    <string name="to_back">Повернутися назад</string>
+    <string name="search_record">Пошук запису</string>
 </resources>

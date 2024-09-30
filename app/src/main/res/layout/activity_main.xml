@@ -6,19 +6,19 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/background_main"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/createLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:id="@+id/view"
+        android:id="@+id/mainMenuBackground"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="-16dp"
@@ -26,20 +26,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="@+id/createLabel" />
 
     <View
         android:id="@+id/logoMain"
         android:layout_width="176dp"
         android:layout_height="60dp"
         android:background="@drawable/logo_main"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/mainMenuBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/createLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/create"
@@ -63,13 +63,13 @@
         style="@style/ButtonMain"
         android:drawableStart="@drawable/ic_medcard"
         android:text="@string/new_medcard"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintBottom_toTopOf="@+id/watchLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="16dp"/>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/watchLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"

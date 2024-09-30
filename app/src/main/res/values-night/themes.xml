@@ -1,9 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.VetclinicLapka" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.VetclinicLapka" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorSecondary">@color/green_dark</item>
         <item name="colorOnPrimary">@color/white_dark</item>
         <item name="colorOnBackground">@color/dark</item>
         <item name="android:windowBackground">@color/dark</item>
+        <item name="colorAccent">@color/green_selected_dark</item>
+        <item name="android:statusBarColor">@color/dark</item>
+        <item name="android:navigationBarColor">@color/dark</item>
     </style>
 </resources>

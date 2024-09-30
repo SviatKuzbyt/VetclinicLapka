@@ -1,17 +1,16 @@
-package ua.sviatkuzbyt.vetcliniclapka
+package ua.sviatkuzbyt.vetcliniclapka.ui.activities.records
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityMainBinding
+import ua.sviatkuzbyt.vetcliniclapka.R
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class RecordsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_records)
+
     }
 }

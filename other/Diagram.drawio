@@ -1,0 +1,151 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.8 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.8">
+  <diagram name="Page-1" id="s-dTCZFKJGJ7DjVX_vbd">
+    <mxGraphModel dx="1450" dy="1030" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="BladAUFnpNEVnme-1gDu-3" value="RecordsActivity" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="160" y="120" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-5" value="CreateActivity" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="810" y="160" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-6" target="BladAUFnpNEVnme-1gDu-7" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-6" value="&lt;div&gt;toolBar&lt;/div&gt;filterText&lt;div&gt;filterType&lt;/div&gt;&lt;div&gt;recordsList&lt;/div&gt;&lt;div&gt;addButton&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="160" y="140" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-8" target="BladAUFnpNEVnme-1gDu-14" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="60" y="290" />
+              <mxPoint x="-20" y="290" />
+              <mxPoint x="-20" y="150" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-11" target="BladAUFnpNEVnme-1gDu-4" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="250" />
+              <mxPoint x="370" y="220" />
+              <mxPoint x="440" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-11" value="itemOpen()&lt;div&gt;itemReturn()&lt;/div&gt;&lt;div&gt;filter()&lt;/div&gt;&lt;div&gt;add()&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="160" y="220" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-13" value="RecordsAction" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry y="120" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-14" target="BladAUFnpNEVnme-1gDu-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-14" value="itemClick()" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry y="140" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-23" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="280" y="320" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-1" value="MainActivity" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="BladAUFnpNEVnme-1gDu-23" vertex="1">
+          <mxGeometry width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-2" value="buttons" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-23" vertex="1">
+          <mxGeometry y="20" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-1" target="BladAUFnpNEVnme-1gDu-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-29" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry y="200" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-7" value="RecordAdapter" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="BladAUFnpNEVnme-1gDu-29" vertex="1">
+          <mxGeometry width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-8" value="icon&lt;div&gt;tittle&lt;/div&gt;&lt;div&gt;subtext&lt;/div&gt;&lt;div&gt;id&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-29" vertex="1">
+          <mxGeometry y="20" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-9" value="onClick()" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-29" vertex="1">
+          <mxGeometry y="80" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-31" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="380" y="230" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-4" value="InfoActivity" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="BladAUFnpNEVnme-1gDu-31" vertex="1">
+          <mxGeometry width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-15" value="toolBar&lt;div&gt;infoList&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-31" vertex="1">
+          <mxGeometry y="20" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-32" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="540" y="230" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-16" value="ItemAdapter" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="BladAUFnpNEVnme-1gDu-32" vertex="1">
+          <mxGeometry width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-17" value="label&lt;div&gt;items&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-32" vertex="1">
+          <mxGeometry y="20" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-33" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="480" y="320" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-18" value="infoTextAdapter" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="BladAUFnpNEVnme-1gDu-33" vertex="1">
+          <mxGeometry width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-19" value="label&lt;div&gt;content&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-33" vertex="1">
+          <mxGeometry y="20" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-34" value="" style="group" parent="1" vertex="1" connectable="0">
+          <mxGeometry x="640" y="320" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-20" value="actionAdapter" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="BladAUFnpNEVnme-1gDu-34" vertex="1">
+          <mxGeometry width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-22" value="icon&lt;div&gt;text&lt;/div&gt;&lt;div&gt;action&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="BladAUFnpNEVnme-1gDu-34" vertex="1">
+          <mxGeometry y="20" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-15" target="BladAUFnpNEVnme-1gDu-16" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="265" />
+              <mxPoint x="520" y="220" />
+              <mxPoint x="600" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="BladAUFnpNEVnme-1gDu-17" target="BladAUFnpNEVnme-1gDu-20" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="BladAUFnpNEVnme-1gDu-17" target="BladAUFnpNEVnme-1gDu-18" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-40" value="RecordsActivity" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="150" y="-30" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-41" value="records&lt;div&gt;filterType&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="150" y="-10" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-42" value="getData()&lt;div&gt;addData()&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="150" y="20" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-44" value="AddFragment" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="320" y="-40" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-45" value="label&lt;div&gt;dataList&lt;/div&gt;&lt;div&gt;addButton&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="320" y="-20" width="120" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-46" value="add()" style="rounded=0;whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+          <mxGeometry x="320" y="30" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-47" value="AddAdapter" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" parent="1" vertex="1">
+          <mxGeometry x="480" y="-40" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="BladAUFnpNEVnme-1gDu-48" value="label&lt;div&gt;Item&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="480" y="-20" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,21 +1,20 @@
 package ua.sviatkuzbyt.vetcliniclapka.data
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
+import java.net.URL
 
-class RecordsRepository(private val table: String?) {
-
-    private val tempData = mutableListOf(
-        RecordItem(1, "First", "Content 1"),
-        RecordItem(2, "Second", "Content 2"),
-        RecordItem(3, "Third", "Content 3"),
-    )
+class RecordsRepository(private val table: String) {
 
     fun getAllData(): MutableList<RecordItem>{
-        return tempData
+        val text = URL("http://sviat-fedora.local:3000/$table").readText()
+        val gson = Gson()
+        return gson.fromJson(text, getType)
     }
 
     fun getFilterData(filter: String, value: String): MutableList<RecordItem>{
-        return tempData
+        return mutableListOf()
     }
 
     fun getIcon() = when(table){
@@ -23,6 +22,10 @@ class RecordsRepository(private val table: String?) {
         "owner" -> R.drawable.ic_round_people
         "vet" -> R.drawable.ic_round_vet
         else -> R.drawable.ic_round_record
+    }
+
+    companion object{
+        private val getType = object : TypeToken<MutableList<RecordItem>>() {}.type
     }
 }
 

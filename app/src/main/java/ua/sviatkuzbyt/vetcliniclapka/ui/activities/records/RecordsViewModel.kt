@@ -15,7 +15,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.RecordsRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 
 class RecordsViewModel(application: Application, private val intent: Intent): AndroidViewModel(application) {
-    private var repository = RecordsRepository(intent.getStringExtra("table"))
+    private var repository = RecordsRepository(intent.getStringExtra("table") ?: "unknown")
     private var _records = mutableListOf<RecordItem>()
     val records = MutableLiveData<MutableList<RecordItem>>()
     val message = SingleLiveEvent<Pair<Int, String?>>()

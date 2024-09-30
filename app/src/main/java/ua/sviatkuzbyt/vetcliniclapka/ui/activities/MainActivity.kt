@@ -16,7 +16,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.apply {
+            setOpenRecordsActivity("pet", btnPets)
             setOpenRecordsActivity("owner", btnOwners)
+            setOpenRecordsActivity("vet", btnVets)
+            setOpenRecordsActivity("medcard", btnMedHistory)
+            setOpenRecordsActivity("appointment", btnAppointments)
         }
     }
 
@@ -28,6 +32,5 @@ class MainActivity : AppCompatActivity() {
             }
             startActivity(intent)
         }
-
     }
 }

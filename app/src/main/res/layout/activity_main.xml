@@ -11,96 +11,118 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/mainMenu"
+        android:background="@drawable/background_main"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/background_main"
-        android:layout_marginBottom="-24dp"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="-16dp"
+        android:background="@drawable/background_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <View
         android:id="@+id/logoMain"
         android:layout_width="176dp"
         android:layout_height="60dp"
         android:background="@drawable/logo_main"
-        app:layout_constraintBottom_toTopOf="@+id/mainMenu"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
-        android:id="@+id/mainMenu"
-        android:layout_width="0dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_fragment"
+        android:text="@string/create"
+        android:textAppearance="@style/TextBold"
+        app:layout_constraintBottom_toTopOf="@+id/btnNewAppointment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="16dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNewAppointment"
+        style="@style/ButtonMain"
+        android:drawableStart="@drawable/ic_appointment_new"
+        android:text="@string/new_appointment"
+        app:layout_constraintBottom_toTopOf="@+id/btnNewMedcard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNewMedcard"
+        style="@style/ButtonMain"
+        android:drawableStart="@drawable/ic_medcard"
+        android:text="@string/new_medcard"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:text="@string/watch"
+        android:textAppearance="@style/TextBold"
+        app:layout_constraintBottom_toTopOf="@+id/btnPets"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnPets"
+        style="@style/ButtonMain"
+        android:drawableStart="@drawable/ic_pet"
+        android:text="@string/pets"
+        app:layout_constraintBottom_toTopOf="@+id/btnOwners"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnOwners"
+        style="@style/ButtonMain"
+        android:drawableStart="@drawable/ic_people"
+        android:text="@string/owners"
+        app:layout_constraintBottom_toTopOf="@+id/btnVets"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnVets"
+        style="@style/ButtonMain"
+        android:drawableStart="@drawable/ic_vet"
+        android:text="@string/vets"
+        app:layout_constraintBottom_toTopOf="@+id/btnMedHistory"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnMedHistory"
+        style="@style/ButtonMain"
+        android:drawableStart="@drawable/ic_medhistory"
+        android:text="@string/medhistory"
+        app:layout_constraintBottom_toTopOf="@+id/btnAppointments"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAppointments"
+        style="@style/ButtonMain"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_appointment_history"
+        android:text="@string/appointment_history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/create"
-                android:textAppearance="@style/TextBold" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnNewAppointment"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_appointment_new"
-                android:text="@string/new_appointment" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnNewMedcard"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_medcard"
-                android:text="@string/new_medcard" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/watch"
-                android:textAppearance="@style/TextBold" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPets"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_pet"
-                android:text="@string/pets" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnOwners"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_people"
-                android:text="@string/owners" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnVets"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_vet"
-                android:text="@string/vets" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnMedHistory"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_medhistory"
-                android:text="@string/medhistory" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnAppointments"
-                style="@style/ButtonMain"
-                android:drawableStart="@drawable/ic_appointment_history"
-                android:text="@string/appointment_history" />
-
-        </LinearLayout>
-    </ScrollView>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

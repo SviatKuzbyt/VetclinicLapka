@@ -12,4 +12,6 @@
     <string name="to_back">Повернутися назад</string>
     <string name="search_record">Пошук запису</string>
     <string name="error">Помилка</string>
+    <string name="add">Додати</string>
+    <string name="no_records">Немає записів</string>
 </resources>

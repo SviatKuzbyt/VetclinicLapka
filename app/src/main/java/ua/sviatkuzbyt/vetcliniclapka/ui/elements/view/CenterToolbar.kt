@@ -25,8 +25,8 @@ class CenterToolbar @JvmOverloads constructor(
         label = findViewById(R.id.labelToolbarBack)
     }
 
-    fun setup(text: Int, activity: AppCompatActivity) {
-        label.setText(text)
+    fun setup(text: String, activity: AppCompatActivity) {
+        label.text = text
         button.setOnClickListener {
             activity.finish()
         }

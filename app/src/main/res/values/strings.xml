@@ -11,4 +11,5 @@
     <string name="appointment_history">Записи на прийом</string>
     <string name="to_back">Повернутися назад</string>
     <string name="search_record">Пошук запису</string>
+    <string name="error">Помилка</string>
 </resources>

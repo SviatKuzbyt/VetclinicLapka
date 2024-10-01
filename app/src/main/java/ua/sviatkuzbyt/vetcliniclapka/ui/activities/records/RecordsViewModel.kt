@@ -10,16 +10,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordsRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 
-class RecordsViewModel(application: Application, private val intent: Intent): AndroidViewModel(application) {
+class RecordsViewModel(application: Application, intent: Intent): AndroidViewModel(application) {
     private var repository = RecordsRepository(intent.getStringExtra("table") ?: "unknown")
-    private var _records = mutableListOf<RecordItem>()
     val records = MutableLiveData<MutableList<RecordItem>>()
     val message = SingleLiveEvent<Pair<Int, String?>>()
-    private val icon = repository.getIcon()
 
     init {
         viewModelScope.launch(Dispatchers.IO){
@@ -29,14 +28,37 @@ class RecordsViewModel(application: Application, private val intent: Intent): An
 
     private fun getAllData(){
         try {
-            _records = repository.getAllData()
-            records.postValue(_records)
+            records.postValue(repository.getAllData())
         } catch (e: Exception){
             message.postValue(Pair(R.string.error, e.message))
         }
     }
 
-    fun getIcon() = icon
+    fun getIcon(): Int {
+        return try {
+            repository.getIcon()
+        } catch (e: Exception){
+            message.postValue(Pair(R.string.error, e.message))
+            R.drawable.ic_round_record
+        }
+    }
+
+    fun getFilterList(): List<FilterItem>{
+        return try {
+            repository.getFilterList()
+        } catch (e: Exception){
+            message.postValue(Pair(R.string.error, e.message))
+            listOf()
+        }
+    }
+
+    fun updateFilterList(oldPosition: Int, newPosition: Int){
+        try {
+            repository.updateFilterList(oldPosition, newPosition)
+        } catch (e: Exception){
+            message.postValue(Pair(R.string.error, e.message))
+        }
+    }
 
     class Factory(private val application: Application, private val intent: Intent)
         : ViewModelProvider.Factory {

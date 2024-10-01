@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +21,7 @@ class RecordAdapter(
     private val EMPTY_VIEW = 0
     private val RECORD_VIEW = 1
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class RecordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val icon = view.findViewById<View>(R.id.recordIcon)
         private val label = view.findViewById<TextView>(R.id.recordLabel)
         private val subtext = view.findViewById<TextView>(R.id.recordSubtext)
@@ -43,7 +43,7 @@ class RecordAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
        return if (viewType == RECORD_VIEW){
-           ViewHolder(
+           RecordViewHolder(
                LayoutInflater.from(viewGroup.context)
                .inflate(R.layout.item_record, viewGroup, false)
            )
@@ -56,7 +56,7 @@ class RecordAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        if (viewHolder is ViewHolder)
+        if (viewHolder is RecordViewHolder)
             viewHolder.bind(dataSet[position])
     }
 

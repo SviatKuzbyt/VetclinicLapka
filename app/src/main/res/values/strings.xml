@@ -14,4 +14,5 @@
     <string name="error">Помилка</string>
     <string name="add">Додати</string>
     <string name="no_records">Немає записів</string>
+    <string name="filter_by">Фільтрувати за</string>
 </resources>

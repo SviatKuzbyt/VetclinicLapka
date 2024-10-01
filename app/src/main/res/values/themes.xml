@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Base.Theme.VetclinicLapka" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.Theme.VetclinicLapka" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorSecondary">@color/green_light</item>
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorOnBackground">@color/white_light</item>
@@ -7,6 +7,8 @@
         <item name="colorAccent">@color/green_selected_light</item>
         <item name="android:statusBarColor">@color/white_light</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:textColorHighlight">@color/green_selected_light</item>
+
     </style>
 
     <style name="Theme.VetclinicLapka" parent="Base.Theme.VetclinicLapka">

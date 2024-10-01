@@ -25,4 +25,6 @@
     <string name="pet">Улюбленець</string>
     <string name="vet">Ветеринар</string>
     <string name="diagnosis">Діагноз</string>
+    <string name="complaint">Скарга</string>
+    <string name="vet_today">Ветеринар (сьогодні)</string>
 </resources>

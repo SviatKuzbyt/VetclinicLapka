@@ -36,4 +36,9 @@ class FilterFragment : BottomSheetDialogFragment(), FilterAction {
         viewModel.updateFilterList(oldPosition, newPosition)
         dismiss()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

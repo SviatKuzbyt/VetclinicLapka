@@ -29,7 +29,7 @@
         android:minHeight="48dp"
         android:paddingVertical="12dp"
         android:paddingStart="20dp"
-        android:paddingEnd="54dp"
+        android:paddingEnd="96dp"
         android:textAppearance="@style/TextBasic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +63,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/filterText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonChooseDate"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/ic_calendar"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonSetFilter"
+        app:layout_constraintEnd_toStartOf="@+id/buttonSetFilter"
+        app:layout_constraintTop_toTopOf="@+id/buttonSetFilter" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,9 +13,10 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAction
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.makeErrorToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.FilterFragment
 
-class RecordsActivity : AppCompatActivity(), RecordAction {
+class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.CalendarFilterAction {
     private lateinit var binding: ActivityRecordsBinding
     private lateinit var viewModel: RecordsViewModel
     private lateinit var adapterRecycler: RecordAdapter
@@ -45,6 +46,11 @@ class RecordsActivity : AppCompatActivity(), RecordAction {
             }
             true
         }
+
+        binding.buttonChooseDate.setOnClickListener {
+            val calendarFragment = CalendarFragment()
+            calendarFragment.show(supportFragmentManager, calendarFragment.tag)
+        }
     }
 
     private fun setToolBar(){
@@ -72,4 +78,8 @@ class RecordsActivity : AppCompatActivity(), RecordAction {
     }
 
     override fun clickItem(id: Int) {}
+
+    override fun search(date: String) {
+        binding.filterText.setText(date)
+    }
 }

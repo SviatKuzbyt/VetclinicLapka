@@ -7,6 +7,7 @@ class RecordsFilter {
         "pet" -> petFilter
         "owner" -> ownerFilter
         "vet" -> vetFilter
+        "medcard" -> medCardFilter
         else -> mutableListOf()
     }
 
@@ -26,6 +27,14 @@ class RecordsFilter {
         FilterItem(R.string.phone, "phone", false),
         FilterItem(R.string.speciality, "specie", false),
     ) }
+
+    private val medCardFilter by lazy { mutableListOf(
+        FilterItem(R.string.date, "date", true),
+        FilterItem(R.string.pet, "pet", false),
+        FilterItem(R.string.vet, "vet", false),
+        FilterItem(R.string.diagnosis, "diagnosis", false),
+        FilterItem(R.string.owner, "owner", false),
+        ) }
 }
 
 data class FilterItem(

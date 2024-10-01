@@ -21,4 +21,8 @@
     <string name="phone">Номер телефону</string>
     <string name="empty_field">Введіть фільтр</string>
     <string name="speciality">Спеціальність</string>
+    <string name="date">Дата (в розробці)</string>
+    <string name="pet">Улюбленець</string>
+    <string name="vet">Ветеринар</string>
+    <string name="diagnosis">Діагноз</string>
 </resources>

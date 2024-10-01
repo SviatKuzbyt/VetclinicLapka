@@ -15,4 +15,7 @@
     <string name="add">Додати</string>
     <string name="no_records">Немає записів</string>
     <string name="filter_by">Фільтрувати за</string>
+    <string name="name">Ім\'я</string>
+    <string name="owner">Власник</string>
+    <string name="breed">Порода</string>
 </resources>

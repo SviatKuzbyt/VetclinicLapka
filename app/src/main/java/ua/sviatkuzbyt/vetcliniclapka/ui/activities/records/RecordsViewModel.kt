@@ -34,6 +34,16 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
         }
     }
 
+    fun getFilterData(filter: String){
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                records.postValue(repository.getFilterData(filter))
+            } catch (e: Exception){
+                message.postValue(Pair(R.string.error, e.message))
+            }
+        }
+    }
+
     fun getIcon(): Int {
         return try {
             repository.getIcon()

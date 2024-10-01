@@ -7,14 +7,9 @@ import java.net.URL
 
 class RecordsRepository(private val table: String) {
 
-    private var records = mutableListOf<RecordItem>()
-    //temp
-    private val filterList = listOf(
-        FilterItem(R.string.pets, "pet", true),
-        FilterItem(R.string.vets, "vet", false),
-        FilterItem(R.string.appointment_history, "appointment", false)
-    )
-    private var currentFilter = ""
+    private val records = mutableListOf<RecordItem>()
+    private val filterList = RecordsFilter().getFilterList(table)
+    private var currentFilter = filterList[0].apiName
 
     private val icon = when(table){
         "pet" -> R.drawable.ic_round_pets
@@ -26,12 +21,21 @@ class RecordsRepository(private val table: String) {
     fun getAllData(): MutableList<RecordItem>{
         val text = URL("http://sviat-fedora.local:3000/$table").readText()
         val gson = Gson()
-        records = gson.fromJson(text, getType)
+        updateList(gson.fromJson(text, getType))
         return records
     }
 
-    fun getFilterData(filter: String, value: String): MutableList<RecordItem>{
-        return mutableListOf()
+    fun getFilterData(filter: String): MutableList<RecordItem>{
+        val link = "http://sviat-fedora.local:3000/$table/filter/$currentFilter/$filter"
+        val text = URL(link).readText()
+        val gson = Gson()
+        updateList(gson.fromJson(text, getType))
+        return records
+    }
+
+    private fun updateList(list: MutableList<RecordItem>){
+        records.clear()
+        records.addAll(list)
     }
 
     fun getIcon() = icon
@@ -55,10 +59,4 @@ data class RecordItem(
     val id: Int,
     val label: String,
     val subtext: String
-)
-
-data class FilterItem(
-    val label: Int,
-    val apiName: String,
-    var isSelected: Boolean
 )

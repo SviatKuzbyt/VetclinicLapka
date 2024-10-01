@@ -1,12 +1,15 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.activities.records
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAction
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAdapter
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.makeErrorToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.FilterFragment
 
@@ -29,6 +32,12 @@ class RecordsActivity : AppCompatActivity(), RecordAction {
             val addFragment = FilterFragment()
             addFragment.show(supportFragmentManager, addFragment.tag)
         }
+
+        binding.filterText.setOnEditorActionListener { view, _, _ ->
+            viewModel.getFilterData(view.text.toString())
+            hideKeyboard(view)
+            true
+        }
     }
 
     private fun setToolBar(){
@@ -36,6 +45,7 @@ class RecordsActivity : AppCompatActivity(), RecordAction {
         binding.toolbarFilter.setup(text, this)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun setViewModel() {
         val factory = RecordsViewModel.Factory(application, intent)
         viewModel = ViewModelProvider(this, factory)[RecordsViewModel::class.java]
@@ -48,6 +58,8 @@ class RecordsActivity : AppCompatActivity(), RecordAction {
             if (!::adapterRecycler.isInitialized) {
                 adapterRecycler = RecordAdapter(it, this, viewModel.getIcon())
                 binding.recordsRecycler.adapter = adapterRecycler
+            } else{
+                adapterRecycler.notifyDataSetChanged()
             }
         }
     }

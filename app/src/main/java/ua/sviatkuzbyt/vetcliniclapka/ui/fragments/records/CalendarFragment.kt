@@ -2,7 +2,6 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +9,10 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentCalendarBinding
-import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentFilterBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.makeErrorToast
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
 
 class CalendarFragment : BottomSheetDialogFragment() {
 
@@ -31,10 +28,8 @@ class CalendarFragment : BottomSheetDialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        // Ensure the activity implements the interface
-        if (context is CalendarFilterAction) {
-            action = context
-        } else {
+        if(context is CalendarFilterAction) action = context
+        else{
             Toast.makeText(context, R.string.noCalendarFragment, Toast.LENGTH_LONG).show()
             dismiss()
         }

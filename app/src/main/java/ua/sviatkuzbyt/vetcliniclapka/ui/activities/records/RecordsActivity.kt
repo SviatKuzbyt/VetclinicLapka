@@ -2,9 +2,11 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.activities.records
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
@@ -73,6 +75,13 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
                 binding.recordsRecycler.adapter = adapterRecycler
             } else{
                 adapterRecycler.notifyDataSetChanged()
+            }
+        }
+
+        viewModel.showCalendarButton.observe(this){
+            binding.buttonChooseDate.apply {
+                if (it && isGone) visibility = View.VISIBLE
+                else if(isVisible) visibility = View.GONE
             }
         }
     }

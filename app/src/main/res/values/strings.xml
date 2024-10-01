@@ -21,12 +21,12 @@
     <string name="phone">Номер телефону</string>
     <string name="empty_field">Введіть фільтр</string>
     <string name="speciality">Спеціальність</string>
-    <string name="date">Дата (в розробці)</string>
+    <string name="date">Дата</string>
     <string name="pet">Улюбленець</string>
     <string name="vet">Ветеринар</string>
     <string name="diagnosis">Діагноз</string>
     <string name="complaint">Скарга</string>
-    <string name="vet_today">Ветеринар (сьогодні)</string>
+    <string name="vet_today">Ветеринар (на сьогодні)</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="select_date">Виберіть дату</string>

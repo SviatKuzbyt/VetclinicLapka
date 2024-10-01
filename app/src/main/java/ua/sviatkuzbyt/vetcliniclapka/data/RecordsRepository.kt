@@ -51,6 +51,8 @@ class RecordsRepository(private val table: String) {
         currentFilter = filterList[newPosition].apiName
     }
 
+    fun isSelectedDate() = currentFilter == "date"
+
     companion object{
         private val getType = object : TypeToken<MutableList<RecordItem>>() {}.type
     }

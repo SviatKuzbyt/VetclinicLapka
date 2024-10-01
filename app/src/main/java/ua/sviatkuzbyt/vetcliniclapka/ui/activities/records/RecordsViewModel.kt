@@ -19,6 +19,7 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
     private var repository = RecordsRepository(intent.getStringExtra("table") ?: "unknown")
     val records = MutableLiveData<MutableList<RecordItem>>()
     val message = SingleLiveEvent<Pair<Int, String?>>()
+    val showCalendarButton = MutableLiveData(repository.isSelectedDate())
 
     init {
         viewModelScope.launch(Dispatchers.IO){
@@ -65,6 +66,7 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
     fun updateFilterList(oldPosition: Int, newPosition: Int){
         try {
             repository.updateFilterList(oldPosition, newPosition)
+            showCalendarButton.postValue(repository.isSelectedDate())
         } catch (e: Exception){
             message.postValue(Pair(R.string.error, e.message))
         }

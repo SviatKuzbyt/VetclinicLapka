@@ -3,9 +3,11 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.activities.records
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAction
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAdapter
@@ -34,8 +36,13 @@ class RecordsActivity : AppCompatActivity(), RecordAction {
         }
 
         binding.filterText.setOnEditorActionListener { view, _, _ ->
-            viewModel.getFilterData(view.text.toString())
-            hideKeyboard(view)
+            val filter = view.text.toString()
+            if (filter.isBlank())
+                Toast.makeText(this, R.string.empty_field, Toast.LENGTH_LONG).show()
+            else{
+                viewModel.getFilterData(view.text.toString())
+                hideKeyboard(view)
+            }
             true
         }
     }

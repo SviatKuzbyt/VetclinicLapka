@@ -26,7 +26,8 @@ class RecordsRepository(private val table: String) {
     }
 
     fun getFilterData(filter: String): MutableList<RecordItem>{
-        val link = "http://sviat-fedora.local:3000/$table/filter/$currentFilter/$filter"
+        val trimFilter = filter.trim()
+        val link = "http://sviat-fedora.local:3000/$table/filter/$currentFilter/$trimFilter"
         val text = URL(link).readText()
         val gson = Gson()
         updateList(gson.fromJson(text, getType))

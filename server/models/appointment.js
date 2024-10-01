@@ -29,6 +29,11 @@ const Appointment = {
     getByVetToday: async (filter) => {
         const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.name LIKE ? AND DATE(a.`time`) = CURDATE() ORDER BY a.`time`", [`%${filter}%`] )
         return rows; 
+    },
+
+    getByDate: async (filter) => {
+        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE DATE(a.`time`) = ? ORDER BY a.time", [filter] )
+        return rows; 
     }
 };
 

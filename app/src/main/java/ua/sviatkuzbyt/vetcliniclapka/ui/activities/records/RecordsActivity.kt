@@ -90,5 +90,6 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
 
     override fun search(date: String) {
         binding.filterText.setText(date)
+        viewModel.getFilterData(date)
     }
 }

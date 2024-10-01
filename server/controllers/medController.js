@@ -48,3 +48,13 @@ exports.getByOwner = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
+
+exports.getByDate = async (req, res) => {
+    try {
+        const { filter } = req.params;
+        const med = await Med.getByDate(filter);
+        res.status(200).json(med);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};

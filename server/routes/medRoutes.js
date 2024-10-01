@@ -7,6 +7,6 @@ router.get('/filter/pet/:filter', medController.getByPet);
 router.get('/filter/vet/:filter', medController.getByVet);
 router.get('/filter/diagnosis/:filter', medController.getByDiagnosis);
 router.get('/filter/owner/:filter', medController.getByOwner);
-
+router.get('/filter/date/:filter', medController.getByDate);
 
 module.exports = router;

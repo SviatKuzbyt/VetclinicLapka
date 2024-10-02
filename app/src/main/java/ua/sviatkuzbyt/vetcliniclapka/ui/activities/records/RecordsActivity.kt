@@ -28,11 +28,12 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
         super.onCreate(savedInstanceState)
         binding = ActivityRecordsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setViewModel()
+
 
         binding.recordsRecycler.layoutManager = LinearLayoutManager(this)
 
         setToolBar()
-        setViewModel()
 
         binding.buttonSetFilter.setOnClickListener {
             val addFragment = FilterFragment()
@@ -58,12 +59,17 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
         binding.buttonCreate.setOnClickListener {
             val setRecordFragment = SetRecordFragment()
             setRecordFragment.setCancelable(false)
+            val args = Bundle().apply {
+                putString("table", viewModel.getTable())
+                putInt("mode", SetRecordFragment.MODE_ADD)
+            }
+            setRecordFragment.arguments = args
             setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
         }
     }
 
     private fun setToolBar(){
-        val text = intent.getStringExtra("label") ?: "Unknown"
+        val text = viewModel.getLabel()
         binding.toolbarFilter.setup(text, this)
     }
 

@@ -16,7 +16,10 @@ import ua.sviatkuzbyt.vetcliniclapka.data.RecordsRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 
 class RecordsViewModel(application: Application, intent: Intent): AndroidViewModel(application) {
-    private var repository = RecordsRepository(intent.getStringExtra("table") ?: "unknown")
+    private val table = intent.getStringExtra("table") ?: "unknown"
+    private val label = intent.getStringExtra("label") ?: "unknown"
+    private var repository = RecordsRepository(table)
+
     val records = MutableLiveData<MutableList<RecordItem>>()
     val message = SingleLiveEvent<Pair<Int, String?>>()
     val showCalendarButton = MutableLiveData(repository.isSelectedDate())
@@ -26,6 +29,10 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
             getAllData()
         }
     }
+
+    fun getLabel() = label
+    fun getTable() = table
+
 
     private fun getAllData(){
         try {

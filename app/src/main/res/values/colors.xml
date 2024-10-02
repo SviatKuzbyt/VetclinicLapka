@@ -9,7 +9,7 @@
     <color name="green_selected_light">#74CEA7</color>
 
     <color name="white_dark">#F0F0F0</color>
-    <color name="dark">#0B1812</color>
-    <color name="green_dark">#12291F</color>
+    <color name="dark">#08130F</color>
+    <color name="green_dark">#10251C</color>
     <color name="green_selected_dark">#449E76</color>
 </resources>

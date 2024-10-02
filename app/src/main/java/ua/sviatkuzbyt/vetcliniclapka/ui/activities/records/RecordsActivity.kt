@@ -57,6 +57,7 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
 
         binding.buttonCreate.setOnClickListener {
             val setRecordFragment = SetRecordFragment()
+            setRecordFragment.setCancelable(false)
             setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
         }
     }

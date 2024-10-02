@@ -52,7 +52,7 @@
     </style>
 
     <style name="ConfirmCancelWindow" parent="Theme.AppCompat.DayNight.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/background_item</item>
+        <item name="android:windowBackground">@drawable/background_window</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
     </style>
 </resources>

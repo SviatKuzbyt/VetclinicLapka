@@ -66,4 +66,12 @@ class RecordAdapter(
         return if(dataSet.isEmpty()) EMPTY_VIEW
         else RECORD_VIEW
     }
+
+    fun add(item: RecordItem){
+        if (dataSet.isEmpty())
+            notifyItemRemoved(0)
+
+        dataSet.add(0, item)
+        notifyItemInserted(0)
+    }
 }

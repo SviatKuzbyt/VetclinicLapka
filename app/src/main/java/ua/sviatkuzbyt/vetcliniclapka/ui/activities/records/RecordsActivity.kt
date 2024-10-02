@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAction
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAdapter
@@ -19,7 +20,12 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.FilterFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.set.SetRecordFragment
 
-class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.CalendarFilterAction {
+class RecordsActivity :
+    AppCompatActivity(),
+    RecordAction,
+    CalendarFragment.CalendarFilterAction,
+        SetRecordFragment.SetRecordActions
+{
     private lateinit var binding: ActivityRecordsBinding
     private lateinit var viewModel: RecordsViewModel
     private lateinit var adapterRecycler: RecordAdapter
@@ -29,7 +35,6 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
         binding = ActivityRecordsBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setViewModel()
-
 
         binding.recordsRecycler.layoutManager = LinearLayoutManager(this)
 
@@ -104,5 +109,13 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
     override fun search(date: String) {
         binding.filterText.setText(date)
         viewModel.getFilterData(date)
+    }
+
+    override fun add(item: RecordItem) {
+        try {
+            adapterRecycler.add(item)
+        } catch (_: Exception){
+            Toast.makeText(this, R.string.reload_page, Toast.LENGTH_LONG).show()
+        }
     }
 }

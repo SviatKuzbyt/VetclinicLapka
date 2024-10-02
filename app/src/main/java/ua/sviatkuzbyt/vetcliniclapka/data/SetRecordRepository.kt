@@ -13,6 +13,9 @@ class SetRecordRepository(private val table: String) {
 
     //TEMP
     fun addRecord(): RecordItem{
+        entryItems.forEach {
+            if (it.data.isBlank()) throw Exception()
+        }
         val id = 0
         return RecordItem(id, entryItems[0].data, entryItems[1].data)
     }

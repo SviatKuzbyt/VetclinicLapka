@@ -39,4 +39,6 @@
     <string name="no">Ні</string>
     <string name="cancel">Скасувати</string>
     <string name="added">Запис додано</string>
+    <string name="cantAdd">Не можливо запустити засіб створення/редагування запису</string>
+    <string name="reload_page">Перезавантажте сторінку, для перегляду змін</string>
 </resources>

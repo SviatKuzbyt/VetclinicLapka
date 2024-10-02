@@ -1,26 +1,19 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.set
 
-import android.app.Dialog
-import android.content.DialogInterface
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentCalendarBinding
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentSetRecordBinding
-import ua.sviatkuzbyt.vetcliniclapka.ui.activities.records.RecordsViewModel
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.set.SetRecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.ConfirmCancelWindow
-
 
 class SetRecordFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentSetRecordBinding? = null
@@ -28,6 +21,20 @@ class SetRecordFragment : BottomSheetDialogFragment() {
     private val confirmCancelWindow by lazy { ConfirmCancelWindow(this) }
     private lateinit var viewModel: SetRecordViewModel
 
+    interface SetRecordActions{
+        fun add(item: RecordItem)
+    }
+
+    private var action: SetRecordActions? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if(context is SetRecordActions) action = context
+        else{
+            Toast.makeText(context, R.string.cantAdd, Toast.LENGTH_LONG).show()
+            dismiss()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +68,7 @@ class SetRecordFragment : BottomSheetDialogFragment() {
         viewModel.message.observe(viewLifecycleOwner){
             Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             if (it == R.string.added) {
-                Log.v("sklt", viewModel.getNewData().toString())
+                viewModel.getNewData()?.let { item -> action?.add(item) }
                 dismiss()
             }
         }

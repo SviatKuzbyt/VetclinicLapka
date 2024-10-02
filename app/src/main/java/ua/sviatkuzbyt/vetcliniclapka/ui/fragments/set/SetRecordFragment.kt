@@ -41,7 +41,11 @@ class SetRecordFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSetRecordBinding.inflate(inflater, container, false)
-        val factory = SetRecordViewModel.Factory(requireActivity().application, "")
+
+        val factory = SetRecordViewModel.Factory(
+            requireActivity().application,
+            arguments?.getString("table")
+        )
         viewModel = ViewModelProvider(this, factory)[SetRecordViewModel::class.java]
         return binding.root
     }

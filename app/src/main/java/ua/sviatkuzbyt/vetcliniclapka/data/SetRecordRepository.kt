@@ -1,5 +1,8 @@
 package ua.sviatkuzbyt.vetcliniclapka.data
 
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.R
 
 class SetRecordRepository(private val table: String) {
@@ -11,13 +14,19 @@ class SetRecordRepository(private val table: String) {
 
     fun getItems() = entryItems
 
-    //TEMP
-    fun addRecord(): RecordItem{
+    fun addRecord(): RecordItem {
+        val jsonData = JSONObject()
         entryItems.forEach {
             if (it.data.isBlank()) throw Exception()
+            jsonData.put(it.apiName, it.data)
         }
-        val id = 0
-        return RecordItem(id, entryItems[0].data, entryItems[1].data)
+
+        val insertResult = ServerApi.postData("$table/add", jsonData.toString())
+        return Gson().fromJson(insertResult, getType)
+    }
+
+    companion object{
+        private val getType = object : TypeToken<RecordItem>() {}.type
     }
 }
 

@@ -27,19 +27,19 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
         try {
             newData = repository.addRecord()
             message.postValue(R.string.added)
-        } catch (_: Exception){
+        } catch (e: Exception){
             message.postValue(R.string.error)
         }
     }
 
     fun getNewData() = newData
 
-    class Factory(private val application: Application, private val table: String)
+    class Factory(private val application: Application, private val table: String?)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SetRecordViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return SetRecordViewModel(application, table) as T
+                return SetRecordViewModel(application, table?: "") as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

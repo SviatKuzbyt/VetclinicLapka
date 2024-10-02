@@ -3,7 +3,6 @@ package ua.sviatkuzbyt.vetcliniclapka.data
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
-import java.net.URL
 
 class RecordsRepository(private val table: String) {
 
@@ -19,18 +18,15 @@ class RecordsRepository(private val table: String) {
     }
 
     fun getAllData(): MutableList<RecordItem>{
-        val text = URL("http://sviat-fedora.local:3000/$table").readText()
-        val gson = Gson()
-        updateList(gson.fromJson(text, getType))
+        val text = ServerApi.getData(table)
+        updateList(Gson().fromJson(text, getType))
         return records
     }
 
     fun getFilterData(filter: String): MutableList<RecordItem>{
         val trimFilter = filter.trim()
-        val link = "http://sviat-fedora.local:3000/$table/filter/$currentFilter/$trimFilter"
-        val text = URL(link).readText()
-        val gson = Gson()
-        updateList(gson.fromJson(text, getType))
+        val text = ServerApi.getData("$table/filter/$currentFilter/$trimFilter")
+        updateList(Gson().fromJson(text, getType))
         return records
     }
 

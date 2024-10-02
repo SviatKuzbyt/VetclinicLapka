@@ -28,3 +28,13 @@ exports.getByPhone = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
+
+exports.addOwner = async (req, res) => {
+    try {
+        const { name, phone } = req.body;
+        const insertId = await Owner.addOwner(name, phone);
+        res.status(201).json({ 'id': insertId, 'label': name, 'subtext': phone });
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message }); 
+    }
+};

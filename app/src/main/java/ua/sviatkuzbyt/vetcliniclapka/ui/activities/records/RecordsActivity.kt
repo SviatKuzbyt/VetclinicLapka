@@ -114,6 +114,7 @@ class RecordsActivity :
     override fun add(item: RecordItem) {
         try {
             adapterRecycler.add(item)
+            binding.recordsRecycler.scrollToPosition(0)
         } catch (_: Exception){
             Toast.makeText(this, R.string.reload_page, Toast.LENGTH_LONG).show()
         }

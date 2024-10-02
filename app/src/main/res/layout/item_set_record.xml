@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:layout_marginBottom="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextBasic"
+        android:id="@+id/setItemLabel"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_item"
+        android:minHeight="48dp"
+        android:padding="16dp"
+        android:drawableStart="@drawable/ic_text"
+        android:textAppearance="@style/TextBasic"
+        android:drawablePadding="16dp"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences"
+        android:id="@+id/setItemText"
+        android:hint="@string/enter_text"
+        android:imeOptions="actionNext"/>
+</LinearLayout>

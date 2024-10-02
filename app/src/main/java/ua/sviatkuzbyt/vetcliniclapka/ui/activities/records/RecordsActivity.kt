@@ -17,6 +17,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.makeErrorToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.FilterFragment
+import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.set.SetRecordFragment
 
 class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.CalendarFilterAction {
     private lateinit var binding: ActivityRecordsBinding
@@ -52,6 +53,11 @@ class RecordsActivity : AppCompatActivity(), RecordAction, CalendarFragment.Cale
         binding.buttonChooseDate.setOnClickListener {
             val calendarFragment = CalendarFragment()
             calendarFragment.show(supportFragmentManager, calendarFragment.tag)
+        }
+
+        binding.buttonCreate.setOnClickListener {
+            val setRecordFragment = SetRecordFragment()
+            setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
         }
     }
 

@@ -30,4 +30,8 @@
     <string name="select_date">Виберіть дату</string>
     <string name="save">Зберегти</string>
     <string name="noCalendarFragment">Введіть дату вручну, не можливо запустити засіб вибору</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="enter_text">Введіть текст...</string>
+    <string name="create_record">Створення запису</string>
 </resources>

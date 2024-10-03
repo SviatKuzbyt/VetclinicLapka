@@ -30,8 +30,6 @@
     <string name="select_date">Виберіть дату</string>
     <string name="save">Зберегти</string>
     <string name="noCalendarFragment">Введіть дату вручну, не можливо запустити засіб вибору</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_text">Введіть текст…</string>
     <string name="create_record">Створення запису</string>
     <string name="cancel_changes">Скасувати зміни?</string>
@@ -49,4 +47,11 @@
     <string name="no_connection">Не вдалося з\'єднатися з сервером</string>
     <string name="error_server">Помилка сервера. Зверніться до адміністратора</string>
     <string name="no_intenet">Немає підключення до мережі</string>
+    <string name="beard">Порода</string>
+    <string name="no_select">Не вибрано</string>
+    <string name="gender">Стать</string>
+    <string name="date_of_birth">Дата народження</string>
+    <string name="features">Примітки</string>
+    <string name="male">Самець</string>
+    <string name="female">Самка</string>
 </resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp">
+
+    <TextView
+        android:id="@+id/itemSelectLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:textAppearance="@style/TextBasic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="8dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/selectItemButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextBasic"
+        android:textAlignment="textStart"
+        android:background="@drawable/background_item"
+        android:minHeight="48dp"
+        android:drawablePadding="16dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:text="@string/no_select"
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:layout_marginHorizontal="16dp"/>
+
+</LinearLayout>

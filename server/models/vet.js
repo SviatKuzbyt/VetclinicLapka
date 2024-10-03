@@ -21,15 +21,19 @@ const Vet = {
         return rows; 
     },
 
-    addVet: async (name, phone) => {
+    addVet: async (name, phone, spec) => {
         const [result] = await db.execute(
             'INSERT INTO vet (name, phone) VALUES (?, ?)',
             [name, phone]
         );
+
+        for (let i = 0; i < spec.length; i++) {
+            if (spec[i] === '1') {
+                await db.execute(`INSERT INTO vet_speciality (vet_id, specie_id) VALUES (${result.insertId}, ${i})`)
+            }
+        }
         return result.insertId;
     }
-};;
+};
 
 module.exports = Vet;
-
- 

@@ -41,8 +41,8 @@ exports.getBySpecie = async (req, res) => {
 
 exports.addVet = async (req, res) => {
     try {
-        const { name, phone } = req.body;
-        const insertId = await Vet.addVet(name, phone);
+        const { name, phone, spec } = req.body;
+        const insertId = await Vet.addVet(name, phone, spec);
         res.status(201).json({ 'id': insertId, 'label': name, 'subtext': phone });
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message }); 

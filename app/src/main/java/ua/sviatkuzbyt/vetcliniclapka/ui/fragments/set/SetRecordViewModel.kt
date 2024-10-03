@@ -1,6 +1,7 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.set
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -29,6 +30,7 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
             message.postValue(R.string.added)
         } catch (e: Exception){
             message.postValue(R.string.error)
+            Log.e("sklt", "", e)
         }
     }
 

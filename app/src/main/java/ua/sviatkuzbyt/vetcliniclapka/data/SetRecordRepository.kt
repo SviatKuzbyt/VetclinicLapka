@@ -15,7 +15,7 @@ class SetRecordRepository(private val table: String) {
         "vet" -> listOf(
             SetRecordItem(label = R.string.name, apiName = "name", type = TYPE_TEXT),
             SetRecordItem(label = R.string.phone, apiName = "phone", type = TYPE_TEXT),
-            SetRecordItem(data = "0000", label = R.string.speciality, apiName = "speciality", type = TYPE_CHECKBOX_SPEC)
+            SetRecordItem(data = "0000", label = R.string.speciality, apiName = "spec", type = TYPE_CHECKBOX_SPEC)
         )
         else -> listOf()
     }

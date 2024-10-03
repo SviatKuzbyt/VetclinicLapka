@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.data
+package ua.sviatkuzbyt.vetcliniclapka.data.record
 
 import ua.sviatkuzbyt.vetcliniclapka.R
 

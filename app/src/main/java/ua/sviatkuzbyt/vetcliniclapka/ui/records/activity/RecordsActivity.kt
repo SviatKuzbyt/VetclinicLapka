@@ -1,30 +1,29 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.activities.records
+package ua.sviatkuzbyt.vetcliniclapka.ui.records.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAction
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.RecordAdapter
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.hideKeyboard
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.makeErrorToast
-import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.CalendarFragment
-import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records.FilterFragment
-import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.set.SetRecordFragment
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.RecordAdapter
+import ua.sviatkuzbyt.vetcliniclapka.hideKeyboard
+import ua.sviatkuzbyt.vetcliniclapka.makeToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.FilterFragment
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment.SetRecordFragment
 
 class RecordsActivity :
     AppCompatActivity(),
-    RecordAction,
+    RecordAdapter.Action,
     CalendarFragment.CalendarFilterAction,
-        SetRecordFragment.SetRecordActions
+    SetRecordFragment.SetRecordActions
 {
     private lateinit var binding: ActivityRecordsBinding
     private lateinit var viewModel: RecordsViewModel
@@ -34,43 +33,58 @@ class RecordsActivity :
         super.onCreate(savedInstanceState)
         binding = ActivityRecordsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setViewModel()
 
+        setViewModel()
+        setViews()
+    }
+
+    private fun setViews(){
+        //RecyclerView
         binding.recordsRecycler.layoutManager = LinearLayoutManager(this)
 
-        setToolBar()
-
-        binding.buttonSetFilter.setOnClickListener {
-            val addFragment = FilterFragment()
-            addFragment.show(supportFragmentManager, addFragment.tag)
-        }
-
+        //EditText
         binding.filterText.setOnEditorActionListener { view, _, _ ->
             val filter = view.text.toString()
+
             if (filter.isBlank())
-                Toast.makeText(this, R.string.empty_field, Toast.LENGTH_LONG).show()
+                makeToast(this, R.string.empty_field)
             else{
-                viewModel.getFilterData(view.text.toString())
+                viewModel.getFilterData(filter)
                 hideKeyboard(view)
             }
             true
         }
 
-        binding.buttonChooseDate.setOnClickListener {
-            val calendarFragment = CalendarFragment()
-            calendarFragment.show(supportFragmentManager, calendarFragment.tag)
+        //EditText's buttons
+        binding.buttonSetFilter.setOnClickListener {
+            showFragment(FilterFragment())
         }
 
+        binding.buttonChooseDate.setOnClickListener {
+            showFragment(CalendarFragment())
+        }
+
+        //Add button
         binding.buttonCreate.setOnClickListener {
-            val setRecordFragment = SetRecordFragment()
-            setRecordFragment.setCancelable(false)
             val args = Bundle().apply {
                 putString("table", viewModel.getTable())
                 putInt("mode", SetRecordFragment.MODE_ADD)
             }
-            setRecordFragment.arguments = args
-            setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
+
+            val setRecordFragment = SetRecordFragment().apply {
+                setCancelable(false)
+                arguments = args
+            }
+
+            showFragment(setRecordFragment)
         }
+
+        //ToolBar
+        setToolBar()
+    }
+
+    private fun showFragment(fragment: BottomSheetDialogFragment){
+        fragment.show(supportFragmentManager, fragment.tag)
     }
 
     private fun setToolBar(){
@@ -80,22 +94,24 @@ class RecordsActivity :
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setViewModel() {
+        //Init viewModel
         val factory = RecordsViewModel.Factory(application, intent)
         viewModel = ViewModelProvider(this, factory)[RecordsViewModel::class.java]
 
         viewModel.message.observe(this) {
-            makeErrorToast(it, this)
+            makeToast(this, it)
         }
 
+        //Records list
         viewModel.records.observe(this) {
             if (!::adapterRecycler.isInitialized) {
                 adapterRecycler = RecordAdapter(it, this, viewModel.getIcon())
                 binding.recordsRecycler.adapter = adapterRecycler
-            } else{
+            } else
                 adapterRecycler.notifyDataSetChanged()
-            }
         }
 
+        //CalendarButton
         viewModel.showCalendarButton.observe(this){
             binding.buttonChooseDate.apply {
                 if (it && isGone) visibility = View.VISIBLE
@@ -104,19 +120,22 @@ class RecordsActivity :
         }
     }
 
+    //RecordAction interface
     override fun clickItem(id: Int) {}
 
+    //CalendarFilterAction interface
     override fun search(date: String) {
         binding.filterText.setText(date)
         viewModel.getFilterData(date)
     }
 
+    //SetRecordActions interface
     override fun add(item: RecordItem) {
         try {
             adapterRecycler.add(item)
             binding.recordsRecycler.scrollToPosition(0)
         } catch (_: Exception){
-            Toast.makeText(this, R.string.reload_page, Toast.LENGTH_LONG).show()
+            makeToast(this, R.string.reload_page)
         }
     }
 }

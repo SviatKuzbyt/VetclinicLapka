@@ -32,7 +32,7 @@
     <string name="noCalendarFragment">Введіть дату вручну, не можливо запустити засіб вибору</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="enter_text">Введіть текст...</string>
+    <string name="enter_text">Введіть текст…</string>
     <string name="create_record">Створення запису</string>
     <string name="cancel_changes">Скасувати зміни?</string>
     <string name="yes">Так</string>
@@ -45,4 +45,8 @@
     <string name="rodents">Гризуни</string>
     <string name="birds">Птиці</string>
     <string name="cats">Коти</string>
+    <string name="no_text">Введіть дані</string>
+    <string name="no_connection">Не вдалося з\'єднатися з сервером</string>
+    <string name="error_server">Помилка сервера. Зверніться до адміністратора</string>
+    <string name="no_intenet">Немає підключення до мережі</string>
 </resources>

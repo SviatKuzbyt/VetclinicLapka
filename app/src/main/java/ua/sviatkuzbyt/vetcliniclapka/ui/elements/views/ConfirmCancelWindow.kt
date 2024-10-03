@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.view
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements.views
 
 import androidx.appcompat.app.AlertDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

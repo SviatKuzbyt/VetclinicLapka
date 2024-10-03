@@ -1,19 +1,19 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.set
+package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentSetRecordBinding
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.set.SetRecordAdapter
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.view.ConfirmCancelWindow
+import ua.sviatkuzbyt.vetcliniclapka.makeToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.SetRecordAdapter
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.ConfirmCancelWindow
 
 class SetRecordFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentSetRecordBinding? = null
@@ -31,11 +31,12 @@ class SetRecordFragment : BottomSheetDialogFragment() {
         super.onAttach(context)
         if(context is SetRecordActions) action = context
         else{
-            Toast.makeText(context, R.string.cantAdd, Toast.LENGTH_LONG).show()
+            makeToast(context, R.string.cantAdd)
             dismiss()
         }
     }
 
+    //init
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,33 +51,45 @@ class SetRecordFragment : BottomSheetDialogFragment() {
         return binding.root
     }
 
+    //set
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setViewModel()
+        setViews()
+    }
 
-        binding.labelSetRecord.setText(R.string.create_record)
-        binding.recyclerSetRecord.layoutManager = LinearLayoutManager(context)
-
-        binding.buttonCancelSetRecord.setOnClickListener {
-            confirmCancelWindow.showWindow()
-        }
-
+    private fun setViewModel(){
+        //list
         viewModel.entryItems.observe(viewLifecycleOwner){
             binding.recyclerSetRecord.adapter = SetRecordAdapter(it)
         }
 
-        binding.buttonSetRecord.setOnClickListener {
-            binding.recyclerSetRecord.clearFocus()
-            viewModel.addData()
-        }
-
+        //complete or error
         viewModel.message.observe(viewLifecycleOwner){
-            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            makeToast(requireContext(), it)
             if (it == R.string.added) {
                 viewModel.getNewData()?.let { item -> action?.add(item) }
                 dismiss()
-            }
+            } else binding.buttonSetRecord.isEnabled = true
         }
     }
+
+    private fun setViews(){
+        //label and list
+        binding.labelSetRecord.setText(R.string.create_record)
+        binding.recyclerSetRecord.layoutManager = LinearLayoutManager(context)
+
+        //buttons
+        binding.buttonCancelSetRecord.setOnClickListener {
+            confirmCancelWindow.showWindow()
+        }
+
+        binding.buttonSetRecord.setOnClickListener {
+            binding.buttonSetRecord.isEnabled = false
+            viewModel.addData()
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

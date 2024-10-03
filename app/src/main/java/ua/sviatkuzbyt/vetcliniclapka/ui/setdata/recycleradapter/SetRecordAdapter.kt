@@ -1,11 +1,14 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.set
+package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordRepository
+import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.CheckboxSpecViewHolder
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.SetRecordViewHolder
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.TextViewHolder
 
 class SetRecordAdapter(
     private val dataSet: List<SetRecordItem>

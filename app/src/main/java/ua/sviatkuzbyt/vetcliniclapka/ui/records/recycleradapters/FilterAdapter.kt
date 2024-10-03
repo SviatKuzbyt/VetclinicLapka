@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters
+package ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,16 +6,17 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
+import ua.sviatkuzbyt.vetcliniclapka.data.record.FilterItem
 
-interface FilterAction{
-    fun selectedItem(oldPosition: Int, newPosition: Int)
-}
 
 class FilterAdapter(
     private val dataSet: List<FilterItem>,
-    private val action: FilterAction
+    private val action: Action
 ) : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
+
+    interface Action{
+        fun selectedItem(oldPosition: Int, newPosition: Int)
+    }
 
     private var oldSelectedPosition = 0
 
@@ -36,14 +37,14 @@ class FilterAdapter(
         }
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FilterAdapter.FilterViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FilterViewHolder {
        return FilterViewHolder(
            LayoutInflater.from(viewGroup.context)
                .inflate(R.layout.item_filter, viewGroup, false)
        )
     }
 
-    override fun onBindViewHolder(viewHolder: FilterAdapter.FilterViewHolder, position: Int) {
+    override fun onBindViewHolder(viewHolder: FilterViewHolder, position: Int) {
             viewHolder.bind(dataSet[position], position)
     }
 

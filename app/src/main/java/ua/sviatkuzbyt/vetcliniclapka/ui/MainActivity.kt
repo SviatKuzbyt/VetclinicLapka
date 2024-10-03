@@ -1,12 +1,11 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.activities
+package ua.sviatkuzbyt.vetcliniclapka.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.Telephony.Mms.Intents
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityMainBinding
-import ua.sviatkuzbyt.vetcliniclapka.ui.activities.records.RecordsActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

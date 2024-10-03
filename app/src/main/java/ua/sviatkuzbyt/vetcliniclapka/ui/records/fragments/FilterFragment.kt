@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.records
+package ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,11 +8,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentFilterBinding
-import ua.sviatkuzbyt.vetcliniclapka.ui.activities.records.RecordsViewModel
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.FilterAction
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters.FilterAdapter
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsViewModel
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.FilterAdapter
 
-class FilterFragment : BottomSheetDialogFragment(), FilterAction {
+class FilterFragment : BottomSheetDialogFragment(), FilterAdapter.Action {
     private lateinit var viewModel: RecordsViewModel
     private var _binding: FragmentFilterBinding? = null
     private val binding get() = _binding!!

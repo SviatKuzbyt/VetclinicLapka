@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.recycleradapters
+package ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,20 +6,22 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 
-interface RecordAction{
-    fun clickItem(id: Int)
-}
+
 
 class RecordAdapter(
     private val dataSet: MutableList<RecordItem>,
-    private val action: RecordAction,
+    private val action: Action,
     private val iconRes: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val EMPTY_VIEW = 0
     private val RECORD_VIEW = 1
+
+    interface Action{
+        fun clickItem(id: Int)
+    }
 
     inner class RecordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val icon = view.findViewById<View>(R.id.recordIcon)

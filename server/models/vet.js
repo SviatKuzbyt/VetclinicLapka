@@ -29,7 +29,7 @@ const Vet = {
 
         for (let i = 0; i < spec.length; i++) {
             if (spec[i] === '1') {
-                await db.execute(`INSERT INTO vet_speciality (vet_id, specie_id) VALUES (${result.insertId}, ${i})`)
+                await db.execute(`INSERT INTO vet_speciality (vet_id, specie_id) VALUES (${result.insertId}, ${i+1})`)
             }
         }
         return result.insertId;

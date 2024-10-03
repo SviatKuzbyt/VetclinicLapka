@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.activities.records
+package ua.sviatkuzbyt.vetcliniclapka.ui.records.activity
 
 import android.app.Application
 import android.content.Intent
@@ -10,35 +10,31 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
-import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.RecordsRepository
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.data.record.FilterItem
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordsRepository
+import ua.sviatkuzbyt.vetcliniclapka.postError
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 
 class RecordsViewModel(application: Application, intent: Intent): AndroidViewModel(application) {
-    private val table = intent.getStringExtra("table") ?: "unknown"
-    private val label = intent.getStringExtra("label") ?: "unknown"
-    private var repository = RecordsRepository(table)
+    private val table = intent.getStringExtra("table") ?: "Unknown"
+    private val label = intent.getStringExtra("label") ?: "Unknown"
+    private val repository = RecordsRepository(table)
 
     val records = MutableLiveData<MutableList<RecordItem>>()
-    val message = SingleLiveEvent<Pair<Int, String?>>()
     val showCalendarButton = MutableLiveData(repository.isSelectedDate())
+    val message = SingleLiveEvent<Int>()
 
     init {
-        viewModelScope.launch(Dispatchers.IO){
-            getAllData()
-        }
+        viewModelScope.launch(Dispatchers.IO){ getAllData() }
     }
 
-    fun getLabel() = label
-    fun getTable() = table
-
-
+    //Load data
     private fun getAllData(){
         try {
             records.postValue(repository.getAllData())
         } catch (e: Exception){
-            message.postValue(Pair(R.string.error, e.message))
+            postError(e, message)
         }
     }
 
@@ -47,25 +43,17 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
             try {
                 records.postValue(repository.getFilterData(filter))
             } catch (e: Exception){
-                message.postValue(Pair(R.string.error, e.message))
+                postError(e, message)
             }
         }
     }
 
-    fun getIcon(): Int {
-        return try {
-            repository.getIcon()
-        } catch (e: Exception){
-            message.postValue(Pair(R.string.error, e.message))
-            R.drawable.ic_round_record
-        }
-    }
-
+    //Filter List
     fun getFilterList(): List<FilterItem>{
         return try {
             repository.getFilterList()
         } catch (e: Exception){
-            message.postValue(Pair(R.string.error, e.message))
+            postError(e, message)
             listOf()
         }
     }
@@ -75,9 +63,22 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
             repository.updateFilterList(oldPosition, newPosition)
             showCalendarButton.postValue(repository.isSelectedDate())
         } catch (e: Exception){
-            message.postValue(Pair(R.string.error, e.message))
+            postError(e, message)
         }
     }
+
+    //For views
+    fun getIcon(): Int {
+        return try {
+            repository.getIcon()
+        } catch (e: Exception){
+            postError(e, message)
+            R.drawable.ic_round_record
+        }
+    }
+
+    fun getLabel() = label
+    fun getTable() = table
 
     class Factory(private val application: Application, private val intent: Intent)
         : ViewModelProvider.Factory {

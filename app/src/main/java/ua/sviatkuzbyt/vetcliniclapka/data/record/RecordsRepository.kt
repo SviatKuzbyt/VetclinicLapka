@@ -1,12 +1,14 @@
-package ua.sviatkuzbyt.vetcliniclapka.data
+package ua.sviatkuzbyt.vetcliniclapka.data.record
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 
 class RecordsRepository(private val table: String) {
 
     private val records = mutableListOf<RecordItem>()
+
     private val filterList = RecordsFilter().getFilterList(table)
     private var currentFilter = filterList[0].apiName
 
@@ -23,16 +25,16 @@ class RecordsRepository(private val table: String) {
         return records
     }
 
+    private fun updateList(list: MutableList<RecordItem>){
+        records.clear()
+        records.addAll(list)
+    }
+
     fun getFilterData(filter: String): MutableList<RecordItem>{
         val trimFilter = filter.trim()
         val text = ServerApi.getData("$table/filter/$currentFilter/$trimFilter")
         updateList(Gson().fromJson(text, getType))
         return records
-    }
-
-    private fun updateList(list: MutableList<RecordItem>){
-        records.clear()
-        records.addAll(list)
     }
 
     fun getIcon() = icon

@@ -1,9 +1,12 @@
-package ua.sviatkuzbyt.vetcliniclapka.data
+package ua.sviatkuzbyt.vetcliniclapka.data.setdata
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
+import ua.sviatkuzbyt.vetcliniclapka.NoTextException
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 
 class SetRecordRepository(private val table: String) {
 
@@ -25,7 +28,7 @@ class SetRecordRepository(private val table: String) {
     fun addRecord(): RecordItem {
         val jsonData = JSONObject()
         entryItems.forEach {
-            if (it.data.isBlank()) throw Exception()
+            if (it.data.isBlank()) throw NoTextException()
             jsonData.put(it.apiName, it.data)
         }
 

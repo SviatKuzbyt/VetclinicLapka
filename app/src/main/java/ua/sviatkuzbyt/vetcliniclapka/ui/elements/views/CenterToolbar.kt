@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.view
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -8,7 +8,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.R
-
 
 class CenterToolbar @JvmOverloads constructor(
     context: Context,

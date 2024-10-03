@@ -1,65 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_fragment"
-    tools:context=".ui.fragments.set.SetRecordFragment"
-    android:paddingBottom="16dp">
+    tools:context=".ui.fragments.set.SetRecordFragment">
 
     <TextView
         android:id="@+id/labelSetRecord"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center"
-        android:textAppearance="@style/TextBold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAppearance="@style/TextBold"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSetRecord"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelSetRecord" />
+        android:layout_marginBottom="8dp"
+        android:layout_weight="1"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonSetRecord"
         style="@style/ButtonCreate"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerSetRecord" />
+        android:layout_marginBottom="0dp" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonCancelSetRecord"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextBold"
-        android:textColor="?attr/colorPrimary"
+        android:layout_marginHorizontal="16dp"
         android:background="@android:color/transparent"
         android:text="@string/cancel"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerSetRecord" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textAppearance="@style/TextBold"
+        android:textColor="?attr/colorPrimary"
+        android:layout_marginBottom="8dp" />
+</LinearLayout>

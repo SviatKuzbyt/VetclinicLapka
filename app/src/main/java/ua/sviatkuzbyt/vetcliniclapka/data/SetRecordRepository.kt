@@ -7,10 +7,18 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 
 class SetRecordRepository(private val table: String) {
 
-    private val entryItems = listOf(
-        SetRecordItem(label = R.string.name, apiName = "name"),
-        SetRecordItem(label = R.string.phone, apiName = "phone")
-    )
+    private val entryItems = when(table){
+        "owner" -> listOf(
+            SetRecordItem(label = R.string.name, apiName = "name", type = TYPE_TEXT),
+            SetRecordItem(label = R.string.phone, apiName = "phone", type = TYPE_TEXT)
+        )
+        "vet" -> listOf(
+            SetRecordItem(label = R.string.name, apiName = "name", type = TYPE_TEXT),
+            SetRecordItem(label = R.string.phone, apiName = "phone", type = TYPE_TEXT),
+            SetRecordItem(data = "0000", label = R.string.speciality, apiName = "speciality", type = TYPE_CHECKBOX_SPEC)
+        )
+        else -> listOf()
+    }
 
     fun getItems() = entryItems
 
@@ -27,6 +35,8 @@ class SetRecordRepository(private val table: String) {
 
     companion object{
         private val getType = object : TypeToken<RecordItem>() {}.type
+        const val TYPE_TEXT = 1
+        const val TYPE_CHECKBOX_SPEC = 2
     }
 }
 
@@ -34,4 +44,5 @@ data class SetRecordItem(
     var data: String = "",
     val label: Int,
     val apiName: String,
+    val type: Int
 )

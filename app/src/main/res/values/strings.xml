@@ -41,4 +41,8 @@
     <string name="added">Запис додано</string>
     <string name="cantAdd">Не можливо запустити засіб створення/редагування запису</string>
     <string name="reload_page">Перезавантажте сторінку, для перегляду змін</string>
+    <string name="dogs">Собаки</string>
+    <string name="rodents">Гризуни</string>
+    <string name="birds">Птиці</string>
+    <string name="cats">Коти</string>
 </resources>

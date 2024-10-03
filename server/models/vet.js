@@ -20,7 +20,15 @@ const Vet = {
         const [rows] = await db.execute("SELECT v.vet_id as 'id', v.name as 'label', v.phone as 'subtext' FROM vet v INNER JOIN vet_speciality vs ON v.vet_id = vs.vet_id INNER JOIN specie s ON vs.specie_id = s.specie_id WHERE s.name LIKE ? ORDER BY v.name", [`%${filter}%`] )
         return rows; 
     },
-};
+
+    addVet: async (name, phone) => {
+        const [result] = await db.execute(
+            'INSERT INTO vet (name, phone) VALUES (?, ?)',
+            [name, phone]
+        );
+        return result.insertId;
+    }
+};;
 
 module.exports = Vet;
 

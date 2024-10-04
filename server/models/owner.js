@@ -23,6 +23,11 @@ const Owner = {
         );
         return result.insertId;
     },
+
+    getInfo: async (owner_id) => {
+        const [rows] = await db.execute('SELECT name, phone FROM owner WHERE owner_id = ? LIMIT 1', [owner_id]);
+        return [rows[0].name, rows[0].phone];
+    }
 };
 
 module.exports = Owner;

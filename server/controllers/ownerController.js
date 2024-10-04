@@ -38,3 +38,15 @@ exports.addOwner = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message }); 
     }
 };
+
+exports.getInfo = async (req, res) => {
+    try {
+        console.log("ffdffokofe");
+        const { id } = req.params;
+        const owners = await Owner.getInfo(id);
+        res.status(200).json(owners);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};

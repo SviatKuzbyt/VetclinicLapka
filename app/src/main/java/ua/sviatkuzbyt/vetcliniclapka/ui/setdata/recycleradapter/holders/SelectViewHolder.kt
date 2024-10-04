@@ -1,6 +1,5 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders
 
-import android.icu.text.Transliterator.Position
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -24,8 +23,7 @@ class SelectViewHolder(view: View, private val action: Action) : SetRecordViewHo
 
         val icon = when(item.apiName){
             "breed" -> R.drawable.ic_paw
-            "owner" -> R.drawable.ic_people_one
-            else -> R.drawable.ic_calendar_full
+            else -> R.drawable.ic_people_one
         }
 
         button.setCompoundDrawablesWithIntrinsicBounds(
@@ -35,6 +33,5 @@ class SelectViewHolder(view: View, private val action: Action) : SetRecordViewHo
         button.setOnClickListener {
             action.select(position, item)
         }
-
     }
 }

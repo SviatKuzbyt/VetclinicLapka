@@ -55,4 +55,6 @@
     <string name="male">Самець</string>
     <string name="female">Самка</string>
     <string name="select_recor">Виберіть запис</string>
+    <string name="select">Вибрати</string>
+    <string name="date_hint">2024-09-31</string>
 </resources>

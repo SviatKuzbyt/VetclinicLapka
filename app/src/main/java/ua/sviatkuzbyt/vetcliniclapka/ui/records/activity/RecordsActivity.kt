@@ -23,7 +23,6 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment.SetRecordFragment
 class RecordsActivity :
     AppCompatActivity(),
     RecordAdapter.Action,
-    CalendarFragment.CalendarFilterAction,
     SetRecordFragment.SetRecordActions
 {
     private lateinit var binding: ActivityRecordsBinding
@@ -37,6 +36,12 @@ class RecordsActivity :
 
         setViewModel()
         setViews()
+
+        supportFragmentManager.setFragmentResultListener("dateFr", this){ _, bundle ->
+            val date = bundle.getString("date") ?: "2024-01-01"
+            binding.filterText.setText(date)
+            viewModel.getFilterData(date)
+        }
     }
 
     private fun setViews(){
@@ -130,12 +135,6 @@ class RecordsActivity :
         }
         setResult(RESULT_OK, resultData)
         finish()
-    }
-
-    //CalendarFilterAction interface
-    override fun search(date: String) {
-        binding.filterText.setText(date)
-        viewModel.getFilterData(date)
     }
 
     //SetRecordActions interface

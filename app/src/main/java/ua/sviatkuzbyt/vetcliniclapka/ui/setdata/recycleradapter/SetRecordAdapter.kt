@@ -14,7 +14,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.TextView
 
 class SetRecordAdapter(
     private val dataSet: List<SetRecordItem>,
-    private val action: SelectViewHolder.Action
+    private val action: SelectViewHolder.Action,
 ) : RecyclerView.Adapter<SetRecordViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SetRecordViewHolder {

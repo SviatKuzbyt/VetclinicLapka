@@ -2,6 +2,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders
 
 import android.icu.text.Transliterator.Position
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
@@ -16,6 +17,11 @@ class TextViewHolder(view: View) : SetRecordViewHolder(view) {
     override fun bind(item: SetRecordItem, position: Int){
         label.setText(item.label)
         if(item.data.isNotBlank()) text.setText(item.data)
+
+        if (item.apiName == "date_of_birth"){
+            text.setHint(R.string.date_hint)
+            text.inputType = InputType.TYPE_CLASS_DATETIME
+        }
 
         text.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

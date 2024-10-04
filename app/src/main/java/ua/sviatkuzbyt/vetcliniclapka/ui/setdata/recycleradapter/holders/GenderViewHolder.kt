@@ -5,8 +5,11 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.SetRecordAdapter
 
 class GenderViewHolder(view: View) : SetRecordViewHolder(view) {
+
     private val label = view.findViewById<TextView>(R.id.itemGenderLabel)
     private val radio = view.findViewById<RadioGroup>(R.id.itemRadioGroup)
 

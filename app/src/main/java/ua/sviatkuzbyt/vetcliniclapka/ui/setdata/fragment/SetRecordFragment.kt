@@ -21,9 +21,13 @@ import ua.sviatkuzbyt.vetcliniclapka.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.SetRecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.ConfirmCancelWindow
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.SelectViewHolder
 
-class SetRecordFragment : BottomSheetDialogFragment(), SelectViewHolder.Action {
+class SetRecordFragment :
+    BottomSheetDialogFragment(),
+    SelectViewHolder.Action
+{
     private var _binding: FragmentSetRecordBinding? = null
     private val binding get() = _binding!!
     private val confirmCancelWindow by lazy { ConfirmCancelWindow(this) }
@@ -36,9 +40,9 @@ class SetRecordFragment : BottomSheetDialogFragment(), SelectViewHolder.Action {
 
             resultData?.let { data ->
                 viewModel.updateSelectItem(
-                    data.getIntExtra("id", 0),
                     data.getStringExtra("label") ?: "Unknown",
-                    data.getIntExtra("forPosition", 0)
+                    data.getIntExtra("forPosition", 0),
+                    data.getIntExtra("id", 0).toString()
                 )
             }
         }
@@ -137,18 +141,14 @@ class SetRecordFragment : BottomSheetDialogFragment(), SelectViewHolder.Action {
     }
 
     override fun select(position: Int, item: SetRecordItem) {
-        if (item.type == SetRecordRepository.TYPE_DATE){
-
-        } else{
-            val selectIntent = Intent(requireActivity(), RecordsActivity::class.java).apply {
-                putExtra("table", item.apiName)
-                putExtra("label", getString(R.string.select_recor))
-                putExtra("action", RecordsActivity.ACTION_SELECT)
-                putExtra("forPosition", position)
-            }
-            Log.v("sklt", item.apiName)
-            selectActivityResult.launch(selectIntent)
+        val selectIntent = Intent(requireActivity(), RecordsActivity::class.java).apply {
+            putExtra("table", item.apiName)
+            putExtra("label", getString(R.string.select_recor))
+            putExtra("action", RecordsActivity.ACTION_SELECT)
+            putExtra("forPosition", position)
         }
+        Log.v("sklt", item.apiName)
+        selectActivityResult.launch(selectIntent)
     }
 
     companion object{

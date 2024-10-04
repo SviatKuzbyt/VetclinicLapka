@@ -1,6 +1,5 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.setdata
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
@@ -26,7 +25,7 @@ class SetRecordRepository(private val table: String) {
             SetRecordItem(label = R.string.beard, apiName = "breed", type = TYPE_SELECT),
             SetRecordItem(label = R.string.owner, apiName = "owner", type = TYPE_SELECT),
             SetRecordItem(data="1", label = R.string.gender, apiName = "gender", type = TYPE_RADIO),
-            SetRecordItem(label = R.string.date_of_birth, apiName = "date_of_birth", type = TYPE_DATE),
+            SetRecordItem(label = R.string.date_of_birth, apiName = "date_of_birth", type = TYPE_TEXT),
             SetRecordItem(label = R.string.features, apiName = "features", type = TYPE_TEXT)
         )
         else -> listOf()
@@ -45,20 +44,16 @@ class SetRecordRepository(private val table: String) {
         return Gson().fromJson(insertResult, getType)
     }
 
-    fun updateSelectItem(dataId: Int, dataLabel: String, position: Int) {
-        entryItems[position].data = dataId.toString()
+    fun updateSelectItem(dataLabel: String, position: Int, data: String) {
+        entryItems[position].data = data
         entryItems[position].labelData = dataLabel
-        Log.v("sklt", entryItems.toString())
     }
-
-
 
     companion object{
         private val getType = object : TypeToken<RecordItem>() {}.type
         const val TYPE_TEXT = 1
         const val TYPE_CHECKBOX_SPEC = 2
         const val TYPE_SELECT = 3
-        const val TYPE_DATE = 4
         const val TYPE_RADIO = 5
     }
 }

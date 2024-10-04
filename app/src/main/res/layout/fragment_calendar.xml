@@ -29,5 +29,5 @@
         android:id="@+id/buttonCalendar"
         style="@style/ButtonCreate"
         android:layout_marginTop="16dp"
-        android:text="@string/search_record"/>
+        android:text="@string/select"/>
 </LinearLayout>

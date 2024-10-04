@@ -15,22 +15,10 @@ import java.util.Locale
 
 class CalendarFragment : BottomSheetDialogFragment() {
 
-    interface CalendarFilterAction{ fun search(date: String) }
-    private var action: CalendarFilterAction? = null
-
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
-
     private var selectedDate = ""
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if(context is CalendarFilterAction) action = context
-        else{
-            makeToast(context, R.string.noCalendarFragment)
-            dismiss()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +39,9 @@ class CalendarFragment : BottomSheetDialogFragment() {
         }
 
         binding.buttonCalendar.setOnClickListener {
-            action?.search(selectedDate.ifBlank { currentDay() })
+            val result = Bundle()
+            result.putString("date", selectedDate.ifBlank { currentDay() })
+            parentFragmentManager.setFragmentResult("dateFr", result)
             dismiss()
         }
     }

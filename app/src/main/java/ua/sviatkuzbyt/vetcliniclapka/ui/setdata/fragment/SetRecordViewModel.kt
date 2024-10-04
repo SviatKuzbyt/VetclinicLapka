@@ -44,9 +44,9 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
         return position
     }
 
-    fun updateSelectItem(dataId: Int, dataLabel: String, position: Int) {
+    fun updateSelectItem(dataLabel: String, position: Int, data: String) {
         try {
-            repository.updateSelectItem(dataId, dataLabel, position)
+            repository.updateSelectItem(dataLabel, position, data)
             updatePosition = position
             entryItems.postValue(repository.getItems())
         } catch (e: Exception){
@@ -54,7 +54,8 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
         }
     }
 
-    class Factory(private val application: Application, private val table: String?)
+
+        class Factory(private val application: Application, private val table: String?)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SetRecordViewModel::class.java)) {

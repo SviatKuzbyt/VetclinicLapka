@@ -23,7 +23,7 @@ class SetRecordRepository(private val table: String) {
         )
         "pet" -> listOf(
             SetRecordItem(label = R.string.name, apiName = "name", type = TYPE_TEXT),
-            SetRecordItem(label = R.string.beard, apiName = "beard", type = TYPE_SELECT),
+            SetRecordItem(label = R.string.beard, apiName = "breed", type = TYPE_SELECT),
             SetRecordItem(label = R.string.owner, apiName = "owner", type = TYPE_SELECT),
             SetRecordItem(data="1", label = R.string.gender, apiName = "gender", type = TYPE_RADIO),
             SetRecordItem(label = R.string.date_of_birth, apiName = "date_of_birth", type = TYPE_DATE),
@@ -50,6 +50,8 @@ class SetRecordRepository(private val table: String) {
         entryItems[position].labelData = dataLabel
         Log.v("sklt", entryItems.toString())
     }
+
+
 
     companion object{
         private val getType = object : TypeToken<RecordItem>() {}.type

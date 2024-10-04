@@ -6,6 +6,7 @@ const petRoutes = require('./routes/petRoutes');
 const vetRoutes = require('./routes/vetRoutes');
 const medRoutes = require('./routes/medRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
+const breedRoutes = require('./routes/breedRoutes');
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use('/owner', ownerRoutes);
 app.use('/pet', petRoutes);
 app.use('/vet', vetRoutes);
 app.use('/medcard', medRoutes);
+app.use('/breed', breedRoutes);
 app.use('/appointment', appointmentRoutes);
 
 // Root Endpoint

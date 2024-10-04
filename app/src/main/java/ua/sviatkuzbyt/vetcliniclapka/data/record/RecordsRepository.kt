@@ -16,6 +16,7 @@ class RecordsRepository(private val table: String) {
         "pet" -> R.drawable.ic_round_pets
         "owner" -> R.drawable.ic_round_people
         "vet" -> R.drawable.ic_round_vet
+        "breed" -> R.drawable.ic_round_paw
         else -> R.drawable.ic_round_record
     }
 

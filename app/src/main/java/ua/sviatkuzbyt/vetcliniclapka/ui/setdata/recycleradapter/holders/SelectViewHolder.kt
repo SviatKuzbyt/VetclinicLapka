@@ -23,7 +23,7 @@ class SelectViewHolder(view: View, private val action: Action) : SetRecordViewHo
             button.text = item.labelData
 
         val icon = when(item.apiName){
-            "beard" -> R.drawable.ic_paw
+            "breed" -> R.drawable.ic_paw
             "owner" -> R.drawable.ic_people_one
             else -> R.drawable.ic_calendar_full
         }

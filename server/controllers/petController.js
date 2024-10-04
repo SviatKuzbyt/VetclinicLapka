@@ -45,7 +45,6 @@ exports.addPet = async (req, res) => {
         const insertData = await Pet.addPet(name, breed_id, owner_id, gender, date_of_birth, features);
         res.status(201).json({ 'id': insertData.insertId, 'label': name, 'subtext': insertData.subtext });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: 'Server Error', error: error.message }); 
     }
 };

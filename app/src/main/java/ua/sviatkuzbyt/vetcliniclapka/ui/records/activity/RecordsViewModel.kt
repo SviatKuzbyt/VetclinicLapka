@@ -13,11 +13,11 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.FilterItem
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordsRepository
-import ua.sviatkuzbyt.vetcliniclapka.postError
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity.Companion.ACTION_VIEW
 
-class RecordsViewModel(application: Application, intent: Intent): AndroidViewModel(application) {
+class RecordsViewModel(intent: Intent): ViewModel() {
     private val table = intent.getStringExtra("table") ?: "Unknown"
     private val label = intent.getStringExtra("label") ?: "Unknown"
     private val openMode = intent.getIntExtra("openMode", ACTION_VIEW)
@@ -83,12 +83,12 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
     fun getTable() = table
     fun getMode() = openMode
 
-    class Factory(private val application: Application, private val intent: Intent)
+    class Factory(private val intent: Intent)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RecordsViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return RecordsViewModel(application, intent) as T
+                return RecordsViewModel(intent) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

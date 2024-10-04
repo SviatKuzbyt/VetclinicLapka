@@ -15,13 +15,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentSetRecordBinding
-import ua.sviatkuzbyt.vetcliniclapka.makeToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.SetRecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.ConfirmCancelWindow
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
-import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.SelectViewHolder
 
 class SetRecordFragment :
@@ -70,10 +68,7 @@ class SetRecordFragment :
     ): View {
         _binding = FragmentSetRecordBinding.inflate(inflater, container, false)
 
-        val factory = SetRecordViewModel.Factory(
-            requireActivity().application,
-            arguments?.getString("table")
-        )
+        val factory = SetRecordViewModel.Factory(arguments?.getString("table"))
         viewModel = ViewModelProvider(this, factory)[SetRecordViewModel::class.java]
         return binding.root
     }

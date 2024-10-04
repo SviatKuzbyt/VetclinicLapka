@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements
 
 import android.content.Context
 import android.util.Log
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
+import ua.sviatkuzbyt.vetcliniclapka.R
 import java.io.FileNotFoundException
 import java.io.Serializable
 import java.net.ConnectException

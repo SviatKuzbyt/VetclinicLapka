@@ -1,6 +1,5 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentCalendarBinding
-import ua.sviatkuzbyt.vetcliniclapka.makeToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

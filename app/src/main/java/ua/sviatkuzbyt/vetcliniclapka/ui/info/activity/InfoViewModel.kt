@@ -1,6 +1,5 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.info.activity
 
-import android.app.Application
 import android.content.Intent
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,7 @@ import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoItems
 import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoRepository
-import ua.sviatkuzbyt.vetcliniclapka.postError
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 
 class InfoViewModel(intent: Intent) : ViewModel() {

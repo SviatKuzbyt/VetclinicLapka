@@ -14,8 +14,8 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.RecordAdapter
-import ua.sviatkuzbyt.vetcliniclapka.hideKeyboard
-import ua.sviatkuzbyt.vetcliniclapka.makeToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.hideKeyboard
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.activity.InfoActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.FilterFragment
@@ -102,7 +102,7 @@ class RecordsActivity :
     @SuppressLint("NotifyDataSetChanged")
     private fun setViewModel() {
         //Init viewModel
-        val factory = RecordsViewModel.Factory(application, intent)
+        val factory = RecordsViewModel.Factory(intent)
         viewModel = ViewModelProvider(this, factory)[RecordsViewModel::class.java]
 
         viewModel.message.observe(this) {

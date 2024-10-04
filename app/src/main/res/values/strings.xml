@@ -60,4 +60,5 @@
     <string name="appointment">Запис</string>
     <string name="is_aviable">Доступний</string>
     <string name="treatment">Лікування</string>
+    <string name="specie">Вид тварини</string>
 </resources>

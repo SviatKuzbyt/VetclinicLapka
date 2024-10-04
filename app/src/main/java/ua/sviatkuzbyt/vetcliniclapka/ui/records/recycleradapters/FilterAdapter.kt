@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.FilterItem
 
-
 class FilterAdapter(
     private val dataSet: List<FilterItem>,
     private val action: Action

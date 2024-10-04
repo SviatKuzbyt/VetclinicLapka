@@ -1,7 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +12,10 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
-import ua.sviatkuzbyt.vetcliniclapka.postError
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 
-class SetRecordViewModel(application: Application, table: String): AndroidViewModel(application) {
+class SetRecordViewModel(table: String): ViewModel() {
     private val repository = SetRecordRepository(table)
     private var newData: RecordItem? = null
     private var updatePosition = NO_UPDATE_POSITION
@@ -55,12 +54,12 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
     }
 
 
-        class Factory(private val application: Application, private val table: String?)
+        class Factory(private val table: String?)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SetRecordViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return SetRecordViewModel(application, table?: "") as T
+                return SetRecordViewModel(table?: "") as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

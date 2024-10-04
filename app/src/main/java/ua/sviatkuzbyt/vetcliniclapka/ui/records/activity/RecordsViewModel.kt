@@ -15,10 +15,12 @@ import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordsRepository
 import ua.sviatkuzbyt.vetcliniclapka.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity.Companion.ACTION_VIEW
 
 class RecordsViewModel(application: Application, intent: Intent): AndroidViewModel(application) {
     private val table = intent.getStringExtra("table") ?: "Unknown"
     private val label = intent.getStringExtra("label") ?: "Unknown"
+    private val openMode = intent.getIntExtra("openMode", ACTION_VIEW)
     private val repository = RecordsRepository(table)
 
     val records = MutableLiveData<MutableList<RecordItem>>()
@@ -79,6 +81,7 @@ class RecordsViewModel(application: Application, intent: Intent): AndroidViewMod
 
     fun getLabel() = label
     fun getTable() = table
+    fun getMode() = openMode
 
     class Factory(private val application: Application, private val intent: Intent)
         : ViewModelProvider.Factory {

@@ -16,6 +16,7 @@ import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.RecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.makeToast
+import ua.sviatkuzbyt.vetcliniclapka.ui.info.activity.InfoActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.FilterFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment.SetRecordFragment
@@ -128,6 +129,21 @@ class RecordsActivity :
 
     //RecordAction interface
     override fun clickItem(item: RecordItem) {
+        when(viewModel.getMode()){
+            ACTION_VIEW -> openRecord(item)
+            ACTION_SELECT -> returnRecord(item)
+        }
+    }
+
+    private fun openRecord(item: RecordItem){
+        val openIntent = Intent(this, InfoActivity::class.java). apply {
+            putExtra("id", item.id)
+            putExtra("table", viewModel.getTable())
+        }
+        startActivity(openIntent)
+    }
+
+    private fun returnRecord(item: RecordItem){
         val resultData = Intent().apply {
             putExtra("id", item.id)
             putExtra("label", item.label)

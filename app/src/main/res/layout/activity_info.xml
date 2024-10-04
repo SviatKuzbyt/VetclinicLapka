@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.info.activity.InfoActivity">
+
+    <ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.CenterToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/infoToolBar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <include
+                layout="@layout/item_frame_recycler"
+                android:id="@+id/infoTextFrame"/>
+            <include
+                layout="@layout/item_frame_recycler"
+                android:id="@+id/infoDataFrame"/>
+            <include
+                layout="@layout/item_frame_recycler"
+                android:id="@+id/infoActionFrame"/>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

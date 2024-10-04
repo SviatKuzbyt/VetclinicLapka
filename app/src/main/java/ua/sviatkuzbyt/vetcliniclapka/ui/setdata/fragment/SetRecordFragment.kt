@@ -144,7 +144,7 @@ class SetRecordFragment :
         val selectIntent = Intent(requireActivity(), RecordsActivity::class.java).apply {
             putExtra("table", item.apiName)
             putExtra("label", getString(R.string.select_recor))
-            putExtra("action", RecordsActivity.ACTION_SELECT)
+            putExtra("openMode", RecordsActivity.ACTION_SELECT)
             putExtra("forPosition", position)
         }
         Log.v("sklt", item.apiName)

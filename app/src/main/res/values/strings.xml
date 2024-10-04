@@ -56,4 +56,7 @@
     <string name="select_recor">Виберіть запис</string>
     <string name="select">Вибрати</string>
     <string name="date_hint">2024–09–31</string>
+    <string name="info">Інформація</string>
+    <string name="medcard">Медична карта</string>
+    <string name="appointment">Запис</string>
 </resources>

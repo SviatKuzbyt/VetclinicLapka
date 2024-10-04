@@ -46,7 +46,6 @@
     <string name="no_text">Введіть дані</string>
     <string name="no_connection">Не вдалося з\'єднатися з сервером</string>
     <string name="error_server">Помилка сервера. Зверніться до адміністратора</string>
-    <string name="no_intenet">Немає підключення до мережі</string>
     <string name="beard">Порода</string>
     <string name="no_select">Не вибрано</string>
     <string name="gender">Стать</string>
@@ -56,5 +55,5 @@
     <string name="female">Самка</string>
     <string name="select_recor">Виберіть запис</string>
     <string name="select">Вибрати</string>
-    <string name="date_hint">2024-09-31</string>
+    <string name="date_hint">2024–09–31</string>
 </resources>

@@ -28,7 +28,7 @@ fun postError(error: Exception, data: MutableLiveData<Int>){
     val message = when (error) {
         is NoTextException -> R.string.no_text
         is ConnectException -> R.string.no_connection
-        is UnknownHostException -> R.string.no_intenet
+        is UnknownHostException -> R.string.no_connection
         is FileNotFoundException -> R.string.error_server
         else -> R.string.error
     }

@@ -48,3 +48,13 @@ exports.addVet = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message }); 
     }
 };
+
+exports.getInfo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const vet = await Vet.getInfo(id);
+        res.status(200).json(vet);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};

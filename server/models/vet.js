@@ -33,7 +33,14 @@ const Vet = {
             }
         }
         return result.insertId;
-    }
+    },
+
+    getInfo: async (vet_id) => {
+        const [rows] = await db.execute(
+            "SELECT v.name, v.phone, CASE WHEN v.is_available = 1 Then 'Так' ELSE 'Ні' END AS 'is_available' FROM vet v WHERE v.vet_id = ? LIMIT 1", [vet_id]);
+        return [rows[0].name, rows[0].phone, rows[0].is_available];
+    }   
 };
 
 module.exports = Vet;
+

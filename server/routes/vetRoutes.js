@@ -7,5 +7,6 @@ router.get('/filter/name/:filter', vetController.getByName);
 router.get('/filter/phone/:filter', vetController.getByPhone);
 router.get('/filter/specie/:filter', vetController.getBySpecie);
 router.post('/add', vetController.addVet);
+router.get('/info/:id', vetController.getInfo);
 
 module.exports = router;

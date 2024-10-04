@@ -33,6 +33,15 @@ class InfoRepository(private val table: String, private val recordId: Int) {
             InfoText(R.string.vet),
             InfoText(R.string.complaint)
         ))
+
+        "medcard" -> InfoItems(listOf(
+            InfoText(R.string.pet),
+            InfoText(R.string.owner),
+            InfoText(R.string.date),
+            InfoText(R.string.vet),
+            InfoText(R.string.diagnosis),
+            InfoText(R.string.treatment)
+        ))
         else -> InfoItems(listOf(InfoText(R.string.error)))
     }
 

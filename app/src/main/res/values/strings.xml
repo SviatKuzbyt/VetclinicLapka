@@ -54,4 +54,5 @@
     <string name="features">Примітки</string>
     <string name="male">Самець</string>
     <string name="female">Самка</string>
+    <string name="select_recor">Виберіть запис</string>
 </resources>

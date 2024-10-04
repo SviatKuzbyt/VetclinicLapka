@@ -13,7 +13,8 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.SetRecor
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.TextViewHolder
 
 class SetRecordAdapter(
-    private val dataSet: List<SetRecordItem>
+    private val dataSet: List<SetRecordItem>,
+    private val action: SelectViewHolder.Action
 ) : RecyclerView.Adapter<SetRecordViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SetRecordViewHolder {
@@ -39,13 +40,17 @@ class SetRecordAdapter(
            else ->
                SelectViewHolder(
                    LayoutInflater.from(viewGroup.context)
-                       .inflate(R.layout.item_select, viewGroup, false)
+                       .inflate(R.layout.item_select, viewGroup, false),
+                   action
                )
        }
     }
 
     override fun onBindViewHolder(viewHolder: SetRecordViewHolder, position: Int) {
-        viewHolder.bind(dataSet[position])
+        if (viewHolder is SelectViewHolder)
+            viewHolder.bind(dataSet[position], position)
+        else
+            viewHolder.bind(dataSet[position])
     }
 
     override fun getItemCount() = dataSet.size

@@ -1,6 +1,7 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.records.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -121,7 +122,15 @@ class RecordsActivity :
     }
 
     //RecordAction interface
-    override fun clickItem(id: Int) {}
+    override fun clickItem(item: RecordItem) {
+        val resultData = Intent().apply {
+            putExtra("id", item.id)
+            putExtra("label", item.label)
+            putExtra("forPosition", intent.getIntExtra("forPosition", 0))
+        }
+        setResult(RESULT_OK, resultData)
+        finish()
+    }
 
     //CalendarFilterAction interface
     override fun search(date: String) {
@@ -137,5 +146,10 @@ class RecordsActivity :
         } catch (_: Exception){
             makeToast(this, R.string.reload_page)
         }
+    }
+
+    companion object{
+        const val ACTION_VIEW = 1
+        const val ACTION_SELECT = 2
     }
 }

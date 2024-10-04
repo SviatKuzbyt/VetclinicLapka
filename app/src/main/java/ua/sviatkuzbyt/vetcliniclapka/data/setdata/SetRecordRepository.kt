@@ -1,5 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.setdata
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
@@ -44,6 +45,12 @@ class SetRecordRepository(private val table: String) {
         return Gson().fromJson(insertResult, getType)
     }
 
+    fun updateSelectItem(dataId: Int, dataLabel: String, position: Int) {
+        entryItems[position].data = dataId.toString()
+        entryItems[position].labelData = dataLabel
+        Log.v("sklt", entryItems.toString())
+    }
+
     companion object{
         private val getType = object : TypeToken<RecordItem>() {}.type
         const val TYPE_TEXT = 1
@@ -56,6 +63,7 @@ class SetRecordRepository(private val table: String) {
 
 data class SetRecordItem(
     var data: String = "",
+    var labelData: String = "",
     val label: Int,
     val apiName: String,
     val type: Int

@@ -20,7 +20,7 @@ class RecordAdapter(
     private val RECORD_VIEW = 1
 
     interface Action{
-        fun clickItem(id: Int)
+        fun clickItem(item: RecordItem)
     }
 
     inner class RecordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -36,7 +36,7 @@ class RecordAdapter(
             subtext.text = item.subtext
 
             root.setOnClickListener {
-                action.clickItem(item.id)
+                action.clickItem(item)
             }
         }
     }

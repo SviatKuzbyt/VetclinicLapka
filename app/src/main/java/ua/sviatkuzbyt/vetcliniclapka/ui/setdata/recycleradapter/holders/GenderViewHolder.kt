@@ -10,7 +10,7 @@ class GenderViewHolder(view: View) : SetRecordViewHolder(view) {
     private val label = view.findViewById<TextView>(R.id.itemGenderLabel)
     private val radio = view.findViewById<RadioGroup>(R.id.itemRadioGroup)
 
-    override fun bind(item: SetRecordItem){
+    override fun bind(item: SetRecordItem, position: Int){
         label.setText(item.label)
 
         val selectId =

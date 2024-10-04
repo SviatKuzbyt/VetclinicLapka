@@ -1,5 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders
 
+import android.icu.text.Transliterator.Position
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -12,7 +13,7 @@ class TextViewHolder(view: View) : SetRecordViewHolder(view) {
     private val label = view.findViewById<TextView>(R.id.setItemLabel)
     private val text = view.findViewById<EditText>(R.id.setItemText)
 
-    override fun bind(item: SetRecordItem){
+    override fun bind(item: SetRecordItem, position: Int){
         label.setText(item.label)
         if(item.data.isNotBlank()) text.setText(item.data)
 

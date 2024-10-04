@@ -1,25 +1,48 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentSetRecordBinding
 import ua.sviatkuzbyt.vetcliniclapka.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.SetRecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.ConfirmCancelWindow
+import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.SelectViewHolder
 
-class SetRecordFragment : BottomSheetDialogFragment() {
+class SetRecordFragment : BottomSheetDialogFragment(), SelectViewHolder.Action {
     private var _binding: FragmentSetRecordBinding? = null
     private val binding get() = _binding!!
     private val confirmCancelWindow by lazy { ConfirmCancelWindow(this) }
     private lateinit var viewModel: SetRecordViewModel
+    private lateinit var adapter: SetRecordAdapter
+
+    private val selectActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == AppCompatActivity.RESULT_OK){
+            val resultData = it.data
+
+            resultData?.let { data ->
+                viewModel.updateSelectItem(
+                    data.getIntExtra("id", 0),
+                    data.getStringExtra("label") ?: "Unknown",
+                    data.getIntExtra("forPosition", 0)
+                )
+            }
+        }
+    }
 
     interface SetRecordActions{
         fun add(item: RecordItem)
@@ -61,7 +84,11 @@ class SetRecordFragment : BottomSheetDialogFragment() {
     private fun setViewModel(){
         //list
         viewModel.entryItems.observe(viewLifecycleOwner){
-            binding.recyclerSetRecord.adapter = SetRecordAdapter(it)
+            val updatePosition = viewModel.getUpdatePosition()
+            if (updatePosition == SetRecordViewModel.NO_UPDATE_POSITION)
+                setRecyclerAdapter(it)
+            else
+                updateRecyclerAdapter(it, updatePosition)
         }
 
         //complete or error
@@ -71,6 +98,19 @@ class SetRecordFragment : BottomSheetDialogFragment() {
                 viewModel.getNewData()?.let { item -> action?.add(item) }
                 dismiss()
             } else binding.buttonSetRecord.isEnabled = true
+        }
+    }
+
+    private fun setRecyclerAdapter(list: List<SetRecordItem>){
+        adapter = SetRecordAdapter(list, this)
+        binding.recyclerSetRecord.adapter = adapter
+    }
+
+    private fun updateRecyclerAdapter(list: List<SetRecordItem>, position: Int){
+        try {
+            adapter.notifyItemChanged(position)
+        } catch (e: Exception){
+            setRecyclerAdapter(list)
         }
     }
 
@@ -94,6 +134,21 @@ class SetRecordFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun select(position: Int, item: SetRecordItem) {
+        if (item.type == SetRecordRepository.TYPE_DATE){
+
+        } else{
+            val selectIntent = Intent(requireActivity(), RecordsActivity::class.java).apply {
+                putExtra("table", item.apiName)
+                putExtra("label", getString(R.string.select_recor))
+                putExtra("action", RecordsActivity.ACTION_SELECT)
+                putExtra("forPosition", position)
+            }
+            Log.v("sklt", item.apiName)
+            selectActivityResult.launch(selectIntent)
+        }
     }
 
     companion object{

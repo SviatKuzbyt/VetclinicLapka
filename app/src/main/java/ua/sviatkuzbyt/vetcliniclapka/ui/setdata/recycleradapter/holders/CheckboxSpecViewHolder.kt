@@ -16,7 +16,7 @@ class CheckboxSpecViewHolder(view: View) : SetRecordViewHolder(view) {
         view.findViewById(R.id.checkBoxCats)
     )
 
-    override fun bind(item: SetRecordItem){
+    override fun bind(item: SetRecordItem, position: Int){
         label.setText(item.label)
         val dataChar = item.data.toCharArray()
 

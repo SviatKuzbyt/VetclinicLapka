@@ -5,5 +5,5 @@ import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
 
 abstract class SetRecordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    abstract fun bind(item: SetRecordItem)
+    abstract fun bind(item: SetRecordItem, position: Int = 0)
 }

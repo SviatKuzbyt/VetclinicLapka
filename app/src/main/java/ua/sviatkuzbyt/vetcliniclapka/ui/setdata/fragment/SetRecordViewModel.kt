@@ -19,6 +19,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 class SetRecordViewModel(application: Application, table: String): AndroidViewModel(application) {
     private val repository = SetRecordRepository(table)
     private var newData: RecordItem? = null
+    private var updatePosition = NO_UPDATE_POSITION
 
     val entryItems = MutableLiveData<List<SetRecordItem>>()
     val message =
@@ -32,11 +33,26 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
             message.postValue(R.string.added)
         } catch (e: Exception){
             postError(e, message)
-            Log.e("sklt", "", e)
         }
     }
 
     fun getNewData() = newData
+
+    fun getUpdatePosition(): Int {
+        val position = updatePosition
+        updatePosition = NO_UPDATE_POSITION
+        return position
+    }
+
+    fun updateSelectItem(dataId: Int, dataLabel: String, position: Int) {
+        try {
+            repository.updateSelectItem(dataId, dataLabel, position)
+            updatePosition = position
+            entryItems.postValue(repository.getItems())
+        } catch (e: Exception){
+            postError(e, message)
+        }
+    }
 
     class Factory(private val application: Application, private val table: String?)
         : ViewModelProvider.Factory {
@@ -47,5 +63,9 @@ class SetRecordViewModel(application: Application, table: String): AndroidViewMo
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
+    }
+
+    companion object{
+        const val NO_UPDATE_POSITION = -1
     }
 }

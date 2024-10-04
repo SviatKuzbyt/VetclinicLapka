@@ -46,7 +46,6 @@
     <string name="no_text">Введіть дані</string>
     <string name="no_connection">Не вдалося з\'єднатися з сервером</string>
     <string name="error_server">Помилка сервера. Зверніться до адміністратора</string>
-    <string name="beard">Порода</string>
     <string name="no_select">Не вибрано</string>
     <string name="gender">Стать</string>
     <string name="date_of_birth">Дата народження</string>

@@ -5,13 +5,19 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 
 class InfoRepository(private val table: String, private val recordId: Int) {
     private val items = when(table){
         "owner" -> InfoItems(listOf(
-            InfoText(R.string.name, "Test name"),
-            InfoText(R.string.phone, "Test phone")
+            InfoText(R.string.name),
+            InfoText(R.string.phone)
+        ))
+
+        "pet" -> InfoItems(listOf(
+            InfoText(R.string.name),
+            InfoText(R.string.breed),
+            InfoText(R.string.gender),
+            InfoText(R.string.date_of_birth)
         ))
         else -> InfoItems(listOf(InfoText(R.string.error)))
     }
@@ -29,6 +35,7 @@ class InfoRepository(private val table: String, private val recordId: Int) {
 
     fun loadItems():InfoItems{
         val info = ServerApi.getData("$table/info/$recordId")
+        Log.v("sklt", info)
         val infoList: List<String> = Gson().fromJson(info, getType)
 
         for (i in 0 until items.texts.size){

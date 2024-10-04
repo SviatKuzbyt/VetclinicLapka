@@ -41,7 +41,6 @@ exports.addOwner = async (req, res) => {
 
 exports.getInfo = async (req, res) => {
     try {
-        console.log("ffdffokofe");
         const { id } = req.params;
         const owners = await Owner.getInfo(id);
         res.status(200).json(owners);

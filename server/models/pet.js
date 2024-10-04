@@ -21,49 +21,35 @@ const Pet = {
         return rows; 
     },
 
-    // addPet: async (name, breed_id, owner_id, gender, date_of_birth, features) => {
-    //     const [result] = await db.execute(
-    //         'INSERT INTO pet (name, breed_id, owner_id, gender, date_of_birth, features) VALUES (?, ?, ?, ?, ?, ?)',
-    //         [name, breed_id, owner_id, gender, date_of_birth, features]
-    //     );
-
-    //     const petId = result.insertId;
-
-    //     const [subtext] = await db.execute("SELECT CONCAT(b.name, ', ', o.name) FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ? LIMIT 1", [petId])
-        
-    //     return {
-    //         insertId: petId,
-    //         subtext: rows[0].subtext
-    //     };
-    // }
-
     addPet: async (name, breed_id, owner_id, gender, date_of_birth, features) => {
-    // Insert the new pet record
-    const [result] = await db.execute(
-        'INSERT INTO pet (name, breed_id, owner_id, gender, date_of_birth, features) VALUES (?, ?, ?, ?, ?, ?)',
-        [name, breed_id, owner_id, gender, date_of_birth, features]
-    );
+        const [result] = await db.execute(
+            'INSERT INTO pet (name, breed_id, owner_id, gender, date_of_birth, features) VALUES (?, ?, ?, ?, ?, ?)',
+            [name, breed_id, owner_id, gender, date_of_birth, features]
+        );
 
-    // Get the pet ID from the result
-    const petId = result.insertId;
+        const petId = result.insertId;
 
-    // Fetch the subtext for the newly inserted pet
-    const [rows] = await db.execute(
-        `SELECT CONCAT(b.name, ', ', o.name) as subtext 
-         FROM pet p 
-         INNER JOIN breed b ON p.breed_id = b.breed_id 
-         INNER JOIN owner o ON p.owner_id = o.owner_id 
-         WHERE p.pet_id = ? LIMIT 1`,
-        [petId]
-    );
+        const [rows] = await db.execute(
+            `SELECT CONCAT(b.name, ', ', o.name) as subtext 
+             FROM pet p 
+             INNER JOIN breed b ON p.breed_id = b.breed_id 
+             INNER JOIN owner o ON p.owner_id = o.owner_id 
+             WHERE p.pet_id = ? LIMIT 1`,
+            [petId]
+        );
 
-    // Return the insertId and the subtext
-    return {
-        insertId: petId,
-        subtext: rows[0].subtext
-    };
-}
+        return {
+            insertId: petId,
+            subtext: rows[0].subtext
+        };
+    },
 
+    getInfo: async (pet_id) => {
+        const [rows] = await db.execute(
+            "SELECT p.name as 'pet_name', CONCAT(b.name, ', ', s.name) as 'breed_name', CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN specie s ON b.specie_id = s.specie_id WHERE p.pet_id = ? LIMIT 1", [pet_id]);
+        return [rows[0].pet_name, rows[0].breed_name, rows[0].gender, rows[0].date_of_birth];
+    }   
 };
 
 module.exports = Pet;
+

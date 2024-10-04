@@ -68,3 +68,13 @@ exports.getByDate = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
+
+exports.getInfo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const appointment = await Appointment.getInfo(id);
+        res.status(200).json(appointment);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};

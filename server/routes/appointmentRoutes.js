@@ -9,5 +9,7 @@ router.get('/filter/complaint/:filter', appointmentController.getByComplaint);
 router.get('/filter/owner/:filter', appointmentController.getByOwner);
 router.get('/filter/vettoday/:filter', appointmentController.getByVetToday);
 router.get('/filter/date/:filter', appointmentController.getByDate);
+router.get('/info/:id', appointmentController.getInfo);
+
 
 module.exports = router;

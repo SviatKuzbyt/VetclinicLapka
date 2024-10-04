@@ -25,6 +25,14 @@ class InfoRepository(private val table: String, private val recordId: Int) {
             InfoText(R.string.phone),
             InfoText(R.string.is_aviable)
         ))
+
+        "appointment" -> InfoItems(listOf(
+            InfoText(R.string.pet),
+            InfoText(R.string.owner),
+            InfoText(R.string.date),
+            InfoText(R.string.vet),
+            InfoText(R.string.complaint)
+        ))
         else -> InfoItems(listOf(InfoText(R.string.error)))
     }
 

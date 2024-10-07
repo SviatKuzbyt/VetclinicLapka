@@ -30,7 +30,7 @@ const Owner = {
     },
 
     getById: async (filter) => {
-        const [rows] = await db.execute("SELECT owner_id as 'id', name as 'label', phone as 'subtext' FROM vetclinic_lapka.owner WHERE owner_id = ?", [filter  ] )
+        const [rows] = await db.execute("SELECT o.owner_id as 'id', o.name as 'label', o.phone as 'subtext' FROM pet p INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ?", [filter  ] )
         return rows; 
     }
 };

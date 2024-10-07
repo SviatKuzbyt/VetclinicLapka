@@ -48,7 +48,12 @@ const Pet = {
         const [rows] = await db.execute(
             "SELECT p.name as 'pet_name', CONCAT(b.name, ', ', s.name) as 'breed_name', CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN specie s ON b.specie_id = s.specie_id WHERE p.pet_id = ? LIMIT 1", [pet_id]);
         return [rows[0].pet_name, rows[0].breed_name, rows[0].gender, rows[0].date_of_birth];
-    }   
+    },
+
+    getByOwnerId: async (filter) => {
+        const [rows] = await db.execute("SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.owner_id = ?", [filter] )
+        return rows; 
+    }
 };
 
 module.exports = Pet;

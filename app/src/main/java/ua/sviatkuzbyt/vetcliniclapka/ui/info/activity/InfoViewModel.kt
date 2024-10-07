@@ -25,6 +25,8 @@ class InfoViewModel(intent: Intent) : ViewModel() {
         try { repository.getLabel()}
         catch (_: Exception){ R.string.error }
 
+    fun getId() = recordId
+
     init { loadItems() }
 
     private fun loadItems() = viewModelScope.launch(Dispatchers.IO){

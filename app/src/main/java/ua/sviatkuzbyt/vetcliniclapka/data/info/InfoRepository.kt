@@ -6,43 +6,7 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 
 class InfoRepository(private val table: String, private val recordId: Int) {
-    private val items = when(table){
-        "owner" -> InfoItems(listOf(
-            InfoText(R.string.name),
-            InfoText(R.string.phone)
-        ))
-
-        "pet" -> InfoItems(listOf(
-            InfoText(R.string.name),
-            InfoText(R.string.breed),
-            InfoText(R.string.gender),
-            InfoText(R.string.date_of_birth)
-        ))
-
-        "vet" -> InfoItems(listOf(
-            InfoText(R.string.name),
-            InfoText(R.string.phone),
-            InfoText(R.string.is_aviable)
-        ))
-
-        "appointment" -> InfoItems(listOf(
-            InfoText(R.string.pet),
-            InfoText(R.string.owner),
-            InfoText(R.string.date),
-            InfoText(R.string.vet),
-            InfoText(R.string.complaint)
-        ))
-
-        "medcard" -> InfoItems(listOf(
-            InfoText(R.string.pet),
-            InfoText(R.string.owner),
-            InfoText(R.string.date),
-            InfoText(R.string.vet),
-            InfoText(R.string.diagnosis),
-            InfoText(R.string.treatment)
-        ))
-        else -> InfoItems(listOf(InfoText(R.string.error)))
-    }
+    private val items = InfoData(table).getItems()
 
     private val label = when(table){
         "pet" -> R.string.pet
@@ -71,12 +35,4 @@ class InfoRepository(private val table: String, private val recordId: Int) {
     }
 }
 
-data class InfoItems(
-    val texts: List<InfoText>
-)
-
-data class InfoText(
-    val label: Int,
-    var content: String = ""
-)
 

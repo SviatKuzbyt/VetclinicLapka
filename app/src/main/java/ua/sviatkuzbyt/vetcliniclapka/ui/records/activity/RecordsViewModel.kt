@@ -1,8 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.records.activity
 
-import android.app.Application
 import android.content.Intent
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +15,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity.Companion.ACTION_VIEW
 
-class RecordsViewModel(intent: Intent): ViewModel() {
+class RecordsViewModel(private val intent: Intent): ViewModel() {
     private val table = intent.getStringExtra("table") ?: "Unknown"
     private val label = intent.getStringExtra("label") ?: "Unknown"
     private val openMode = intent.getIntExtra("openMode", ACTION_VIEW)
@@ -27,14 +25,16 @@ class RecordsViewModel(intent: Intent): ViewModel() {
     val showCalendarButton = MutableLiveData(repository.isSelectedDate())
     val message = SingleLiveEvent<Int>()
 
-    init {
-        viewModelScope.launch(Dispatchers.IO){ getAllData() }
-    }
+    init { init() }
 
-    //Load data
-    private fun getAllData(){
+    private fun init() = viewModelScope.launch(Dispatchers.IO){
         try {
-            records.postValue(repository.getAllData())
+            val filter = intent.getStringExtra("filter")
+            if (filter != null){
+                val filterId = intent.getIntExtra("filterId", 0)
+                records.postValue(repository.getFilterDataById(filter, filterId))
+            } else
+                records.postValue(repository.getAllData())
         } catch (e: Exception){
             postError(e, message)
         }

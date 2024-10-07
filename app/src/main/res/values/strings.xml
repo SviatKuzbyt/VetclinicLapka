@@ -61,4 +61,5 @@
     <string name="is_aviable">Доступний</string>
     <string name="treatment">Лікування</string>
     <string name="specie">Вид тварини</string>
+    <string name="shared_data">Пов\'язані записи</string>
 </resources>

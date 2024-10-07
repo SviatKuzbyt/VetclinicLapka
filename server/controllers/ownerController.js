@@ -6,6 +6,7 @@ exports.getAllOwners = async (req, res) => {
         res.status(200).json(owners);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -16,6 +17,7 @@ exports.getByName = async (req, res) => {
         res.status(200).json(owners);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -26,6 +28,7 @@ exports.getByPhone = async (req, res) => {
         res.status(200).json(owners);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -36,6 +39,7 @@ exports.addOwner = async (req, res) => {
         res.status(201).json({ 'id': insertId, 'label': name, 'subtext': phone });
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message }); 
+        console.log(error);
     }
 };
 

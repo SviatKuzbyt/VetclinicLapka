@@ -50,8 +50,20 @@ const Pet = {
         return [rows[0].pet_name, rows[0].breed_name, rows[0].gender, rows[0].date_of_birth];
     },
 
-    getByOwnerId: async (filter) => {
-        const [rows] = await db.execute("SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.owner_id = ?", [filter] )
+    getById: async (column, parentid) => {
+
+        switch (column) {
+            case 'owner':
+                filter = 'WHERE p.owner_id';
+                break;
+            case 'appointment':
+                filter = 'INNER JOIN appointment a ON p.pet_id = a.pet_id WHERE a.appointment_id';
+                break; 
+            default:
+                filter = 'mc.card_id';
+        }
+
+        const [rows] = await db.execute(`SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id ${filter} = ?`, [parentid] )
         return rows; 
     }
 };

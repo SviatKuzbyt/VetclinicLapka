@@ -55,6 +55,9 @@ const Med = {
             case 'vet':
                 filter = 'a.vet_id';
                 break;
+            case 'appointment':
+                filter = 'a.appointment_id';
+                break;   
             default:
                 filter = 'mc.card_id';
         }

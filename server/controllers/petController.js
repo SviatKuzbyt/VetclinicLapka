@@ -6,6 +6,7 @@ exports.getAllPets = async (req, res) => {
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -16,6 +17,7 @@ exports.getByName = async (req, res) => {
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -26,6 +28,7 @@ exports.getByOwner = async (req, res) => {
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -36,6 +39,7 @@ exports.getByBreed = async (req, res) => {
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -46,6 +50,7 @@ exports.addPet = async (req, res) => {
         res.status(201).json({ 'id': insertData.insertId, 'label': name, 'subtext': insertData.subtext });
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message }); 
+        console.log(error);
     }
 };
 
@@ -60,12 +65,13 @@ exports.getInfo = async (req, res) => {
     }
 };
 
-exports.getByOwnerId = async (req, res) => {
+exports.getById = async (req, res) => {
     try {
-        const { parentid } = req.params;
-        const pet = await Pet.getByOwnerId(parentid);
+        const { column, parentid } = req.params;
+        const pet = await Pet.getById(column, parentid);
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };

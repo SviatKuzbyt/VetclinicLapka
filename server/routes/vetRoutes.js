@@ -8,5 +8,6 @@ router.get('/filter/phone/:filter', vetController.getByPhone);
 router.get('/filter/specie/:filter', vetController.getBySpecie);
 router.post('/add', vetController.addVet);
 router.get('/info/:id', vetController.getInfo);
+router.get('/filter/id/:column&:parentid', vetController.getById);
 
 module.exports = router;

@@ -6,6 +6,7 @@ exports.getAllAppointments = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -16,6 +17,7 @@ exports.getByVet = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -26,6 +28,7 @@ exports.getByPet = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -36,6 +39,7 @@ exports.getByOwner = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -46,6 +50,7 @@ exports.getByComplaint = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -56,6 +61,7 @@ exports.getByVetToday = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -66,6 +72,7 @@ exports.getByDate = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -76,6 +83,7 @@ exports.getInfo = async (req, res) => {
         res.status(200).json(appointment);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -85,7 +93,7 @@ exports.getById = async (req, res) => {
         const appointment = await Appointment.getById(column, parentid);
         res.status(200).json(appointment);
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };

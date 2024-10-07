@@ -6,6 +6,7 @@ exports.getAllVets = async (req, res) => {
         res.status(200).json(vet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -16,6 +17,7 @@ exports.getByName = async (req, res) => {
         res.status(200).json(vet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -26,6 +28,7 @@ exports.getByPhone = async (req, res) => {
         res.status(200).json(vet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -36,6 +39,7 @@ exports.getBySpecie = async (req, res) => {
         res.status(200).json(vet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -46,6 +50,7 @@ exports.addVet = async (req, res) => {
         res.status(201).json({ 'id': insertId, 'label': name, 'subtext': phone });
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message }); 
+        console.log(error);
     }
 };
 
@@ -56,5 +61,17 @@ exports.getInfo = async (req, res) => {
         res.status(200).json(vet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};
+
+exports.getById = async (req, res) => {
+    try {
+        const { column, parentid } = req.params;
+        const pet = await Vet.getById(column, parentid);
+        res.status(200).json(pet);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };

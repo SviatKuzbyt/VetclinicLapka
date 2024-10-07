@@ -39,7 +39,23 @@ const Vet = {
         const [rows] = await db.execute(
             "SELECT v.name, v.phone, CASE WHEN v.is_available = 1 Then 'Так' ELSE 'Ні' END AS 'is_available' FROM vet v WHERE v.vet_id = ? LIMIT 1", [vet_id]);
         return [rows[0].name, rows[0].phone, rows[0].is_available];
-    }   
+    },
+    
+    getById: async (column, parentid) => {
+
+        console.log(`${column}, ${parentid}`)
+
+        switch (column) {
+            case 'appointment':
+                filter = 'INNER JOIN appointment a ON v.vet_id = a.vet_id WHERE a.appointment_id';
+                break;
+            default:
+                filter = 'mc.card_id';
+        }
+
+        const [rows] = await db.execute(`SELECT v.vet_id as 'id', v.name as 'label', v.phone as 'subtext' FROM vet v ${filter} = ?`, [parentid])
+        return rows; 
+    }
 };
 
 module.exports = Vet;

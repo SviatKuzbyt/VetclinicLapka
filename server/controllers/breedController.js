@@ -6,6 +6,7 @@ exports.getAllBreeds = async (req, res) => {
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -16,6 +17,7 @@ exports.getByName = async (req, res) => {
         res.status(200).json(med);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };
 
@@ -26,5 +28,6 @@ exports.getBySpecie = async (req, res) => {
         res.status(200).json(med);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
     }
 };

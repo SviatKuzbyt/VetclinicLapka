@@ -56,6 +56,27 @@ class InfoData(private val table: String) {
             )
         )
 
+        "pet" -> listOf(
+            InfoSharedData(
+                R.string.owner,
+                R.drawable.ic_people_one,
+                "owner",
+                "id"
+            ),
+            InfoSharedData(
+                R.string.medhistory,
+                R.drawable.ic_medhistory,
+                "medcard",
+                "petid"
+            ),
+            InfoSharedData(
+                R.string.appointment_history,
+                R.drawable.ic_appointment_history,
+                "appointment",
+                "petid"
+            )
+        )
+
         else -> listOf()
     }
 }

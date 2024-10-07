@@ -68,3 +68,13 @@ exports.getInfo = async (req, res) => {
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };
+
+exports.getByPetId = async (req, res) => {
+    try {
+        const { filter } = req.params;
+        const med = await Med.getByPetId(filter);
+        res.status(200).json(med);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};

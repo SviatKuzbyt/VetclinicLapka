@@ -27,6 +27,11 @@ const Owner = {
     getInfo: async (owner_id) => {
         const [rows] = await db.execute('SELECT name, phone FROM owner WHERE owner_id = ? LIMIT 1', [owner_id]);
         return [rows[0].name, rows[0].phone];
+    },
+
+    getById: async (filter) => {
+        const [rows] = await db.execute("SELECT owner_id as 'id', name as 'label', phone as 'subtext' FROM vetclinic_lapka.owner WHERE owner_id = ?", [filter  ] )
+        return rows; 
     }
 };
 

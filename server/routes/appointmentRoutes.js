@@ -10,6 +10,6 @@ router.get('/filter/owner/:filter', appointmentController.getByOwner);
 router.get('/filter/vettoday/:filter', appointmentController.getByVetToday);
 router.get('/filter/date/:filter', appointmentController.getByDate);
 router.get('/info/:id', appointmentController.getInfo);
-
+router.get('/filter/petid/:filter', appointmentController.getByPetId);
 
 module.exports = router;

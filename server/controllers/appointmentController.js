@@ -79,12 +79,13 @@ exports.getInfo = async (req, res) => {
     }
 };
 
-exports.getByPetId = async (req, res) => {
+exports.getById = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const appointment = await Appointment.getByPetId(filter);
+        const { column, parentid } = req.params;
+        const appointment = await Appointment.getById(column, parentid);
         res.status(200).json(appointment);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ message: 'Server Error', error: error.message });
     }
 };

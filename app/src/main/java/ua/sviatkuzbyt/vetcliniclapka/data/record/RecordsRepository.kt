@@ -39,8 +39,9 @@ class RecordsRepository(private val table: String) {
         return records
     }
 
-    fun getFilterDataById(filter: String, id: Int): MutableList<RecordItem>{
-        val text = ServerApi.getData("$table/filter/$filter/$id")
+    fun getFilterDataById(filter: String): MutableList<RecordItem>{
+        Log.v("sklt", "$table/filter/id/$filter")
+        val text = ServerApi.getData("$table/filter/id/$filter")
         Log.v("sklt", text)
         updateList(Gson().fromJson(text, getType))
         return records

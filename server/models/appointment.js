@@ -49,8 +49,20 @@ const Appointment = {
         return [rows[0].pet, rows[0].owner, rows[0].date, rows[0].vet, rows[0].complaint]; 
     },
 
-    getByPetId: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE a.pet_id = ? ORDER BY a.`time` DESC", [filter] )
+    getById: async (column, parentid) => {
+        let filter;
+        switch (column) {
+            case 'pet':
+                filter = 'a.pet_id';
+                break;
+            case 'vet':
+                filter = 'a.vet_id';
+                break;
+            default:
+                filter = 'mc.card_id';
+        }
+
+        const [rows] = await db.execute(`SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE ${filter} = ? ORDER BY a.time DESC`, [parentid] )
         return rows; 
     }
 };

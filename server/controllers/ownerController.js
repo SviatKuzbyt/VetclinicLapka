@@ -52,8 +52,8 @@ exports.getInfo = async (req, res) => {
 
 exports.getById = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const owners = await Owner.getById(filter);
+        const { column, parentid } = req.params;
+        const owners = await Owner.getById(parentid);
         res.status(200).json(owners);
     } catch (error) {
         console.log(error);

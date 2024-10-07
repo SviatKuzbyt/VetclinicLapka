@@ -50,12 +50,11 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action {
         }
     }
 
-    override fun openRecordActivity(table: String, filter: String) {
+    override fun openRecordActivity(tableFilter: String) {
         val openIntent = Intent(this, RecordsActivity::class.java).apply {
             putExtra("label", getString(R.string.shared_data))
-            putExtra("table", table)
-            putExtra("filter", filter)
-            putExtra("filterId", viewModel.getId())
+            putExtra("table", tableFilter)
+            putExtra("filter", "${viewModel.getTable()}&${viewModel.getId()}")
         }
 
         startActivity(openIntent)

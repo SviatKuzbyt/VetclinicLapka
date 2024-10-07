@@ -15,7 +15,7 @@ class SharedDataAdapter(
 ) : RecyclerView.Adapter<SharedDataAdapter.SharedDataViewHolder>() {
 
     interface Action{
-        fun openRecordActivity(table: String, filter: String)
+        fun openRecordActivity(tableFilter: String)
     }
 
     inner class SharedDataViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -28,7 +28,7 @@ class SharedDataAdapter(
             content.setText(item.label)
 
             root.setOnClickListener {
-                action.openRecordActivity(item.table, item.filter)
+                action.openRecordActivity(item.filterTable)
             }
         }
     }

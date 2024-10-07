@@ -29,8 +29,8 @@ const Owner = {
         return [rows[0].name, rows[0].phone];
     },
 
-    getById: async (filter) => {
-        const [rows] = await db.execute("SELECT o.owner_id as 'id', o.name as 'label', o.phone as 'subtext' FROM pet p INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ?", [filter  ] )
+    getById: async (parentid) => {
+        const [rows] = await db.execute("SELECT o.owner_id as 'id', o.name as 'label', o.phone as 'subtext' FROM pet p INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ?", [parentid] )
         return rows; 
     }
 };

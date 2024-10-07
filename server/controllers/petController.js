@@ -62,8 +62,8 @@ exports.getInfo = async (req, res) => {
 
 exports.getByOwnerId = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const pet = await Pet.getByOwnerId(filter);
+        const { parentid } = req.params;
+        const pet = await Pet.getByOwnerId(parentid);
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });

@@ -13,6 +13,5 @@ data class InfoText(
 data class InfoSharedData(
     val label: Int,
     val icon: Int,
-    val table: String,
-    val filter: String
+    val filterTable: String
 )

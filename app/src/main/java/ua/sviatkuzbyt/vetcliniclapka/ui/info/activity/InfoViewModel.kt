@@ -26,6 +26,7 @@ class InfoViewModel(intent: Intent) : ViewModel() {
         catch (_: Exception){ R.string.error }
 
     fun getId() = recordId
+    fun getTable() = table
 
     init { loadItems() }
 

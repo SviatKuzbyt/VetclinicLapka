@@ -69,10 +69,10 @@ exports.getInfo = async (req, res) => {
     }
 };
 
-exports.getByPetId = async (req, res) => {
+exports.getById = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const med = await Med.getByPetId(filter);
+        const { column, parentid } = req.params;
+        const med = await Med.getById(column, parentid);
         res.status(200).json(med);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });

@@ -8,6 +8,6 @@ router.get('/filter/owner/:filter', petController.getByOwner);
 router.get('/filter/breed/:filter', petController.getByBreed);
 router.post('/add', petController.addPet);
 router.get('/info/:id', petController.getInfo);
-router.get('/filter/ownerid/:filter', petController.getByOwnerId);
+router.get('/filter/id/:column&:parentid', petController.getByOwnerId);
 
 module.exports = router;

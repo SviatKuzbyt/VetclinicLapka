@@ -59,6 +59,9 @@ const Pet = {
             case 'appointment':
                 filter = 'INNER JOIN appointment a ON p.pet_id = a.pet_id WHERE a.appointment_id';
                 break; 
+            case 'medcard':
+                filter = 'INNER JOIN appointment a ON p.pet_id = a.pet_id INNER JOIN medical_card mc ON a.appointment_id = mc.appointment_id WHERE mc.card_id';
+                break; 
             default:
                 filter = 'mc.card_id';
         }

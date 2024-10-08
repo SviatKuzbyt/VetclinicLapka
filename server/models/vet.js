@@ -98,8 +98,22 @@ const Vet = {
         }
     
         return result;
-    }
-     
+    },
+
+    updateVet: async (name, phone, spec, updateId) => {
+        await db.execute(
+            'UPDATE vet SET name = ?, phone = ? WHERE vet_id = ?',
+            [name, phone, updateId]
+        );
+
+        await db.execute(`DELETE FROM vet_speciality WHERE vet_id = ?`, [updateId])
+
+        for (let i = 0; i < spec.length; i++) {
+            if (spec[i] === '1') {
+                await db.execute(`INSERT INTO vet_speciality (vet_id, specie_id) VALUES (?, ${i+1})`, [updateId])
+            }
+        }
+    },
 };
 
 module.exports = Vet;

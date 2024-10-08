@@ -87,3 +87,16 @@ exports.getEditInfo = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.updateVet = async (req, res) => {
+    try {
+        const {name, phone, spec } = req.body;
+        const { updateId } = req.params; 
+        const result = await Vet.updateVet(name, phone, spec, updateId);
+        res.status(200).json({ 'result': "success" });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};

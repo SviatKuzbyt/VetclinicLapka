@@ -24,6 +24,7 @@ class InfoData(private val table: String) {
         "vet" -> listOf(
             InfoText(R.string.name),
             InfoText(R.string.phone),
+            InfoText(R.string.speciality),
             InfoText(R.string.is_aviable)
         )
 

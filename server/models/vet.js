@@ -37,13 +37,21 @@ const Vet = {
 
     getInfo: async (vet_id) => {
         const [rows] = await db.execute(
-            "SELECT v.name, v.phone, CASE WHEN v.is_available = 1 Then 'Так' ELSE 'Ні' END AS 'is_available' FROM vet v WHERE v.vet_id = ? LIMIT 1", [vet_id]);
-        return [rows[0].name, rows[0].phone, rows[0].is_available];
-    },
+            `SELECT v.name, 
+                    v.phone, 
+                    CASE WHEN v.is_available = 1 THEN 'Так' ELSE 'Ні' END AS 'is_available', 
+                    GROUP_CONCAT(s.name SEPARATOR ', ') AS species
+             FROM vet v
+             INNER JOIN vet_speciality vs ON v.vet_id = vs.vet_id
+             INNER JOIN specie s ON vs.specie_id = s.specie_id
+             WHERE v.vet_id = ?
+             GROUP BY v.vet_id
+             LIMIT 1`, [vet_id]);
+        
+        return [rows[0].name, rows[0].phone, rows[0].species, rows[0].is_available];
+    },    
     
     getById: async (column, parentid) => {
-
-        console.log(`${column}, ${parentid}`)
 
         switch (column) {
             case 'appointment':

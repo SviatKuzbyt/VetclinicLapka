@@ -66,8 +66,9 @@ const Pet = {
                 filter = 'mc.card_id';
         }
 
-        const [rows] = await db.execute(`SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id ${filter} = ?`, [parentid] )
+        const [rows] = await db.execute(`SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id ${filter} = ? ORDER BY p.name`, [parentid] )        
         return rows; 
+
     }
 };
 

@@ -1,5 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.info
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
@@ -21,6 +22,8 @@ class InfoRepository(private val table: String, private val recordId: Int) {
 
     fun loadItems():InfoItems{
         val info = ServerApi.getData("$table/info/$recordId")
+        Log.v("sklt", info)
+
         val infoList: List<String> = Gson().fromJson(info, getType)
 
         for (i in 0 until items.texts.size){

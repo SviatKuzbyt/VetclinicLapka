@@ -51,6 +51,19 @@ class CreateAppointmentActivity : AppCompatActivity() {
             selectActivityResult.launch(selectIntent)
         }
 
+        binding.selectPetButton.setOnClickListener {
+            val ownerId = viewModel.createData.value?.get(0)?.data ?: "0"
+            val openIntent = Intent(this, RecordsActivity::class.java).apply {
+                putExtra("label", getString(R.string.select_recor))
+                putExtra("table", "pet")
+                putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                putExtra("filter", "owner&$ownerId")
+                putExtra("forPosition", 1)
+            }
+
+            selectActivityResult.launch(openIntent)
+        }
+
         viewModel.createData.observe(this){
             if (! ::selectButtons.isInitialized)
                 initButtonsList()

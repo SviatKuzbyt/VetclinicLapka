@@ -75,3 +75,14 @@ exports.getById = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.getEditInfo = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pet = await Pet.getEditInfo(id);
+        res.status(200).json(pet);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};

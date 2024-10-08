@@ -30,7 +30,7 @@ class SetRecordViewModel(args: Bundle): ViewModel() {
 
     private fun init() = viewModelScope.launch(Dispatchers.IO){
         try {
-            entryItems.postValue(repository.getItems())
+            entryItems.postValue(repository.loadItems())
         } catch (e: Exception){
             postError(e, message)
         }

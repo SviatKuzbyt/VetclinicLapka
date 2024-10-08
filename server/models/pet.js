@@ -69,7 +69,34 @@ const Pet = {
         const [rows] = await db.execute(`SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id ${filter} = ? ORDER BY p.name`, [parentid] )        
         return rows; 
 
-    }
+    },
+
+    getEditInfo: async (petid) => {
+        const [rows] = await db.execute(`
+            SELECT 
+            p.name as 'name',
+            b.name as 'bread_name',
+            o.name as "owner_name",
+            p.gender as 'gender',
+            DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
+            p.features as 'features',
+            p.breed_id as 'bread',
+            p.owner_id as 'owner'
+            FROM pet p
+            INNER JOIN breed b ON p.breed_id =b.breed_id 
+            INNER JOIN owner o ON p.owner_id = o.owner_id
+            WHERE p.pet_id = ?`, [petid]);
+
+        return [
+            { "data": rows[0].name, "labelData": "" },
+            { "data": rows[0].bread, "labelData": rows[0].bread_name },
+            { "data": rows[0].owner, "labelData": rows[0].owner_name },
+            { "data": rows[0].gender, "labelData": "" },
+            { "data": rows[0].date_of_birth, "labelData": "" },
+            { "data": rows[0].features, "labelData": "" }
+        ];
+    },
+    
 };
 
 module.exports = Pet;

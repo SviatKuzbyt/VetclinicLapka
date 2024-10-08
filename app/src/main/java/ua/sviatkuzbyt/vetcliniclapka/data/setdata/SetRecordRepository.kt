@@ -1,5 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.setdata
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
@@ -33,17 +34,20 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
         else -> listOf()
     }
 
-    fun getItems(): List<SetRecordItem>{
+    fun loadItems(): List<SetRecordItem>{
         if(editId != NO_EDIT_ID) loadData()
         return entryItems
     }
 
+    fun getItems() = entryItems
+
     private fun loadData() {
         val data = ServerApi.getData("$table/infoedit/$editId")
+        Log.v("sklt", data)
         val listData: List<EditInfo> = Gson().fromJson(data, getTypeString)
 
         for (i in listData.indices){
-            entryItems[i].data = listData[i].data
+            listData[i].data?.let { entryItems[i].data = it }
             entryItems[i].labelData = listData[i].labelData
         }
     }
@@ -83,8 +87,8 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
 }
 
 data class EditInfo(
-    var data: String = "",
-        var labelData: String = ""
+    val data: String? = "",
+    val labelData: String = ""
 )
 
 data class SetRecordItem(

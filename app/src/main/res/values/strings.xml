@@ -66,4 +66,12 @@
     <string name="edit">Редагувати дані</string>
     <string name="edited">Зміни збережено</string>
     <string name="edit_record">Редагування запису</string>
+    <string name="write">Записати</string>
+    <string name="select_patient">Вибір пацієнта</string>
+    <string name="select_owner">Виберіть власника</string>
+    <string name="select_pet">Виберіть улюбленця</string>
+    <string name="complaint_label">Опис скарги</string>
+    <string name="make_appointment">Призначення прийому</string>
+    <string name="select_time">Виберіть час</string>
+    <string name="select_vet">Оберіть ветеринара</string>
 </resources>

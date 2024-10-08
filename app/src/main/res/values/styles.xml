@@ -55,4 +55,13 @@
         <item name="android:windowBackground">@drawable/background_window</item>
         <item name="android:fontFamily">@font/roboto_bold</item>
     </style>
+
+    <style name="SelectButton">
+        <item name="android:textAppearance">@style/TextBasic</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:drawableEnd">@drawable/ic_next</item>
+    </style>
 </resources>

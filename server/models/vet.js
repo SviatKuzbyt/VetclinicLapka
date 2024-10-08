@@ -66,8 +66,40 @@ const Vet = {
 
         const [rows] = await db.execute(`SELECT v.vet_id as 'id', v.name as 'label', v.phone as 'subtext' FROM vet v ${filter} = ?`, [parentid])
         return rows; 
+    },
+
+    getEditInfo: async (vet_id) => {
+        const [rows] = await db.execute(`
+            SELECT 
+                v.name AS vet_name,
+                v.phone AS vet_phone,
+                CONCAT(
+                    MAX(CASE WHEN vs.specie_id = 1 THEN '1' ELSE '0' END),
+                    MAX(CASE WHEN vs.specie_id = 2 THEN '1' ELSE '0' END),
+                    MAX(CASE WHEN vs.specie_id = 3 THEN '1' ELSE '0' END),
+                    MAX(CASE WHEN vs.specie_id = 4 THEN '1' ELSE '0' END)
+                ) AS species
+            FROM 
+                vet v
+            LEFT JOIN 
+                vet_speciality vs ON v.vet_id = vs.vet_id
+            WHERE 
+                v.vet_id = ?
+            GROUP BY 
+                v.vet_id`, [vet_id]);
+    
+        const result = [];
+    
+        // Format the result in the desired output structure
+        if (rows.length > 0) {
+            result.push({ data: rows[0].vet_name, labelData: "" });
+            result.push({ data: rows[0].vet_phone, labelData: "" });
+            result.push({ data: rows[0].species, labelData: "" }); // Add species data
+        }
+    
+        return result;
     }
+     
 };
 
 module.exports = Vet;
-

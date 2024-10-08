@@ -9,5 +9,6 @@ router.get('/filter/specie/:filter', vetController.getBySpecie);
 router.post('/add', vetController.addVet);
 router.get('/info/:id', vetController.getInfo);
 router.get('/filter/id/:column&:parentid', vetController.getById);
+router.get('/infoedit/:id', vetController.getEditInfo);
 
 module.exports = router;

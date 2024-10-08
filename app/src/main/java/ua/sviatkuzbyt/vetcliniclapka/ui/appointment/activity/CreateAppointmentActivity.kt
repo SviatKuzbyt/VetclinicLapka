@@ -1,20 +1,15 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.appointment
+package ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
-import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
+import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.fragment.TimeFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class CreateAppointmentActivity : AppCompatActivity() {
@@ -64,6 +59,11 @@ class CreateAppointmentActivity : AppCompatActivity() {
             selectActivityResult.launch(openIntent)
         }
 
+        binding.selectTimeButton.setOnClickListener {
+            val timeFragment = TimeFragment()
+            timeFragment.show(supportFragmentManager, timeFragment.tag)
+        }
+
         viewModel.createData.observe(this){
             if (! ::selectButtons.isInitialized)
                 initButtonsList()
@@ -76,6 +76,11 @@ class CreateAppointmentActivity : AppCompatActivity() {
             } else{
                 setButtonText(selectButtons[updatePosition], it[updatePosition])
             }
+        }
+
+        supportFragmentManager.setFragmentResultListener("timeFr", this){ _, bundle ->
+            val date = bundle.getString("time") ?: "2024-01-01 00:00:00"
+            viewModel.setSelectData(date, null, 2)
         }
     }
 

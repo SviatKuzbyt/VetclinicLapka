@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityMainBinding
-import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.CreateAppointmentActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class MainActivity : AppCompatActivity() {

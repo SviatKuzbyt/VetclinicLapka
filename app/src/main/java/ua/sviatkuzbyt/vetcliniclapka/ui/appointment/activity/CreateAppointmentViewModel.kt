@@ -1,12 +1,10 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.appointment
+package ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity
 
-import android.icu.text.Transliterator.Position
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateAppointmentRepository
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 
 class CreateAppointmentViewModel: ViewModel() {
     private val repository = CreateAppointmentRepository()

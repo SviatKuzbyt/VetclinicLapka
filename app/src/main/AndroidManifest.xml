@@ -16,7 +16,7 @@
         android:theme="@style/Theme.VetclinicLapka"
         tools:targetApi="31">
         <activity
-            android:name=".ui.appointment.CreateAppointmentActivity"
+            android:name=".ui.appointment.activity.CreateAppointmentActivity"
             android:exported="false" />
         <activity
             android:name=".ui.info.activity.InfoActivity"

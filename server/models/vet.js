@@ -125,6 +125,29 @@ const Vet = {
             'UPDATE vet SET is_available = ? WHERE vet_id = ?',
             [available, updateId]
         );
+    },
+
+    getVetsAppointment: async (petId, date) => {
+        console.log(petId, date)
+        const [specie] = await db.execute(
+            `SELECT vs.specie_id as 'specie_id' FROM vet_speciality vs 
+            INNER JOIN breed b ON vs.specie_id = b.specie_id 
+            INNER JOIN pet p ON b.breed_id = p.pet_id 
+            WHERE p.pet_id = ? LIMIT 1`, [petId]
+        );
+
+        const [vets] = await db.execute(
+            `SELECT v.vet_id AS 'id', v.name AS 'label', v.phone AS 'subtext'
+            FROM vet v
+            INNER JOIN vet_speciality vs ON v.vet_id = vs.vet_id
+            LEFT JOIN appointment a ON v.vet_id = a.vet_id AND a.time = ?
+            WHERE vs.specie_id = ? AND a.vet_id IS NULL
+            GROUP BY v.vet_id
+            ORDER BY v.name`, [date, specie[0].specie_id]
+        );
+        
+
+        return vets; 
     }
 };
 

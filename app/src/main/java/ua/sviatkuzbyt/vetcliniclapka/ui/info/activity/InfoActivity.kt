@@ -89,7 +89,7 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
         val openIntent = Intent(this, RecordsActivity::class.java).apply {
             putExtra("label", getString(R.string.shared_data))
             putExtra("table", tableFilter)
-            putExtra("filter", "${viewModel.getTable()}&${viewModel.getId()}")
+            putExtra("filter", "id/${viewModel.getTable()}&${viewModel.getId()}")
         }
 
         startActivity(openIntent)

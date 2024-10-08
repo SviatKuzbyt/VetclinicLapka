@@ -13,6 +13,6 @@ router.get('/infoedit/:id', vetController.getEditInfo);
 router.put('/update/:updateId', vetController.updateVet);
 router.get('/available/get/:id', vetController.isAvailable);
 router.put('/available/put/:updateId', vetController.updateAvailable);
-
+router.get('/filter/appointment/:petId&:date', vetController.getVetsAppointment);
 
 module.exports = router;

@@ -52,7 +52,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
                 putExtra("label", getString(R.string.select_recor))
                 putExtra("table", "pet")
                 putExtra("openMode", RecordsActivity.ACTION_SELECT)
-                putExtra("filter", "owner&$ownerId")
+                putExtra("filter", "id/owner&$ownerId")
                 putExtra("forPosition", 1)
             }
 
@@ -79,8 +79,23 @@ class CreateAppointmentActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.setFragmentResultListener("timeFr", this){ _, bundle ->
-            val date = bundle.getString("time") ?: "2024-01-01 00:00:00"
-            viewModel.setSelectData(date, null, 2)
+            val time = bundle.getString("time") ?: "2024-01-01%2000:00:00"
+            val timeLabel = bundle.getString("timeLabel") ?: "2024-01-01 00:00:00"
+            viewModel.setSelectData(time, timeLabel, 2)
+        }
+
+        binding.selectVetButton.setOnClickListener {
+            val petId = viewModel.createData.value?.get(1)?.data ?: "0"
+            val data = viewModel.createData.value?.get(2)?.data ?: "0"
+            val openIntent = Intent(this, RecordsActivity::class.java).apply {
+                putExtra("label", getString(R.string.select_recor))
+                putExtra("table", "vet")
+                putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                putExtra("filter", "appointment/$petId&$data")
+                putExtra("forPosition", 3)
+            }
+
+            selectActivityResult.launch(openIntent)
         }
     }
 

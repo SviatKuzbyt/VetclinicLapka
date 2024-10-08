@@ -30,7 +30,7 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
     private fun init() = viewModelScope.launch(Dispatchers.IO){
         try {
             val filter = intent.getStringExtra("filter")
-            if (filter != null) records.postValue(repository.getFilterDataById(filter))
+            if (filter != null) records.postValue(repository.getStartFilterData(filter))
             else records.postValue(repository.getAllData())
         } catch (e: Exception){
             postError(e, message)

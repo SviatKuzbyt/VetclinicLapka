@@ -48,6 +48,7 @@ class SetRecordFragment :
 
     interface SetRecordActions{
         fun add(item: RecordItem)
+        fun update()
     }
 
     private var action: SetRecordActions? = null
@@ -68,7 +69,7 @@ class SetRecordFragment :
     ): View {
         _binding = FragmentSetRecordBinding.inflate(inflater, container, false)
 
-        val factory = SetRecordViewModel.Factory(arguments?.getString("table"))
+        val factory = SetRecordViewModel.Factory(requireArguments())
         viewModel = ViewModelProvider(this, factory)[SetRecordViewModel::class.java]
         return binding.root
     }
@@ -93,10 +94,17 @@ class SetRecordFragment :
         //complete or error
         viewModel.message.observe(viewLifecycleOwner){
             makeToast(requireContext(), it)
-            if (it == R.string.added) {
-                viewModel.getNewData()?.let { item -> action?.add(item) }
-                dismiss()
-            } else binding.buttonSetRecord.isEnabled = true
+            when (it) {
+                R.string.added -> {
+                    viewModel.getNewData()?.let { item -> action?.add(item) }
+                    dismiss()
+                }
+                R.string.edited -> {
+                    action?.update()
+                    dismiss()
+                }
+                else -> binding.buttonSetRecord.isEnabled = true
+            }
         }
     }
 
@@ -144,10 +152,5 @@ class SetRecordFragment :
         }
         Log.v("sklt", item.apiName)
         selectActivityResult.launch(selectIntent)
-    }
-
-    companion object{
-        const val MODE_ADD = 1
-        const val MODE_EDIT = 2
     }
 }

@@ -30,7 +30,7 @@ class InfoViewModel(intent: Intent) : ViewModel() {
 
     init { loadItems() }
 
-    private fun loadItems() = viewModelScope.launch(Dispatchers.IO){
+    fun loadItems() = viewModelScope.launch(Dispatchers.IO){
         try {
             items.postValue(repository.loadItems())
         } catch (e: Exception){

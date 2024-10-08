@@ -25,7 +25,7 @@ class InfoData(private val table: String) {
             InfoText(R.string.name),
             InfoText(R.string.phone),
             InfoText(R.string.speciality),
-            InfoText(R.string.is_aviable)
+            InfoText(R.string.is_available)
         )
 
         "appointment" -> listOf(

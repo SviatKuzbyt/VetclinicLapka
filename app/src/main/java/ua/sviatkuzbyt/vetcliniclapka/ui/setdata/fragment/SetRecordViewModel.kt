@@ -1,7 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,8 +14,11 @@ import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 
-class SetRecordViewModel(table: String): ViewModel() {
-    private val repository = SetRecordRepository(table)
+class SetRecordViewModel(args: Bundle): ViewModel() {
+    private val updateId = args.getInt("updateId", SetRecordRepository.NO_EDIT_ID)
+    private val repository = SetRecordRepository(
+        args.getString("table")?: "unknown", updateId
+    )
     private var newData: RecordItem? = null
     private var updatePosition = NO_UPDATE_POSITION
 
@@ -24,12 +26,23 @@ class SetRecordViewModel(table: String): ViewModel() {
     val message =
         SingleLiveEvent<Int>()
 
-    init { entryItems.postValue(repository.getItems()) }
+    init { init() }
+
+    private fun init() = viewModelScope.launch(Dispatchers.IO){
+        try {
+            entryItems.postValue(repository.getItems())
+        } catch (e: Exception){
+            postError(e, message)
+        }
+    }
 
     fun addData() = viewModelScope.launch(Dispatchers.IO){
         try {
-            newData = repository.addRecord()
-            message.postValue(R.string.added)
+            newData = repository.setRecord()
+            message.postValue(
+                if (newData == null) R.string.edited
+                else R.string.added
+            )
         } catch (e: Exception){
             postError(e, message)
         }
@@ -53,13 +66,12 @@ class SetRecordViewModel(table: String): ViewModel() {
         }
     }
 
-
-        class Factory(private val table: String?)
+    class Factory(private val args: Bundle)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SetRecordViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return SetRecordViewModel(table?: "") as T
+                return SetRecordViewModel(args) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

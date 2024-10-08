@@ -75,7 +75,6 @@ class RecordsActivity :
         binding.buttonCreate.setOnClickListener {
             val args = Bundle().apply {
                 putString("table", viewModel.getTable())
-                putInt("mode", SetRecordFragment.MODE_ADD)
             }
 
             val setRecordFragment = SetRecordFragment().apply {
@@ -162,6 +161,8 @@ class RecordsActivity :
             makeToast(this, R.string.reload_page)
         }
     }
+
+    override fun update() {}
 
     companion object{
         const val ACTION_VIEW = 1

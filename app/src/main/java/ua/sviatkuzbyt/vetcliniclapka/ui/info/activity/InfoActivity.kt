@@ -2,17 +2,21 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.info.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityInfoBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.recyclerviews.SharedDataAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.recyclerviews.TextAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment.SetRecordFragment
 
-class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action {
+class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
+    SetRecordFragment.SetRecordActions {
     private lateinit var binding: ActivityInfoBinding
     private lateinit var viewModel: InfoViewModel
 
@@ -38,10 +42,27 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action {
             frameLabel.setText(R.string.shared_data)
         }
 
+        binding.infoActionFrame.apply {
+            frameEditButton.setOnClickListener{
+                val args = Bundle().apply {
+                    putString("table", viewModel.getTable())
+                    putInt("updateId", viewModel.getId())
+                }
+
+                val setRecordFragment = SetRecordFragment().apply {
+                    setCancelable(false)
+                    arguments = args
+                }
+
+                setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
+            }
+        }
+
         binding.infoToolBar.setup(getString(viewModel.getLabel()), this)
 
 
         viewModel.items.observe(this){
+            binding.frames.visibility = View.VISIBLE
             binding.infoTextFrame.frameRecycler.adapter =
                 TextAdapter(it.texts)
 
@@ -59,4 +80,8 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action {
 
         startActivity(openIntent)
     }
+
+    override fun add(item: RecordItem) {}
+
+    override fun update() {viewModel.loadItems()}
 }

@@ -17,9 +17,11 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/frames"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
             <include
                 layout="@layout/item_frame_recycler"
                 android:id="@+id/infoTextFrame"/>
@@ -27,7 +29,7 @@
                 layout="@layout/item_frame_recycler"
                 android:id="@+id/infoDataFrame"/>
             <include
-                layout="@layout/item_frame_recycler"
+                layout="@layout/item_frame_actions"
                 android:id="@+id/infoActionFrame"/>
         </LinearLayout>
 

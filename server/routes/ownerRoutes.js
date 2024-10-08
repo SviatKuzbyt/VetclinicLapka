@@ -8,5 +8,7 @@ router.get('/filter/phone/:filter', ownerController.getByPhone);
 router.post('/add', ownerController.addOwner);
 router.get('/info/:id', ownerController.getInfo);
 router.get('/filter/id/:column&:parentid', ownerController.getById);
+router.get('/infoedit/:id', ownerController.getEditInfo);
+router.post('/update/:updateId', ownerController.updateOwner);
 
 module.exports = router;

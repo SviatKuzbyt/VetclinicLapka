@@ -58,8 +58,11 @@
     <string name="info">Інформація</string>
     <string name="medcard">Медична карта</string>
     <string name="appointment">Запис</string>
-    <string name="is_aviable">Доступний</string>
+    <string name="is_available">Доступний</string>
     <string name="treatment">Лікування</string>
     <string name="specie">Вид тварини</string>
     <string name="shared_data">Пов\'язані записи</string>
+    <string name="action">Дії</string>
+    <string name="edit">Редагувати дані</string>
+    <string name="edited">Зміни збережено</string>
 </resources>

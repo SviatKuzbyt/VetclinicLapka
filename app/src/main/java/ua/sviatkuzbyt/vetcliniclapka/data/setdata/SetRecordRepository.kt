@@ -7,8 +7,10 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
+import java.io.FileNotFoundException
+import kotlin.jvm.Throws
 
-class SetRecordRepository(private val table: String) {
+class SetRecordRepository(private val table: String, private val editId: Int) {
 
     private val entryItems = when(table){
         "owner" -> listOf(
@@ -31,17 +33,36 @@ class SetRecordRepository(private val table: String) {
         else -> listOf()
     }
 
-    fun getItems() = entryItems
+    fun getItems(): List<SetRecordItem>{
+        if(editId != NO_EDIT_ID) loadData()
+        return entryItems
+    }
 
-    fun addRecord(): RecordItem {
+    private fun loadData() {
+        val data = ServerApi.getData("$table/infoedit/$editId")
+        val listData: List<EditInfo> = Gson().fromJson(data, getTypeString)
+
+        for (i in listData.indices){
+            entryItems[i].data = listData[i].data
+            entryItems[i].labelData = listData[i].labelData
+        }
+    }
+
+    fun setRecord(): RecordItem? {
         val jsonData = JSONObject()
         entryItems.forEach {
             if (it.data.isBlank() && it.apiName != "features") throw NoTextException()
             jsonData.put(it.apiName, it.data)
         }
 
-        val insertResult = ServerApi.postData("$table/add", jsonData.toString())
-        return Gson().fromJson(insertResult, getType)
+        if (editId == NO_EDIT_ID){
+            val insertResult = ServerApi.postData("$table/add", jsonData.toString())
+            return Gson().fromJson(insertResult, getType)
+        } else{
+            jsonData.put("updateId", editId)
+            ServerApi.postData("$table/update/$editId", jsonData.toString())
+            return null
+        }
     }
 
     fun updateSelectItem(dataLabel: String, position: Int, data: String) {
@@ -51,12 +72,20 @@ class SetRecordRepository(private val table: String) {
 
     companion object{
         private val getType = object : TypeToken<RecordItem>() {}.type
+        private val getTypeString = object : TypeToken<List<EditInfo>>() {}.type
         const val TYPE_TEXT = 1
         const val TYPE_CHECKBOX_SPEC = 2
         const val TYPE_SELECT = 3
         const val TYPE_RADIO = 5
+
+        const val NO_EDIT_ID = 0
     }
 }
+
+data class EditInfo(
+    var data: String = "",
+        var labelData: String = ""
+)
 
 data class SetRecordItem(
     var data: String = "",

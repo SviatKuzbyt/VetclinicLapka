@@ -32,7 +32,25 @@ const Owner = {
     getById: async (parentid) => {
         const [rows] = await db.execute("SELECT o.owner_id as 'id', o.name as 'label', o.phone as 'subtext' FROM pet p INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ?", [parentid] )
         return rows; 
+    },
+
+    getEditInfo: async (owner_id) => {
+        const [rows] = await db.execute('SELECT name, phone FROM owner WHERE owner_id = ? LIMIT 1', [owner_id]);
+
+        return [
+            { "data": rows[0].name, "labelData": "" },
+            { "data": rows[0].phone, "labelData": "" }
+        ];
+    },
+
+    updateOwner: async (name, phone, updateId) => {
+        const [result] = await db.execute(
+            'UPDATE owner SET name = ?, phone = ? WHERE owner_id = ?',
+            [name, phone, updateId]
+        );
+        return result; // Return the result so you can check rows affected, etc.
     }
+    
 };
 
 module.exports = Owner;

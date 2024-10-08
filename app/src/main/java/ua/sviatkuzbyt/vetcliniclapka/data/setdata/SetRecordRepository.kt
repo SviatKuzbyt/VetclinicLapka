@@ -63,8 +63,7 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
             val insertResult = ServerApi.postData("$table/add", jsonData.toString())
             return Gson().fromJson(insertResult, getType)
         } else{
-            jsonData.put("updateId", editId)
-            ServerApi.postData("$table/update/$editId", jsonData.toString())
+            ServerApi.putData("$table/update/$editId", jsonData.toString())
             return null
         }
     }

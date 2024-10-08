@@ -78,14 +78,11 @@ exports.getEditInfo = async (req, res) => {
 
 exports.updateOwner = async (req, res) => {
     try {
-        const {name, phone, updateId } = req.body; // Make sure the body contains the right fields
+        const {name, phone } = req.body; 
+        const { updateId } = req.params; 
         const result = await Owner.updateOwner(name, phone, updateId);
-
-        if (result.affectedRows > 0) {
-            res.status(200).json({ 'result': "success" });
-        } else {
-            res.status(404).json({ 'result': "owner not found" }); // If no rows affected, owner wasn't found
-        }
+        
+        res.status(200).json({ 'result': "success" });
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
         console.log(error);

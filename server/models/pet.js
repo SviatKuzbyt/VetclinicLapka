@@ -96,8 +96,14 @@ const Pet = {
             { "data": rows[0].features, "labelData": "" }
         ];
     },
-    
+
+    updatePet: async (name, breed_id, owner_id, gender, date_of_birth, features, updateId) => {
+        console.log(name, breed_id, owner_id, gender, date_of_birth, features, updateId)
+        const [result] = await db.execute(
+            'UPDATE pet SET name = ?, breed_id = ?, owner_id = ?, gender = ?, date_of_birth = ?, features = ? WHERE pet_id = ?',
+            [name, breed_id, owner_id, gender, date_of_birth, features, updateId]
+        );
+    }
 };
 
 module.exports = Pet;
-

@@ -10,5 +10,6 @@ router.post('/add', petController.addPet);
 router.get('/info/:id', petController.getInfo);
 router.get('/filter/id/:column&:parentid', petController.getById);
 router.get('/infoedit/:id', petController.getEditInfo);
+router.put('/update/:updateId', petController.updatePet);
 
 module.exports = router;

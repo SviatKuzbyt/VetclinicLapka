@@ -64,7 +64,15 @@ const Appointment = {
 
         const [rows] = await db.execute(`SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE ${filter} = ? ORDER BY a.time DESC`, [parentid] )
         return rows; 
-    }
+    },
+
+    addAppointment: async (pet, time, vet, complaint) => {
+        await db.execute(
+            'INSERT INTO appointment (pet_id, time, vet_id, complaint) VALUES (?, ?, ?, ?)',
+            [pet, time, vet, complaint]
+        );
+
+    },
 };
 
 module.exports = Appointment;

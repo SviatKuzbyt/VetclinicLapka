@@ -2,9 +2,14 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateAppointmentRepository
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 
 class CreateAppointmentViewModel: ViewModel() {
     private val repository = CreateAppointmentRepository()
@@ -22,6 +27,15 @@ class CreateAppointmentViewModel: ViewModel() {
         val tempPosition = updatePosition
         updatePosition = POSITION_ALL
         return tempPosition
+    }
+
+    fun createRecord(text: String) = viewModelScope.launch(Dispatchers.IO){
+        try {
+            repository.createRecord(text)
+            message.postValue(R.string.added)
+        } catch (e: Exception){
+            postError(e, message)
+        }
     }
 
     companion object{

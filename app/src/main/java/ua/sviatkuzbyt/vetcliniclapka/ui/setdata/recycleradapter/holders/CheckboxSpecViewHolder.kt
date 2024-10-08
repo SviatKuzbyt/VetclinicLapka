@@ -11,9 +11,9 @@ class CheckboxSpecViewHolder(view: View) : SetRecordViewHolder(view) {
 
     private val checkBoxes = listOf<CheckBox>(
         view.findViewById(R.id.checkBoxDogs),
-        view.findViewById(R.id.checkBoxRodent),
+        view.findViewById(R.id.checkBoxCats),
         view.findViewById(R.id.checkBoxBirds),
-        view.findViewById(R.id.checkBoxCats)
+        view.findViewById(R.id.checkBoxRodent)
     )
 
     override fun bind(item: SetRecordItem, position: Int){

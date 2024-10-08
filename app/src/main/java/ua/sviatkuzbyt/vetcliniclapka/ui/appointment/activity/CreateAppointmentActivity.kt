@@ -10,6 +10,7 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.fragment.TimeFragment
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class CreateAppointmentActivity : AppCompatActivity() {
@@ -47,16 +48,20 @@ class CreateAppointmentActivity : AppCompatActivity() {
         }
 
         binding.selectPetButton.setOnClickListener {
-            val ownerId = viewModel.createData.value?.get(0)?.data ?: "0"
-            val openIntent = Intent(this, RecordsActivity::class.java).apply {
-                putExtra("label", getString(R.string.select_recor))
-                putExtra("table", "pet")
-                putExtra("openMode", RecordsActivity.ACTION_SELECT)
-                putExtra("filter", "id/owner&$ownerId")
-                putExtra("forPosition", 1)
-            }
+            val ownerId = viewModel.createData.value?.get(0)?.data
+            if (ownerId.isNullOrBlank())
+                makeToast(this, R.string.no_text)
+            else{
+                val openIntent = Intent(this, RecordsActivity::class.java).apply {
+                    putExtra("label", getString(R.string.select_recor))
+                    putExtra("table", "pet")
+                    putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                    putExtra("filter", "id/owner&$ownerId")
+                    putExtra("forPosition", 1)
+                }
 
-            selectActivityResult.launch(openIntent)
+                selectActivityResult.launch(openIntent)
+            }
         }
 
         binding.selectTimeButton.setOnClickListener {
@@ -81,21 +86,36 @@ class CreateAppointmentActivity : AppCompatActivity() {
         supportFragmentManager.setFragmentResultListener("timeFr", this){ _, bundle ->
             val time = bundle.getString("time") ?: "2024-01-01%2000:00:00"
             val timeLabel = bundle.getString("timeLabel") ?: "2024-01-01 00:00:00"
-            viewModel.setSelectData(time, timeLabel, 2)
+            viewModel.setSelectData(timeLabel, timeLabel, 2)
         }
 
         binding.selectVetButton.setOnClickListener {
-            val petId = viewModel.createData.value?.get(1)?.data ?: "0"
-            val data = viewModel.createData.value?.get(2)?.data ?: "0"
-            val openIntent = Intent(this, RecordsActivity::class.java).apply {
-                putExtra("label", getString(R.string.select_recor))
-                putExtra("table", "vet")
-                putExtra("openMode", RecordsActivity.ACTION_SELECT)
-                putExtra("filter", "appointment/$petId&$data")
-                putExtra("forPosition", 3)
-            }
+            val petId = viewModel.createData.value?.get(1)?.data
+            val time = viewModel.createData.value?.get(2)?.data
 
-            selectActivityResult.launch(openIntent)
+            if (petId.isNullOrBlank() || time.isNullOrBlank())
+                makeToast(this, R.string.no_text)
+            else{
+                val openIntent = Intent(this, RecordsActivity::class.java).apply {
+                    putExtra("label", getString(R.string.select_recor))
+                    putExtra("table", "vet")
+                    putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                    putExtra("filter", "appointment/$petId&$time")
+                    putExtra("forPosition", 3)
+                }
+
+                selectActivityResult.launch(openIntent)
+            }
+        }
+
+        viewModel.message.observe(this){
+            makeToast(this, it)
+            if (it == R.string.added)
+                finish()
+        }
+
+        binding.appointmentCreateButton.setOnClickListener {
+            viewModel.createRecord(binding.editTextComplaint.text.toString())
         }
     }
 

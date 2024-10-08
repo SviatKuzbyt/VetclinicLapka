@@ -75,6 +75,7 @@ class RecordsActivity :
         binding.buttonCreate.setOnClickListener {
             val args = Bundle().apply {
                 putString("table", viewModel.getTable())
+                putInt("label", R.string.create_record)
             }
 
             val setRecordFragment = SetRecordFragment().apply {

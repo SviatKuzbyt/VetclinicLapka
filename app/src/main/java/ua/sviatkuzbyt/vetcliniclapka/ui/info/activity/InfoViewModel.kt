@@ -38,6 +38,14 @@ class InfoViewModel(intent: Intent) : ViewModel() {
         }
     }
 
+    fun changeVetAvailable(isAvailable: Boolean) = viewModelScope.launch(Dispatchers.IO){
+        try {
+            repository.changeVetAvailable(isAvailable)
+        } catch (e: Exception){
+            postError(e, message)
+        }
+    }
+
     class Factory(private val intent: Intent)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

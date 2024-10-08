@@ -114,6 +114,18 @@ const Vet = {
             }
         }
     },
+
+    isAvailable: async (id) => {
+        const [rows] = await db.execute(`SELECT is_available FROM vet WHERE vet_id = ?`, [id])
+        return rows[0].is_available; 
+    },
+
+    updateAvailable: async (available, updateId) => {
+        await db.execute(
+            'UPDATE vet SET is_available = ? WHERE vet_id = ?',
+            [available, updateId]
+        );
+    }
 };
 
 module.exports = Vet;

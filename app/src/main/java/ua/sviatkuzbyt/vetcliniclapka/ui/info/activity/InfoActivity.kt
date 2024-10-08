@@ -47,6 +47,7 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
                 val args = Bundle().apply {
                     putString("table", viewModel.getTable())
                     putInt("updateId", viewModel.getId())
+                    putInt("label", R.string.edit_record)
                 }
 
                 val setRecordFragment = SetRecordFragment().apply {
@@ -68,6 +69,19 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
 
             binding.infoDataFrame.frameRecycler.adapter =
                 SharedDataAdapter(it.sharedData, this)
+            it.isAvailableVet?.let { available ->
+                binding.infoActionFrame.frameAvailableCheckBox.isChecked = available
+            }
+        }
+
+        if(viewModel.getTable() == "vet"){
+            binding.infoActionFrame.frameAvailableCheckBox.apply {
+                visibility = View.VISIBLE
+
+                setOnClickListener {
+                    viewModel.changeVetAvailable(this.isChecked)
+                }
+            }
         }
     }
 

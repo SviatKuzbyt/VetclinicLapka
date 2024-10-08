@@ -11,5 +11,8 @@ router.get('/info/:id', vetController.getInfo);
 router.get('/filter/id/:column&:parentid', vetController.getById);
 router.get('/infoedit/:id', vetController.getEditInfo);
 router.put('/update/:updateId', vetController.updateVet);
+router.get('/available/get/:id', vetController.isAvailable);
+router.put('/available/put/:updateId', vetController.updateAvailable);
+
 
 module.exports = router;

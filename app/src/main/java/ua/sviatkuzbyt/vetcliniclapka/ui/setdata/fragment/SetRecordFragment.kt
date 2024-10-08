@@ -135,6 +135,8 @@ class SetRecordFragment :
             binding.buttonSetRecord.isEnabled = false
             viewModel.addData()
         }
+
+        binding.labelSetRecord.setText(viewModel.getLabel())
     }
 
 

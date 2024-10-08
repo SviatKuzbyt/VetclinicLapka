@@ -5,7 +5,8 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 class InfoData(private val table: String) {
     fun getItems() = InfoItems(
         getTexts(),
-        getSharedData()
+        getSharedData(),
+        null
     )
 
     private fun getTexts() = when(table){

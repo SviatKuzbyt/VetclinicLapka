@@ -30,7 +30,20 @@ class InfoRepository(private val table: String, private val recordId: Int) {
             items.texts[i].content = infoList[i]
         }
 
+        if (table == "vet") loadAvailable()
+
         return items
+    }
+
+    private fun loadAvailable() {
+        val isAvailable = ServerApi.getData("$table/available/get/$recordId")
+        items.isAvailableVet = isAvailable == "1"
+    }
+
+    fun changeVetAvailable(available: Boolean) {
+        items.isAvailableVet = available
+        val updateData = if(available) "1" else "0"
+        ServerApi.putData("$table/available/put/$recordId", "{\"available\": \"$updateData\"}")
     }
 
     companion object{

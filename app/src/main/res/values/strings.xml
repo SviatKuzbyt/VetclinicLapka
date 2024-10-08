@@ -65,4 +65,5 @@
     <string name="action">Дії</string>
     <string name="edit">Редагувати дані</string>
     <string name="edited">Зміни збережено</string>
+    <string name="edit_record">Редагування запису</string>
 </resources>

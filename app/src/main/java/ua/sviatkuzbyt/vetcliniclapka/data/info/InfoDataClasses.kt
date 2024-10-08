@@ -2,7 +2,8 @@ package ua.sviatkuzbyt.vetcliniclapka.data.info
 
 data class InfoItems(
     val texts: List<InfoText>,
-    val sharedData: List<InfoSharedData>
+    val sharedData: List<InfoSharedData>,
+    var isAvailableVet: Boolean?
 )
 
 data class InfoText(

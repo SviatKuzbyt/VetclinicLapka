@@ -80,7 +80,6 @@ exports.getEditInfo = async (req, res) => {
     try {
         const { id } = req.params;
         const vet = await Vet.getEditInfo(id);
-        console.log(vet);
         res.status(200).json(vet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
@@ -93,6 +92,30 @@ exports.updateVet = async (req, res) => {
         const {name, phone, spec } = req.body;
         const { updateId } = req.params; 
         const result = await Vet.updateVet(name, phone, spec, updateId);
+        res.status(200).json({ 'result': "success" });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};
+
+exports.isAvailable = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const vet = await Vet.isAvailable(id);
+        res.status(200).json(vet);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};
+
+exports.updateAvailable = async (req, res) => {
+    try {
+        const { available } = req.body;
+        const { updateId } = req.params; 
+        const result = await Vet.updateAvailable(available, updateId);
         res.status(200).json({ 'result': "success" });
 
     } catch (error) {

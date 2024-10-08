@@ -16,11 +16,14 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 
 class SetRecordViewModel(args: Bundle): ViewModel() {
     private val updateId = args.getInt("updateId", SetRecordRepository.NO_EDIT_ID)
+    private val label = args.getInt("label", R.string.create_record)
     private val repository = SetRecordRepository(
         args.getString("table")?: "unknown", updateId
     )
     private var newData: RecordItem? = null
     private var updatePosition = NO_UPDATE_POSITION
+
+    fun getLabel() = label
 
     val entryItems = MutableLiveData<List<SetRecordItem>>()
     val message =

@@ -122,7 +122,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
         }
 
         binding.appointmentCreateButton.setOnClickListener {
-            if (intent.getBooleanExtra("return", true))
+            if (intent.getBooleanExtra("return", false))
                 viewModel.createRecordAndReturn(binding.editTextComplaint.text.toString())
             else
                 viewModel.createRecord(binding.editTextComplaint.text.toString())

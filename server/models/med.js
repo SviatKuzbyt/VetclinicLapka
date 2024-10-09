@@ -94,6 +94,21 @@ const Med = {
         );
 
     },
+
+    addMedCardReturn: async (appointment_id, diagnosis, treatment) => {
+        console.log(appointment_id, diagnosis, treatment)
+        const [rows] = await db.execute(
+            'INSERT INTO medical_card(appointment_id, diagnosis, treatment) VALUES (?, ?, ?)',
+            [appointment_id, diagnosis, treatment]
+        );
+    
+        const insertId = rows.insertId;
+    
+        return await db.execute(
+            "SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id WHERE mc.card_id = ? LIMIT 1", 
+            [insertId]
+        );
+    }   
 };
 
 module.exports = Med;

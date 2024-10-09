@@ -50,7 +50,6 @@ class CreateAppointmentViewModel: ViewModel() {
     }
 
     fun getReturnData() = returnData
-
     companion object{
         const val POSITION_ALL = -1
     }

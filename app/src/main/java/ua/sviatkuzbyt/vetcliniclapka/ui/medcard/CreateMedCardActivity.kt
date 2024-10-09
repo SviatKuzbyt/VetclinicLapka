@@ -2,6 +2,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.medcard
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateMedCardBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentViewModel
@@ -53,10 +55,14 @@ class CreateMedCardActivity : AppCompatActivity() {
             selectActivityResult.launch(selectIntent)
         }
 
-        viewModel.message.observe(this){
-            makeToast(this, it)
-            if (it == R.string.added)
+        viewModel.message.observe(this){ message ->
+            makeToast(this, message)
+            if (message == R.string.added){
+                viewModel.getReturnData()?.let { data ->
+                    returnRecord(data)
+                }
                 finish()
+            }
         }
 
         binding.medcardToolbar.setupWithConfirmWindow(getString(R.string.create_medcard), this)
@@ -97,11 +103,23 @@ class CreateMedCardActivity : AppCompatActivity() {
         }
 
         binding.medcardCreateButton.setOnClickListener {
-            viewModel.createRecord(
-                binding.editTextIll.text.toString(),
-                binding.editTextCure.text.toString()
-            )
+            val ill = binding.editTextIll.text.toString()
+            val cure = binding.editTextCure.text.toString()
+            if (intent.getBooleanExtra("return", false)){
+                viewModel.createRecordAndReturn(ill, cure)
+            } else{
+                viewModel.createRecord(ill, cure)
+            }
         }
+    }
+
+    private fun returnRecord(item: RecordItem){
+        val resultData = Intent().apply {
+            putExtra("id", item.id)
+            putExtra("label", item.label)
+            putExtra("subtext", item.subtext)
+        }
+        setResult(RESULT_OK, resultData)
     }
 
     private fun setButtonText(button: Button, data: CreateRecordData){

@@ -9,6 +9,7 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateMedCardRepository
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoText
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentViewModel.Companion.POSITION_ALL
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
@@ -17,7 +18,7 @@ class CreateMedCardViewModel: ViewModel() {
 
     private val repository = CreateMedCardRepository()
     private var updatePosition = POSITION_ALL
-    private var showAllContent = false
+    private var returnData: RecordItem? = null
 
     val createData = MutableLiveData<List<CreateRecordData>>()
     val infoData = MutableLiveData<List<InfoText>>()
@@ -49,7 +50,14 @@ class CreateMedCardViewModel: ViewModel() {
         return tempPosition
     }
 
-    fun getShowAll() = showAllContent
+    fun createRecordAndReturn(ill: String, cure: String) = viewModelScope.launch(Dispatchers.IO){
+        try {
+            returnData = repository.createAndReturnRecord(ill, cure)
+            message.postValue(R.string.added)
+        } catch (e: Exception){
+            postError(e, message)
+        }
+    }
 
     fun createRecord(ill: String, cure: String) = viewModelScope.launch(Dispatchers.IO) {
         try {
@@ -59,4 +67,6 @@ class CreateMedCardViewModel: ViewModel() {
             postError(e, message)
         }
     }
+
+    fun getReturnData() = returnData
 }

@@ -108,3 +108,14 @@ exports.addMedCard = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.addMedCardReturn = async (req, res) => {
+    try {
+        const { appointment, ill, cure } = req.body;
+        const [med] = await Med.addMedCardReturn(appointment, ill, cure);
+        res.status(201).json(med[0]);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message }); 
+        console.log(error);
+    }
+};

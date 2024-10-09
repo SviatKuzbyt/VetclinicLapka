@@ -4,7 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.CreateAppointmentRepository.Companion
 import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoText
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 
 class CreateMedCardRepository {
@@ -27,7 +29,7 @@ class CreateMedCardRepository {
 
     fun getInfoData(): List<InfoText>{
         val info = ServerApi.getData("medcard/infocreate/${createData[1].data}")
-        val infoList: List<String> = Gson().fromJson(info, getType)
+        val infoList: List<String> = Gson().fromJson(info, getTypeListString)
         for (i in infoData.indices){
             infoData[i].content = infoList[i]
         }
@@ -43,17 +45,29 @@ class CreateMedCardRepository {
         createData[2].data = ill
         createData[3].data = cure
 
+        ServerApi.postData("medcard/add", formatJson())
+    }
+
+    private fun formatJson(): String {
         val jsonData = JSONObject()
         for (i in 1 until  createData.size){
             if (createData[i].data.isBlank()) throw NoTextException()
             jsonData.put(createData[i].apiName, createData[i].data)
         }
+        return jsonData.toString()
+    }
 
-        ServerApi.postData("medcard/add", jsonData.toString())
+    fun createAndReturnRecord(ill: String, cure: String): RecordItem {
+        createData[2].data = ill
+        createData[3].data = cure
+
+        val textRes = ServerApi.postData("medcard/addreturn", formatJson())
+        return Gson().fromJson(textRes, getTypeRecordItem)
     }
 
     companion object{
-        private val getType = object : TypeToken<List<String>>() {}.type
+        private val getTypeRecordItem = object : TypeToken<RecordItem>() {}.type
+        private val getTypeListString = object : TypeToken<List<String>>() {}.type
     }
 
 }

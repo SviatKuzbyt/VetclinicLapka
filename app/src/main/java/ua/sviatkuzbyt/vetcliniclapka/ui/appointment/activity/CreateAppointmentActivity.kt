@@ -35,7 +35,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
         binding = ActivityCreateAppointmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.appointmentToolbar.setup(getString(R.string.create_appointment), this)
+        binding.appointmentToolbar.setupWithConfirmWindow(getString(R.string.create_appointment), this)
 
         binding.selectOwnerButton.setOnClickListener {
             val selectIntent = Intent(this, RecordsActivity::class.java).apply {

@@ -59,7 +59,7 @@ class CreateMedCardActivity : AppCompatActivity() {
                 finish()
         }
 
-        binding.medcardToolbar.setup(getString(R.string.create_medcard), this)
+        binding.medcardToolbar.setupWithConfirmWindow(getString(R.string.create_medcard), this)
 
         viewModel.createData.observe(this){
             when(viewModel.getUpdatePosition()){

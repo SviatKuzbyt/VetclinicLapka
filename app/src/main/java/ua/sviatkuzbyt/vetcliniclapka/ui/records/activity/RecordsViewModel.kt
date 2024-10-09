@@ -80,6 +80,14 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
     fun getTable() = table
     fun getMode() = openMode
 
+    fun reload() = viewModelScope.launch(Dispatchers.IO){
+        try {
+            records.postValue(repository.reload())
+        } catch (e: Exception){
+            postError(e, message)
+        }
+    }
+
     class Factory(private val intent: Intent)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

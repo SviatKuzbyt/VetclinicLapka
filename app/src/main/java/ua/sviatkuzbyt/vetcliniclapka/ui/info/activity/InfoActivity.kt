@@ -24,10 +24,10 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
     private lateinit var viewModel: InfoViewModel
 
     private val createActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == AppCompatActivity.RESULT_OK){
+        if (it.resultCode == RESULT_OK){
             val resultData = it.data
             if (resultData?.getBooleanExtra("isUpdate", false) == true){
-                viewModel.loadItems()
+                update()
             }
         }
     }
@@ -125,5 +125,12 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
 
     override fun add(item: RecordItem) {}
 
-    override fun update() {viewModel.loadItems()}
+    override fun update() {
+        viewModel.loadItems()
+        setResult(RESULT_UPDATE, Intent())
+    }
+
+    companion object{
+        const val RESULT_UPDATE = -1
+    }
 }

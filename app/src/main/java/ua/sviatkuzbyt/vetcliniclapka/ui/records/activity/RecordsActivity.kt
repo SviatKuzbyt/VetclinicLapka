@@ -19,6 +19,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.RecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.activity.InfoActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.info.activity.InfoActivity.Companion.RESULT_UPDATE
 import ua.sviatkuzbyt.vetcliniclapka.ui.medcard.CreateMedCardActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.FilterFragment
@@ -45,6 +46,13 @@ class RecordsActivity :
             }
         }
     }
+
+    private val infoActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == RESULT_UPDATE){
+            viewModel.reload()
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,7 +178,7 @@ class RecordsActivity :
             putExtra("id", item.id)
             putExtra("table", viewModel.getTable())
         }
-        startActivity(openIntent)
+        infoActivityResult.launch(openIntent)
     }
 
     private fun returnRecord(item: RecordItem){

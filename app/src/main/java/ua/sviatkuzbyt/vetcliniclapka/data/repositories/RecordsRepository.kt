@@ -12,9 +12,9 @@ import ua.sviatkuzbyt.vetcliniclapka.data.prelists.RecordsFilter
 class RecordsRepository(private val table: String) {
 
     private val records = mutableListOf<RecordItem>()
-
     private val filterList = RecordsFilter().getFilterList(table)
     private var currentFilter = filterList[0].apiName
+    private var lastFilter = table
 
     private val icon = when(table){
         "pet" -> R.drawable.ic_round_pets
@@ -37,15 +37,14 @@ class RecordsRepository(private val table: String) {
 
     fun getFilterData(filter: String): MutableList<RecordItem>{
         val trimFilter = filter.trim()
-        val text = ServerApi.getData("$table/filter/$currentFilter/$trimFilter")
+        lastFilter = "$table/filter/$currentFilter/$trimFilter"
+        val text = ServerApi.getData(lastFilter)
         updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
         return records
     }
 
     fun getStartFilterData(filter: String): MutableList<RecordItem>{
-        Log.v("sklt", "$table/filter/id/$filter")
         val text = ServerApi.getData("$table/filter/$filter")
-        Log.v("sklt", text)
         updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
         return records
     }
@@ -63,6 +62,12 @@ class RecordsRepository(private val table: String) {
     }
 
     fun isSelectedDate() = currentFilter == "date"
+
+    fun reload(): MutableList<RecordItem> {
+        val text = ServerApi.getData(lastFilter)
+        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
+        return records
+    }
 
 }
 

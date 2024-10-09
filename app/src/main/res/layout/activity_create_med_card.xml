@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.medcard.CreateMedCardActivity">
+
+    <ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.CenterToolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/medcardToolbar"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/meadCardScroll"
+        android:layout_marginBottom="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/appointmentBack"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="-8dp"
+                app:layout_constraintBottom_toBottomOf="@+id/selectAppointmentButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/background_item"/>
+
+            <TextView
+                android:id="@+id/appointmentLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="36dp"
+                android:text="@string/selecting_appointment"
+                android:textAppearance="@style/TextBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/selectVetButton"
+                style="@style/SelectButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:drawableStart="@drawable/ic_vet_small"
+                android:text="@string/select_vet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appointmentLabel" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/selectAppointmentButton"
+                style="@style/SelectButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:drawableStart="@drawable/ic_record_small"
+                android:text="@string/select_appointment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/selectVetButton" />
+
+            <View
+                android:id="@+id/infoBack"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="-8dp"
+                android:background="@drawable/background_item"
+                app:layout_constraintBottom_toBottomOf="@+id/infoRecycler"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/infoLabel" />
+
+            <TextView
+                android:id="@+id/infoLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="36dp"
+                android:text="@string/info"
+                android:textAppearance="@style/TextBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appointmentBack" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/infoRecycler"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoLabel"
+                android:nestedScrollingEnabled="true"/>
+
+            <View
+                android:id="@+id/conclusionBack"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/background_item"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/conclusionLabel" />
+
+            <TextView
+                android:id="@+id/conclusionLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="36dp"
+                android:text="@string/conclusion"
+                android:textAppearance="@style/TextBold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/infoBack" />
+
+            <EditText
+                android:id="@+id/editTextIll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:ems="10"
+                android:hint="@string/enter_ill"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                android:drawableStart="@drawable/ic_text"
+                android:drawablePadding="16dp"
+                android:textAppearance="@style/TextBasic"
+                android:background="@android:color/transparent"
+                android:paddingVertical="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/conclusionLabel" />
+
+            <EditText
+                android:id="@+id/editTextCure"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="36dp"
+                android:ems="10"
+                android:hint="@string/enter_cure"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine|textCapSentences"
+                android:drawableStart="@drawable/ic_text"
+                android:drawablePadding="16dp"
+                android:textAppearance="@style/TextBasic"
+                android:background="@android:color/transparent"
+                android:paddingVertical="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextIll"  />
+
+            <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/infoCreateGroup"
+                app:constraint_referenced_ids="infoBack, infoLabel, infoRecycler, conclusionBack, conclusionLabel, editTextIll, editTextCure"
+                android:visibility="gone"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/ButtonCreate"
+        android:text="@string/write"
+        android:id="@+id/medcardCreateButton"/>
+</LinearLayout>

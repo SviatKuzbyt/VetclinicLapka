@@ -76,4 +76,9 @@
     <string name="select_vet">Оберіть ветеринара</string>
     <string name="create_appointment">Створення запису</string>
     <string name="select_date_and_time">Виберіть дату і час</string>
+    <string name="selecting_appointment">Вибір запису</string>
+    <string name="select_appointment">Оберіть запис</string>
+    <string name="conclusion">Висновок</string>
+    <string name="enter_ill">Введіть хворобу...</string>
+    <string name="enter_cure">Введіть лікування...</string>
 </resources>

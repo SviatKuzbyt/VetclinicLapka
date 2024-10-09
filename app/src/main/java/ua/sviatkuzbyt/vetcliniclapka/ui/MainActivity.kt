@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityMainBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.medcard.CreateMedCardActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
             setOpenRecordsActivity("appointment", btnAppointments)
 
             setOpenCreateActivity(CreateAppointmentActivity::class.java, btnNewAppointment)
+            setOpenCreateActivity(CreateMedCardActivity::class.java, btnNewMedcard)
         }
     }
 

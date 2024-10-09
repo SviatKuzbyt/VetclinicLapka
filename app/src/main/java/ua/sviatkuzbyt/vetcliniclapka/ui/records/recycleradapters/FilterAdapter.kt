@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.record.FilterItem
+import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
 
 class FilterAdapter(
     private val dataSet: List<FilterItem>,

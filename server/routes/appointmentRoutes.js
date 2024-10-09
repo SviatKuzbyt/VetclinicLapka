@@ -14,5 +14,6 @@ router.get('/filter/id/:column&:parentid', appointmentController.getById);
 router.post('/add', appointmentController.addAppointment);
 router.get('/filter/vetid/:vetId', appointmentController.getByVetId);
 router.post('/addreturn', appointmentController.addAppointmentReturn);
+router.get('/infoedit/:id', appointmentController.getDataForEdit);
 
 module.exports = router;

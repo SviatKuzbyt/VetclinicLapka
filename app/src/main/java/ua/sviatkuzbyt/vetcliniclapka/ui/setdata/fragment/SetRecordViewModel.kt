@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 

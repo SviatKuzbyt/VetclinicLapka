@@ -4,9 +4,7 @@ import android.view.View
 import android.widget.RadioGroup
 import android.widget.TextView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
-import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.SetRecordAdapter
+import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 
 class GenderViewHolder(view: View) : SetRecordViewHolder(view) {
 

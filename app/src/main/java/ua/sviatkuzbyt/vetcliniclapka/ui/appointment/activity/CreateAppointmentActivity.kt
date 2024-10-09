@@ -8,8 +8,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.fragment.TimeFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast

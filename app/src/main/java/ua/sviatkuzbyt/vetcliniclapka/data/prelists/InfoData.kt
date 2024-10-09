@@ -1,6 +1,9 @@
-package ua.sviatkuzbyt.vetcliniclapka.data.info
+package ua.sviatkuzbyt.vetcliniclapka.data.prelists
 
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoItems
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoSharedData
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoText
 
 class InfoData(private val table: String) {
     fun getItems() = InfoItems(

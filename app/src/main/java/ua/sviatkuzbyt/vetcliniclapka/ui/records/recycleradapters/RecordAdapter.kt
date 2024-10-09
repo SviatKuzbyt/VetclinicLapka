@@ -6,9 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
-
-
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 
 class RecordAdapter(
     private val dataSet: MutableList<RecordItem>,

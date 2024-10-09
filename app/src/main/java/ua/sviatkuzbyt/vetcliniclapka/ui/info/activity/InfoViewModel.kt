@@ -8,8 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoItems
-import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoRepository
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoItems
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.InfoRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 

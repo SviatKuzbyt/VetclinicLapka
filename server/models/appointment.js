@@ -92,7 +92,33 @@ const Appointment = {
             "FROM appointment a INNER JOIN pet p ON a.pet_id = p.pet_id WHERE a.appointment_id = ? LIMIT 1", 
             [insertId]
         );
-    }    
+    },
+    
+    getDataForEdit: async(appointment_id) => {
+        const [rows] = await db.execute(
+            `SELECT o.owner_id as 'owner',
+            o.name as 'owner_name',
+            p.pet_id as 'pet',
+            p.name as 'pet_name',
+            a.complaint as 'complaint',
+            DATE_FORMAT(a.time , '%Y-%m-%d %H:%i:%s') as 'time',
+            v.vet_id as 'vet',
+            v.name as 'vet_name'
+            FROM appointment a 
+            INNER JOIN pet p ON a.pet_id = p.pet_id 
+            INNER JOIN vet v ON a.vet_id = v.vet_id 
+            INNER JOIN owner o ON p.owner_id = o.owner_id
+            WHERE a.appointment_id = ?`, [appointment_id]
+        )
+
+        return [
+            { "data": rows[0].owner, "labelData": rows[0].owner_name },
+            { "data": rows[0].pet, "labelData": rows[0].pet_name },
+            { "data": rows[0].time, "labelData": "" },
+            { "data": rows[0].vet, "labelData": rows[0].vet_name },
+            { "data": rows[0].complaint, "labelData": "" }
+        ]
+    }
 };
 
 module.exports = Appointment;

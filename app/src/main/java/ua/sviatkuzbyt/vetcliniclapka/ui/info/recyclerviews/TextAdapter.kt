@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoText
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoText
 
 class TextAdapter(
     private val dataSet: List<InfoText>,

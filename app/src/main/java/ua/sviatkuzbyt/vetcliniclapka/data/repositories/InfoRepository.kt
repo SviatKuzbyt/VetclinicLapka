@@ -1,10 +1,11 @@
-package ua.sviatkuzbyt.vetcliniclapka.data.info
+package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
+import ua.sviatkuzbyt.vetcliniclapka.data.prelists.InfoData
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoItems
 
 class InfoRepository(private val table: String, private val recordId: Int) {
     private val items = InfoData(table).getItems()
@@ -20,9 +21,9 @@ class InfoRepository(private val table: String, private val recordId: Int) {
 
     fun getLabel() = label
 
-    fun loadItems():InfoItems{
+    fun loadItems(): InfoItems {
         val info = ServerApi.getData("$table/info/$recordId")
-        val infoList: List<String> = Gson().fromJson(info, getType)
+        val infoList: List<String> = Gson().fromJson(info, ServerApi.getListStringType)
         for (i in 0 until items.texts.size){
             items.texts[i].content = infoList[i]
         }
@@ -43,9 +44,6 @@ class InfoRepository(private val table: String, private val recordId: Int) {
         ServerApi.putData("$table/available/put/$recordId", "{\"available\": \"$updateData\"}")
     }
 
-    companion object{
-        private val getType = object : TypeToken<List<String>>() {}.type
-    }
 }
 
 

@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 
 class SelectViewHolder(view: View, private val action: Action) : SetRecordViewHolder(view) {
 

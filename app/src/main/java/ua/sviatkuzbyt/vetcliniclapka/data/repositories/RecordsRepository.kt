@@ -1,10 +1,13 @@
-package ua.sviatkuzbyt.vetcliniclapka.data.record
+package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
+import ua.sviatkuzbyt.vetcliniclapka.data.prelists.RecordsFilter
 
 class RecordsRepository(private val table: String) {
 
@@ -23,7 +26,7 @@ class RecordsRepository(private val table: String) {
 
     fun getAllData(): MutableList<RecordItem>{
         val text = ServerApi.getData(table)
-        updateList(Gson().fromJson(text, getType))
+        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
         return records
     }
 
@@ -35,7 +38,7 @@ class RecordsRepository(private val table: String) {
     fun getFilterData(filter: String): MutableList<RecordItem>{
         val trimFilter = filter.trim()
         val text = ServerApi.getData("$table/filter/$currentFilter/$trimFilter")
-        updateList(Gson().fromJson(text, getType))
+        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
         return records
     }
 
@@ -43,7 +46,7 @@ class RecordsRepository(private val table: String) {
         Log.v("sklt", "$table/filter/id/$filter")
         val text = ServerApi.getData("$table/filter/$filter")
         Log.v("sklt", text)
-        updateList(Gson().fromJson(text, getType))
+        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
         return records
     }
 
@@ -61,13 +64,5 @@ class RecordsRepository(private val table: String) {
 
     fun isSelectedDate() = currentFilter == "date"
 
-    companion object{
-        private val getType = object : TypeToken<MutableList<RecordItem>>() {}.type
-    }
 }
 
-data class RecordItem(
-    val id: Int,
-    val label: String,
-    val subtext: String
-)

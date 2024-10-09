@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.RecordAdapter

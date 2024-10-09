@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 
 class CheckboxSpecViewHolder(view: View) : SetRecordViewHolder(view) {
     private val label = view.findViewById<TextView>(R.id.setSpecLabel)

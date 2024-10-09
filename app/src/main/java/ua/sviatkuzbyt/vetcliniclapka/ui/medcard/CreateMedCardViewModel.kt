@@ -6,10 +6,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.CreateMedCardRepository
-import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
-import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoText
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.CreateMedCardRepository
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.CreateRecordData
+import ua.sviatkuzbyt.vetcliniclapka.data.InfoText
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentViewModel.Companion.POSITION_ALL
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError

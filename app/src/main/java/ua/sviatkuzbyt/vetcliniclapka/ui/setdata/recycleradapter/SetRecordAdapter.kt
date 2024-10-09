@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.setdata.SetRecordRepository
+import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.CheckboxSpecViewHolder
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.GenderViewHolder
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.recycleradapter.holders.SelectViewHolder

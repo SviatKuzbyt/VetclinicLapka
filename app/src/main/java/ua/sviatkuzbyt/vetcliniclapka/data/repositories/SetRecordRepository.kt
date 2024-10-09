@@ -1,15 +1,14 @@
-package ua.sviatkuzbyt.vetcliniclapka.data.setdata
+package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.EditInfo
+import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
-import java.io.FileNotFoundException
-import kotlin.jvm.Throws
+import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 
 class SetRecordRepository(private val table: String, private val editId: Int) {
 
@@ -43,8 +42,7 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
 
     private fun loadData() {
         val data = ServerApi.getData("$table/infoedit/$editId")
-        Log.v("sklt", data)
-        val listData: List<EditInfo> = Gson().fromJson(data, getTypeString)
+        val listData: List<EditInfo> = Gson().fromJson(data, ServerApi.getListEditInfoType)
 
         for (i in listData.indices){
             listData[i].data?.let { entryItems[i].data = it }
@@ -61,7 +59,7 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
 
         if (editId == NO_EDIT_ID){
             val insertResult = ServerApi.postData("$table/add", jsonData.toString())
-            return Gson().fromJson(insertResult, getType)
+            return Gson().fromJson(insertResult, ServerApi.getRecordItemType)
         } else{
             ServerApi.putData("$table/update/$editId", jsonData.toString())
             return null
@@ -74,26 +72,11 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
     }
 
     companion object{
-        private val getType = object : TypeToken<RecordItem>() {}.type
-        private val getTypeString = object : TypeToken<List<EditInfo>>() {}.type
         const val TYPE_TEXT = 1
         const val TYPE_CHECKBOX_SPEC = 2
         const val TYPE_SELECT = 3
         const val TYPE_RADIO = 5
-
         const val NO_EDIT_ID = 0
     }
 }
 
-data class EditInfo(
-    val data: String? = "",
-    val labelData: String = ""
-)
-
-data class SetRecordItem(
-    var data: String = "",
-    var labelData: String = "",
-    val label: Int,
-    val apiName: String,
-    val type: Int
-)

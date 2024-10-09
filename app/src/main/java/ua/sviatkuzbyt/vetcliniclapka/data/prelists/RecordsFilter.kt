@@ -1,6 +1,7 @@
-package ua.sviatkuzbyt.vetcliniclapka.data.record
+package ua.sviatkuzbyt.vetcliniclapka.data.prelists
 
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
 
 class RecordsFilter {
     fun getFilterList(table: String) = when(table){
@@ -54,8 +55,3 @@ class RecordsFilter {
 
 }
 
-data class FilterItem(
-    val label: Int,
-    val apiName: String,
-    var isSelected: Boolean
-)

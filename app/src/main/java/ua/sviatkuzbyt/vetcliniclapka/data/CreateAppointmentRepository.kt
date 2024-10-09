@@ -1,11 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordsRepository
-import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordsRepository.Companion
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 
 class CreateAppointmentRepository {

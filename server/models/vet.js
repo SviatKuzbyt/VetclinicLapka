@@ -147,7 +147,12 @@ const Vet = {
         
 
         return vets; 
-    }
+    },
+
+    getAvailable: async () => {
+        const [rows] = await db.execute("SELECT vet_id as 'id', name as 'label', phone as 'subtext' FROM vet WHERE is_available=1 ORDER BY name");
+        return rows;
+    },
 };
 
 module.exports = Vet;

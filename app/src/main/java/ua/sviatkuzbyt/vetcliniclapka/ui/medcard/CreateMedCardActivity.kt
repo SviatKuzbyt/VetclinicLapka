@@ -9,8 +9,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.repositories.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateMedCardBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.recyclerviews.TextAdapter

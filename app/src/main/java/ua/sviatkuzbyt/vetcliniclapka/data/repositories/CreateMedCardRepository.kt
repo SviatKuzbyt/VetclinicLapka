@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.data.InfoText
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem

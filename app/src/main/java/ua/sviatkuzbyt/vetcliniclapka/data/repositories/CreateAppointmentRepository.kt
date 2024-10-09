@@ -3,6 +3,7 @@ package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
+import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.EditInfo
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
@@ -55,9 +56,3 @@ class CreateAppointmentRepository(private val editId: Int = 0) {
         return Gson().fromJson(textRes, ServerApi.getRecordItemType)
     }
 }
-
-data class CreateRecordData(
-    val apiName: String,
-    var data: String = "",
-    var labelData: String = ""
-)

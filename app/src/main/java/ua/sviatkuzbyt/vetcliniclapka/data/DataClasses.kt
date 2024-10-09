@@ -41,3 +41,9 @@ data class SetRecordItem(
     val apiName: String,
     val type: Int
 )
+
+data class CreateRecordData(
+    val apiName: String,
+    var data: String = "",
+    var labelData: String = ""
+)

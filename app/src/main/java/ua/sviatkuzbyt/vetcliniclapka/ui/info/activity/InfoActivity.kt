@@ -3,6 +3,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.info.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,16 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
     SetRecordFragment.SetRecordActions {
     private lateinit var binding: ActivityInfoBinding
     private lateinit var viewModel: InfoViewModel
+
+    private val createActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == AppCompatActivity.RESULT_OK){
+            val resultData = it.data
+            if (resultData?.getBooleanExtra("isUpdate", false) == true){
+                viewModel.loadItems()
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +58,8 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
         binding.infoActionFrame.apply {
             frameEditButton.setOnClickListener{
                 when(viewModel.getTable()){
-                    "appointment" -> openActivity(CreateAppointmentActivity::class.java)
-                    "medcard" -> openActivity(CreateMedCardActivity::class.java)
+                    "appointment" -> openCreateActivity(CreateAppointmentActivity::class.java)
+                    "medcard" -> openCreateActivity(CreateMedCardActivity::class.java)
                     else -> openFragment()
                 }
             }
@@ -80,10 +91,10 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
         }
     }
 
-    private fun openActivity(activity: Class<*>){
+    private fun openCreateActivity(activity: Class<*>){
         val openIntent = Intent(this, activity)
         openIntent.putExtra("updateId", viewModel.getId())
-        startActivity(openIntent)
+        createActivityResult.launch(openIntent)
     }
 
 

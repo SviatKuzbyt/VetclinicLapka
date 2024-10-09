@@ -8,7 +8,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 
-class CreateAppointmentRepository(private val editId: Int) {
+class CreateAppointmentRepository(private val updateId: Int) {
 
     private val createData = listOf(
         CreateRecordData("owner"),
@@ -25,13 +25,8 @@ class CreateAppointmentRepository(private val editId: Int) {
 
     fun getCreateData() = createData
 
-    fun createRecord(text: String) {
-        createData.last().data = text
-        ServerApi.postData("appointment/add", formatJson())
-    }
-
-     fun loadData() {
-        val data = ServerApi.getData("appointment/infoedit/$editId")
+    fun loadData() {
+        val data = ServerApi.getData("appointment/infoedit/$updateId")
         val listData: List<EditInfo> = Gson().fromJson(data, ServerApi.getListEditInfoType)
 
         for (i in listData.indices){
@@ -49,9 +44,22 @@ class CreateAppointmentRepository(private val editId: Int) {
         return jsonData.toString()
     }
 
-    fun createAndReturnRecord(text: String): RecordItem {
-        createData.last().data = text
+    fun createAndReturnRecord(): RecordItem {
         val textRes = ServerApi.postData("appointment/addreturn", formatJson())
         return Gson().fromJson(textRes, ServerApi.getRecordItemType)
+    }
+
+    fun setRecord(complaint: String, isReturn: Boolean): RecordItem? {
+        createData.last().data = complaint
+
+        return if (isReturn){
+            createAndReturnRecord()
+        } else if (updateId > 0){
+            ServerApi.putData("appointment/update/$updateId", formatJson())
+            null
+        } else {
+            ServerApi.postData("appointment/add", formatJson())
+            null
+        }
     }
 }

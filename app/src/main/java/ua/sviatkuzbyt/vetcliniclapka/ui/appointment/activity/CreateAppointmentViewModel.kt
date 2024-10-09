@@ -52,18 +52,9 @@ class CreateAppointmentViewModel(editId: Int): ViewModel() {
         return tempPosition
     }
 
-    fun createRecord(text: String) = viewModelScope.launch(Dispatchers.IO){
+    fun setRecord(text: String, isReturn: Boolean) = viewModelScope.launch(Dispatchers.IO){
         try {
-            repository.createRecord(text)
-            message.postValue(R.string.added)
-        } catch (e: Exception){
-            postError(e, message)
-        }
-    }
-
-    fun createRecordAndReturn(text: String) = viewModelScope.launch(Dispatchers.IO){
-        try {
-            returnData = repository.createAndReturnRecord(text)
+            returnData = repository.setRecord(text, isReturn)
             message.postValue(R.string.added)
         } catch (e: Exception){
             postError(e, message)

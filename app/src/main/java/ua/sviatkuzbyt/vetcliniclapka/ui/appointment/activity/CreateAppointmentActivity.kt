@@ -119,24 +119,33 @@ class CreateAppointmentActivity : AppCompatActivity() {
             makeToast(this, message)
             Log.v("sklt", viewModel.getReturnData().toString())
             if (message == R.string.added){
-                viewModel.getReturnData()?.let { data ->
-                    returnRecord(data)
+                if (viewModel.getReturnData() != null){
+                    returnRecord(viewModel.getReturnData()!!)
+                } else if (viewModel.getIsUpdateData()){
+                    returnIsUpdate()
                 }
                 finish()
             }
         }
 
         binding.appointmentCreateButton.setOnClickListener {
-            if (intent.getBooleanExtra("return", false))
-                viewModel.createRecordAndReturn(binding.editTextComplaint.text.toString())
-            else
-                viewModel.createRecord(binding.editTextComplaint.text.toString())
+            viewModel.setRecord(
+                binding.editTextComplaint.text.toString(),
+                intent.getBooleanExtra("return", false)
+            )
         }
 
         val toolBarText = if (viewModel.getIsUpdateData()) R.string.edit_record
         else R.string.create_appointment
         binding.appointmentToolbar.setupWithConfirmWindow(getString(toolBarText), this)
 
+    }
+
+    private fun returnIsUpdate() {
+        val resultData = Intent().apply {
+            putExtra("isUpdate", true)
+        }
+        setResult(RESULT_OK, resultData)
     }
 
     private fun initButtonsList(){

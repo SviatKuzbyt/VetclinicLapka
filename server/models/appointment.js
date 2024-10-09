@@ -118,6 +118,13 @@ const Appointment = {
             { "data": rows[0].vet, "labelData": rows[0].vet_name },
             { "data": rows[0].complaint, "labelData": "" }
         ]
+    },
+
+    updateAppointment: async (pet, time, vet, complaint, updateId) => {
+        await db.execute(
+            'UPDATE appointment SET pet_id = ?, time = ? , vet_id = ?, complaint = ? WHERE appointment_id = ?',
+            [pet, time, vet, complaint, updateId]
+        );
     }
 };
 

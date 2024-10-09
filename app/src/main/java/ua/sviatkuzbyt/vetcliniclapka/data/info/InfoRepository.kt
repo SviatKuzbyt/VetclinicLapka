@@ -22,10 +22,7 @@ class InfoRepository(private val table: String, private val recordId: Int) {
 
     fun loadItems():InfoItems{
         val info = ServerApi.getData("$table/info/$recordId")
-        Log.v("sklt", info)
-
         val infoList: List<String> = Gson().fromJson(info, getType)
-
         for (i in 0 until items.texts.size){
             items.texts[i].content = infoList[i]
         }

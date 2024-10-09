@@ -2,11 +2,15 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.medcard
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateMedCardRepository
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoText
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentViewModel.Companion.POSITION_ALL
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 
 class CreateMedCardViewModel: ViewModel() {
 
@@ -19,9 +23,23 @@ class CreateMedCardViewModel: ViewModel() {
     val message = SingleLiveEvent<Int>()
 
     fun setSelectData(data: String, labelData: String?, position: Int) {
-        repository.updateData(data, labelData, position)
-        updatePosition = position
-        createData.postValue(repository.getCreateData())
+        try {
+            repository.updateData(data, labelData, position)
+            updatePosition = position
+            createData.postValue(repository.getCreateData())
+            if (position == 1) setInfoTexts()
+        } catch (e: Exception){
+            postError(e, message)
+        }
+
+    }
+
+    private fun setInfoTexts() = viewModelScope.launch(Dispatchers.IO){
+        try {
+            infoData.postValue(repository.getInfoData())
+        } catch (e: Exception){
+            postError(e, message)
+        }
     }
 
     fun getUpdatePosition(): Int{

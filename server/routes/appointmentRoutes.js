@@ -12,6 +12,7 @@ router.get('/filter/date/:filter', appointmentController.getByDate);
 router.get('/info/:id', appointmentController.getInfo);
 router.get('/filter/id/:column&:parentid', appointmentController.getById);
 router.post('/add', appointmentController.addAppointment);
-
+router.get('/filter/vetid/:vetId', appointmentController.getByVetId);
+router.get('/infocreate/:id', appointmentController.getInfoCreate);
 
 module.exports = router;

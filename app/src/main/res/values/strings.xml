@@ -81,4 +81,5 @@
     <string name="conclusion">Висновок</string>
     <string name="enter_ill">Введіть хворобу...</string>
     <string name="enter_cure">Введіть лікування...</string>
+    <string name="create_medcard">Створення медкарти</string>
 </resources>

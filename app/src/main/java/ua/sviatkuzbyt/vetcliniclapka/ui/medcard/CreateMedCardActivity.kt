@@ -2,6 +2,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.medcard
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,13 +13,18 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateMedCardBinding
+import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentViewModel
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.recyclerviews.TextAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class CreateMedCardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateMedCardBinding
-    private val viewModel: CreateMedCardViewModel by viewModels()
+    private val viewModel: CreateMedCardViewModel by viewModels(
+        factoryProducer = { CreateMedCardViewModel.Factory(
+            intent.getIntExtra("updateId", 0)
+        ) }
+    )
 
     private val selectActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if (it.resultCode == RESULT_OK){
@@ -51,23 +57,42 @@ class CreateMedCardActivity : AppCompatActivity() {
         viewModel.message.observe(this){ message ->
             makeToast(this, message)
             if (message == R.string.added){
+                if (viewModel.getReturnData() != null){
+                    returnRecord(viewModel.getReturnData()!!)
+                } else if (viewModel.getIsUpdateData()){
+                    returnIsUpdate()
+                }
+                finish()
+            }
+        }
+
+        viewModel.message.observe(this){ message ->
+            makeToast(this, message)
+            if (message == R.string.added){
                 viewModel.getReturnData()?.let { data ->
                     returnRecord(data)
                 }
                 finish()
             }
         }
-
-        binding.medcardToolbar.setupWithConfirmWindow(getString(R.string.create_medcard), this)
+        val toolBarText = if (viewModel.getIsUpdateData()) R.string.edit_record
+        else R.string.create_medcard
+        binding.medcardToolbar.setupWithConfirmWindow(getString(toolBarText), this)
 
         viewModel.createData.observe(this){
-            when(viewModel.getUpdatePosition()){
+            val updatePosition = viewModel.getUpdatePosition()
+            when(updatePosition){
                 0 -> setButtonText(binding.selectVetButton, it[0])
                 1 -> setButtonText(binding.selectAppointmentButton, it[1])
                 else -> {
                     setButtonText(binding.selectVetButton, it[0])
                     setButtonText(binding.selectAppointmentButton, it[1])
                 }
+            }
+
+            if (updatePosition == CreateAppointmentViewModel.POSITION_ALL_WITH_EDIT_TEXT){
+                binding.editTextIll.setText(it[2].data)
+                binding.editTextCure.setText(it[3].data)
             }
         }
 
@@ -98,11 +123,9 @@ class CreateMedCardActivity : AppCompatActivity() {
         binding.medcardCreateButton.setOnClickListener {
             val ill = binding.editTextIll.text.toString()
             val cure = binding.editTextCure.text.toString()
-            if (intent.getBooleanExtra("return", false)){
-                viewModel.createRecordAndReturn(ill, cure)
-            } else{
-                viewModel.createRecord(ill, cure)
-            }
+            val isReturn = intent.getBooleanExtra("return", false)
+
+            viewModel.setRecord(ill, cure, isReturn)
         }
     }
 
@@ -118,4 +141,12 @@ class CreateMedCardActivity : AppCompatActivity() {
     private fun setButtonText(button: Button, data: CreateRecordData){
         if (data.labelData.isNotBlank()) button.text = data.labelData
     }
+
+    private fun returnIsUpdate() {
+        val resultData = Intent().apply {
+            putExtra("isUpdate", true)
+        }
+        setResult(RESULT_OK, resultData)
+    }
+
 }

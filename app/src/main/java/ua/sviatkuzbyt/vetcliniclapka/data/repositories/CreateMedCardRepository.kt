@@ -1,15 +1,17 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
+import android.util.Log
 import com.google.gson.Gson
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
+import ua.sviatkuzbyt.vetcliniclapka.data.EditInfo
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.data.InfoText
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 
-class CreateMedCardRepository {
+class CreateMedCardRepository(private val updateId: Int) {
     private val createData = listOf(
         CreateRecordData("vet"),
         CreateRecordData("appointment"),
@@ -41,13 +43,6 @@ class CreateMedCardRepository {
         labelData?.let { createData[position].labelData = it }
     }
 
-    fun createRecord(ill: String, cure: String) {
-        createData[2].data = ill
-        createData[3].data = cure
-
-        ServerApi.postData("medcard/add", formatJson())
-    }
-
     private fun formatJson(): String {
         val jsonData = JSONObject()
         for (i in 1 until  createData.size){
@@ -57,14 +52,35 @@ class CreateMedCardRepository {
         return jsonData.toString()
     }
 
-    fun createAndReturnRecord(ill: String, cure: String): RecordItem {
-        createData[2].data = ill
-        createData[3].data = cure
-
+    private fun createAndReturnRecord(): RecordItem {
         val textRes = ServerApi.postData("medcard/addreturn", formatJson())
         return Gson().fromJson(textRes, ServerApi.getRecordItemType)
     }
 
+    fun loadData() {
+        val data = ServerApi.getData("medcard/infoedit/$updateId")
+        val listData: List<EditInfo> = Gson().fromJson(data, ServerApi.getListEditInfoType)
 
+        for (i in listData.indices){
+            listData[i].data?.let { createData[i].data = it }
+            createData[i].labelData = listData[i].labelData
+        }
 
+        getInfoData()
+    }
+
+    fun setRecord(ill: String, cure: String, isReturn: Boolean): RecordItem? {
+        createData[2].data = ill
+        createData[3].data = cure
+
+        return if (isReturn){
+            createAndReturnRecord()
+        } else if (updateId > 0){
+            ServerApi.putData("medcard/update/$updateId", formatJson())
+            null
+        } else {
+            ServerApi.postData("medcard/add", formatJson())
+            null
+        }
+    }
 }

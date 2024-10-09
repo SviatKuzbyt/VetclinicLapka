@@ -44,7 +44,7 @@ class CreateAppointmentRepository(private val updateId: Int) {
         return jsonData.toString()
     }
 
-    fun createAndReturnRecord(): RecordItem {
+    private fun createAndReturnRecord(): RecordItem {
         val textRes = ServerApi.postData("appointment/addreturn", formatJson())
         return Gson().fromJson(textRes, ServerApi.getRecordItemType)
     }

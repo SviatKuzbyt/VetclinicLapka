@@ -119,3 +119,27 @@ exports.addMedCardReturn = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.getDataForEdit = async (req, res) => {
+    try {
+        const { med_id } = req.params;
+        const appointment = await Med.getDataForEdit(med_id);
+        res.status(200).json(appointment);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};
+
+exports.updateMedCard = async (req, res) => {
+    try {
+        const {appointment, ill, cure } = req.body;
+        const { card_id } = req.params;
+        await Med.updateMedCard(appointment, ill, cure, card_id);
+        res.status(200).json({ 'result': "success" });
+
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};

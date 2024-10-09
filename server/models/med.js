@@ -108,7 +108,36 @@ const Med = {
             "SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id WHERE mc.card_id = ? LIMIT 1", 
             [insertId]
         );
-    }   
+    },  
+
+    getDataForEdit: async(med_id) => {
+        const [rows] = await db.execute(
+            `SELECT v.vet_id  as 'vet',
+            v.name as 'vet_name',
+            a.appointment_id as 'appointment',
+            a.complaint as 'complaint',
+            mc.diagnosis as 'diagnosis',
+            mc.treatment as 'treatment'
+            FROM medical_card mc 
+            INNER JOIN appointment a ON mc.appointment_id = a.appointment_id 
+            INNER JOIN vet v ON a.vet_id = v.vet_id 
+            WHERE mc.card_id = 22`, [med_id]
+        )
+
+        return [
+            { "data": rows[0].vet, "labelData": rows[0].vet_name },
+            { "data": rows[0].appointment, "labelData": rows[0].complaint },
+            { "data": rows[0].diagnosis, "labelData": "" },
+            { "data": rows[0].treatment, "labelData": "" }
+        ]
+    },
+
+    updateMedCard: async (appointment_id, diagnosis, treatment, card_id) => {
+        await db.execute(
+            'UPDATE medical_card SET appointment_id = ?, diagnosis = ?, treatment = ? WHERE card_id = ?',
+            [appointment_id, diagnosis, treatment, card_id]
+        );
+    }
 };
 
 module.exports = Med;

@@ -155,7 +155,7 @@ exports.updateAppointment = async (req, res) => {
     try {
         const {pet, time, vet, complaint } = req.body;
         const { updateId } = req.params; 
-        const result = await Appointment.updateAppointment(pet, time, vet, complaint, updateId);
+        await Appointment.updateAppointment(pet, time, vet, complaint, updateId);
         res.status(200).json({ 'result': "success" });
 
     } catch (error) {

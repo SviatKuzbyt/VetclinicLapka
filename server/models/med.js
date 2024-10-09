@@ -73,7 +73,27 @@ const Med = {
             [parentid]
         );
         return rows;
-    }
+    },
+
+    getInfoCreate: async (appointment_id) => {
+        const [rows] = await db.execute(
+            `SELECT p.name as 'name', b.name as 'breed', CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', DATE_FORMAT(p.date_of_birth , '%Y.%m.%d') as 'date_of_birth', a.complaint as 'complaint'
+            FROM appointment a 
+            INNER JOIN pet p ON a.pet_id  = p.pet_id 
+            INNER JOIN breed b ON p.breed_id = b.breed_id 
+            WHERE a.appointment_id = ? LIMIT 1`,
+            [appointment_id]
+        )
+        return [rows[0].name, rows[0].breed, rows[0].gender, rows[0].date_of_birth, rows[0].complaint]; 
+    },
+
+    addMedCard: async (appointment_id, diagnosis, treatment) => {
+        await db.execute(
+            'INSERT INTO medical_card(appointment_id, diagnosis, treatment) VALUES (?, ?, ?)',
+            [appointment_id, diagnosis, treatment]
+        );
+
+    },
 };
 
 module.exports = Med;

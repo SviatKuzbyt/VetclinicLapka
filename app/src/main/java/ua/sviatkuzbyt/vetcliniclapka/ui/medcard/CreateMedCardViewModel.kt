@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateMedCardRepository
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.info.InfoText
@@ -49,5 +50,13 @@ class CreateMedCardViewModel: ViewModel() {
     }
 
     fun getShowAll() = showAllContent
-    
+
+    fun createRecord(ill: String, cure: String) = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            repository.createRecord(ill, cure)
+            message.postValue(R.string.added)
+        } catch (e: Exception) {
+            postError(e, message)
+        }
+    }
 }

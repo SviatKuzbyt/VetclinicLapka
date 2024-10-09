@@ -10,5 +10,7 @@ router.get('/filter/owner/:filter', medController.getByOwner);
 router.get('/filter/date/:filter', medController.getByDate);
 router.get('/info/:id', medController.getInfo);
 router.get('/filter/id/:column&:parentid', medController.getById);
+router.get('/infocreate/:id', medController.getInfoCreate);
+router.post('/add', medController.addMedCard)
 
 module.exports = router;

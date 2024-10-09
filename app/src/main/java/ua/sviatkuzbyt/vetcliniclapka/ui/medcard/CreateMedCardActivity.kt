@@ -95,6 +95,13 @@ class CreateMedCardActivity : AppCompatActivity() {
             binding.infoCreateGroup.visibility = View.VISIBLE
             binding.infoRecycler.adapter = TextAdapter(it)
         }
+
+        binding.medcardCreateButton.setOnClickListener {
+            viewModel.createRecord(
+                binding.editTextIll.text.toString(),
+                binding.editTextCure.text.toString()
+            )
+        }
     }
 
     private fun setButtonText(button: Button, data: CreateRecordData){

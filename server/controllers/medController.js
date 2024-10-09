@@ -86,3 +86,25 @@ exports.getById = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.getInfoCreate = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const appointment = await Med.getInfoCreate(id);
+        res.status(200).json(appointment);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};
+
+exports.addMedCard = async (req, res) => {
+    try {
+        const { appointment, ill, cure } = req.body;
+        await Med.addMedCard(appointment, ill, cure);
+        res.status(201).json({ 'result': 'success' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message }); 
+        console.log(error);
+    }
+};

@@ -77,19 +77,7 @@ const Appointment = {
     getByVetId: async (vetid) => {
         const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.vet_id = ? AND DATE(a.`time`) = CURDATE() ORDER BY a.`time` DESC", [vetid] )
         return rows; 
-    },
-
-    getInfoCreate: async (appointment_id) => {
-        const [rows] = await db.execute(
-            `SELECT p.name as 'name', b.name as 'breed', CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', DATE_FORMAT(p.date_of_birth , '%Y.%m.%d') as 'date_of_birth', a.complaint as 'complaint'
-            FROM appointment a 
-            INNER JOIN pet p ON a.pet_id  = p.pet_id 
-            INNER JOIN breed b ON p.breed_id = b.breed_id 
-            WHERE a.appointment_id = ? LIMIT 1`,
-            [appointment_id]
-        )
-        return [rows[0].name, rows[0].breed, rows[0].gender, rows[0].date_of_birth, rows[0].complaint]; 
-    },
+    }
 };
 
 module.exports = Appointment;

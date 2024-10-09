@@ -128,16 +128,3 @@ exports.getByVetId = async (req, res) => {
         console.log(error);
     }
 };
-
-exports.getInfoCreate = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const appointment = await Appointment.getInfoCreate(id);
-        res.status(200).json(appointment);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-

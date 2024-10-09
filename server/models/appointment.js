@@ -71,13 +71,28 @@ const Appointment = {
             'INSERT INTO appointment (pet_id, time, vet_id, complaint) VALUES (?, ?, ?, ?)',
             [pet, time, vet, complaint]
         );
-
     },
 
     getByVetId: async (vetid) => {
         const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.vet_id = ? AND DATE(a.`time`) = CURDATE() ORDER BY a.`time` DESC", [vetid] )
         return rows; 
-    }
+    },
+
+    addAppointmentReturn: async (pet, time, vet, complaint) => {
+        const [rows] = await db.execute(
+            'INSERT INTO appointment (pet_id, time, vet_id, complaint) VALUES (?, ?, ?, ?)',
+            [pet, time, vet, complaint]
+        );
+    
+        const insertId = rows.insertId;
+        console.log(insertId);
+    
+        return await db.execute(
+            "SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' " +
+            "FROM appointment a INNER JOIN pet p ON a.pet_id = p.pet_id WHERE a.appointment_id = ? LIMIT 1", 
+            [insertId]
+        );
+    }    
 };
 
 module.exports = Appointment;

@@ -2,12 +2,14 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
+import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.fragment.TimeFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
@@ -108,14 +110,22 @@ class CreateAppointmentActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.message.observe(this){
-            makeToast(this, it)
-            if (it == R.string.added)
+        viewModel.message.observe(this){ message ->
+            makeToast(this, message)
+            Log.v("sklt", viewModel.getReturnData().toString())
+            if (message == R.string.added){
+                viewModel.getReturnData()?.let { data ->
+                    returnRecord(data)
+                }
                 finish()
+            }
         }
 
         binding.appointmentCreateButton.setOnClickListener {
-            viewModel.createRecord(binding.editTextComplaint.text.toString())
+            if (intent.getBooleanExtra("return", true))
+                viewModel.createRecordAndReturn(binding.editTextComplaint.text.toString())
+            else
+                viewModel.createRecord(binding.editTextComplaint.text.toString())
         }
     }
 
@@ -133,5 +143,14 @@ class CreateAppointmentActivity : AppCompatActivity() {
     private fun setButtonText(button: Button, data: CreateRecordData){
         if (data.labelData.isNotBlank()) button.text = data.labelData
         else if (data.data.isNotBlank()) button.text = data.data
+    }
+
+    private fun returnRecord(item: RecordItem){
+        val resultData = Intent().apply {
+            putExtra("id", item.id)
+            putExtra("label", item.label)
+            putExtra("subtext", item.subtext)
+        }
+        setResult(RESULT_OK, resultData)
     }
 }

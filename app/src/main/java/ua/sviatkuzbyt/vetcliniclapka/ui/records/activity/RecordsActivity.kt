@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -13,10 +14,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.record.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
+import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.recycleradapters.RecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.activity.InfoActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.medcard.CreateMedCardActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.fragments.FilterFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment.SetRecordFragment
@@ -29,6 +32,19 @@ class RecordsActivity :
     private lateinit var binding: ActivityRecordsBinding
     private lateinit var viewModel: RecordsViewModel
     private lateinit var adapterRecycler: RecordAdapter
+
+    private val createActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+        if (it.resultCode == RESULT_OK){
+            it.data?.let { data ->
+                val recordItem = RecordItem(
+                    data.getIntExtra("id", 0),
+                    data.getStringExtra("label") ?: "Unknown",
+                    data.getStringExtra("subtext") ?: ""
+                )
+                add(recordItem)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,21 +89,35 @@ class RecordsActivity :
 
         //Add button
         binding.buttonCreate.setOnClickListener {
-            val args = Bundle().apply {
-                putString("table", viewModel.getTable())
-                putInt("label", R.string.create_record)
+            when(viewModel.getTable()){
+                "appointment" -> openActivity(CreateAppointmentActivity::class.java)
+                "medcard" -> openActivity(CreateMedCardActivity::class.java)
+                else -> openFragment()
             }
-
-            val setRecordFragment = SetRecordFragment().apply {
-                setCancelable(false)
-                arguments = args
-            }
-
-            showFragment(setRecordFragment)
         }
 
         //ToolBar
         setToolBar()
+    }
+
+    private fun openFragment(){
+        val args = Bundle().apply {
+            putString("table", viewModel.getTable())
+            putInt("label", R.string.create_record)
+        }
+
+        val setRecordFragment = SetRecordFragment().apply {
+            setCancelable(false)
+            arguments = args
+        }
+
+        showFragment(setRecordFragment)
+    }
+
+    private fun openActivity(activity: Class<*>){
+        val createIntent = Intent(this, activity)
+        createIntent.putExtra("return", true)
+        createActivityResult.launch(createIntent)
     }
 
     private fun showFragment(fragment: BottomSheetDialogFragment){

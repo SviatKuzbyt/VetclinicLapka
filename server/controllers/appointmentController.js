@@ -128,3 +128,14 @@ exports.getByVetId = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.addAppointmentReturn = async (req, res) => {
+    try {
+        const { pet, time, vet, complaint } = req.body;
+        const [appointment] = await Appointment.addAppointmentReturn(pet, time, vet, complaint);
+        res.status(201).json(appointment[0]);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message }); 
+        console.log(error);
+    }
+};

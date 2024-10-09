@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityInfoBinding
+import ua.sviatkuzbyt.vetcliniclapka.ui.appointment.activity.CreateAppointmentActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.recyclerviews.SharedDataAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.info.recyclerviews.TextAdapter
+import ua.sviatkuzbyt.vetcliniclapka.ui.medcard.CreateMedCardActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.setdata.fragment.SetRecordFragment
 
@@ -44,18 +46,11 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
 
         binding.infoActionFrame.apply {
             frameEditButton.setOnClickListener{
-                val args = Bundle().apply {
-                    putString("table", viewModel.getTable())
-                    putInt("updateId", viewModel.getId())
-                    putInt("label", R.string.edit_record)
+                when(viewModel.getTable()){
+                    "appointment" -> openActivity(CreateAppointmentActivity::class.java)
+                    "medcard" -> openActivity(CreateMedCardActivity::class.java)
+                    else -> openFragment()
                 }
-
-                val setRecordFragment = SetRecordFragment().apply {
-                    setCancelable(false)
-                    arguments = args
-                }
-
-                setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
             }
         }
 
@@ -83,6 +78,28 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
                 }
             }
         }
+    }
+
+    private fun openActivity(activity: Class<*>){
+        val openIntent = Intent(this, activity)
+        openIntent.putExtra("updateId", viewModel.getId())
+        startActivity(openIntent)
+    }
+
+
+    private fun openFragment(){
+        val args = Bundle().apply {
+            putString("table", viewModel.getTable())
+            putInt("updateId", viewModel.getId())
+            putInt("label", R.string.edit_record)
+        }
+
+        val setRecordFragment = SetRecordFragment().apply {
+            setCancelable(false)
+            arguments = args
+        }
+
+        setRecordFragment.show(supportFragmentManager, setRecordFragment.tag)
     }
 
     override fun openRecordActivity(tableFilter: String) {

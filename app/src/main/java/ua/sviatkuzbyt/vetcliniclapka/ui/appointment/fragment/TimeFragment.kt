@@ -50,8 +50,7 @@ class TimeFragment : BottomSheetDialogFragment() {
             else{
                 selectedTime = "${binding.time.hour}:${binding.time.minute}:00"
                 val result = Bundle()
-                result.putString("time", "$selectedDate%20$selectedTime")
-                result.putString("timeLabel", "$selectedDate $selectedTime")
+                result.putString("time", "$selectedDate $selectedTime")
                 parentFragmentManager.setFragmentResult("timeFr", result)
                 dismiss()
             }

@@ -1,7 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.EditInfo
@@ -9,7 +8,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 
-class CreateAppointmentRepository(private val editId: Int = 0) {
+class CreateAppointmentRepository(private val editId: Int) {
 
     private val createData = listOf(
         CreateRecordData("owner"),
@@ -31,15 +30,15 @@ class CreateAppointmentRepository(private val editId: Int = 0) {
         ServerApi.postData("appointment/add", formatJson())
     }
 
-//    private fun loadData() {
-//        val data = ServerApi.getData("appointment/infoedit/$editId")
-//        val listData: List<EditInfo> = Gson().fromJson(data, getTypeString)
-//
-//        for (i in listData.indices){
-//            listData[i].data?.let { entryItems[i].data = it }
-//            entryItems[i].labelData = listData[i].labelData
-//        }
-//    }
+     fun loadData() {
+        val data = ServerApi.getData("appointment/infoedit/$editId")
+        val listData: List<EditInfo> = Gson().fromJson(data, ServerApi.getListEditInfoType)
+
+        for (i in listData.indices){
+            listData[i].data?.let { createData[i].data = it }
+            createData[i].labelData = listData[i].labelData
+        }
+    }
 
     private fun formatJson(): String {
         val jsonData = JSONObject()

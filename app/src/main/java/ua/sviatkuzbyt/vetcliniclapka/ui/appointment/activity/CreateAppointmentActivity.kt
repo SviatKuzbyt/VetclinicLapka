@@ -17,7 +17,11 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class CreateAppointmentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAppointmentBinding
-    private val viewModel: CreateAppointmentViewModel by viewModels()
+    private val viewModel: CreateAppointmentViewModel by viewModels(
+        factoryProducer = { CreateAppointmentViewModel.Factory(
+            intent.getIntExtra("updateId", 0)
+        ) }
+    )
     private lateinit var selectButtons: List<Button>
 
     private val selectActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
@@ -36,8 +40,6 @@ class CreateAppointmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateAppointmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        binding.appointmentToolbar.setupWithConfirmWindow(getString(R.string.create_appointment), this)
 
         binding.selectOwnerButton.setOnClickListener {
             val selectIntent = Intent(this, RecordsActivity::class.java).apply {
@@ -76,18 +78,21 @@ class CreateAppointmentActivity : AppCompatActivity() {
                 initButtonsList()
             val updatePosition = viewModel.getUpdatePosition()
 
-            if (updatePosition == CreateAppointmentViewModel.POSITION_ALL){
+            if (updatePosition <= CreateAppointmentViewModel.POSITION_ALL){
                 for (i in selectButtons.indices){
                     setButtonText(selectButtons[i], it[i])
                 }
+                if (updatePosition == CreateAppointmentViewModel.POSITION_ALL_WITH_EDIT_TEXT){
+                    binding.editTextComplaint.setText(it[4].data)
+                }
+
             } else{
                 setButtonText(selectButtons[updatePosition], it[updatePosition])
             }
         }
 
         supportFragmentManager.setFragmentResultListener("timeFr", this){ _, bundle ->
-            val time = bundle.getString("time") ?: "2024-01-01%2000:00:00"
-            val timeLabel = bundle.getString("timeLabel") ?: "2024-01-01 00:00:00"
+            val timeLabel = bundle.getString("time") ?: "2024-01-01 00:00:00"
             viewModel.setSelectData(timeLabel, timeLabel, 2)
         }
 
@@ -127,6 +132,11 @@ class CreateAppointmentActivity : AppCompatActivity() {
             else
                 viewModel.createRecord(binding.editTextComplaint.text.toString())
         }
+
+        val toolBarText = if (viewModel.getIsUpdateData()) R.string.edit_record
+        else R.string.create_appointment
+        binding.appointmentToolbar.setupWithConfirmWindow(getString(toolBarText), this)
+
     }
 
     private fun initButtonsList(){

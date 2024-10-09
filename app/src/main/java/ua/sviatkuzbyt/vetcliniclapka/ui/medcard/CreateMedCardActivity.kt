@@ -18,7 +18,6 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.records.activity.RecordsActivity
 
 class CreateMedCardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateMedCardBinding
-    private lateinit var selectButtons: List<Button>
     private val viewModel: CreateMedCardViewModel by viewModels()
 
     private val selectActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){

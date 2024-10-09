@@ -1,7 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData

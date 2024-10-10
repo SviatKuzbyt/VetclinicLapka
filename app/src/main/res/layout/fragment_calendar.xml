@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".ui.records.fragments.CalendarFragment"
+    tools:context=".ui.fragments.time.CalendarFragment"
     android:background="@drawable/background_fragment">
 
     <TextView

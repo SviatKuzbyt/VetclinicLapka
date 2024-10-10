@@ -121,7 +121,7 @@ const Med = {
             FROM medical_card mc 
             INNER JOIN appointment a ON mc.appointment_id = a.appointment_id 
             INNER JOIN vet v ON a.vet_id = v.vet_id 
-            WHERE mc.card_id = 22`, [med_id]
+            WHERE mc.card_id = ?`, [med_id]
         )
 
         return [

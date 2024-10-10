@@ -16,19 +16,19 @@
         android:theme="@style/Theme.VetclinicLapka"
         tools:targetApi="31">
         <activity
-            android:name=".ui.medcard.CreateMedCardActivity"
+            android:name=".ui.activity.create.medcard.CreateMedCardActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.appointment.activity.CreateAppointmentActivity"
+            android:name=".ui.activity.create.appointment.CreateAppointmentActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.info.activity.InfoActivity"
+            android:name=".ui.activity.info.InfoActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.records.activity.RecordsActivity"
+            android:name=".ui.activity.records.RecordsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
             android:theme="@style/MainActivityTheme">
             <intent-filter>

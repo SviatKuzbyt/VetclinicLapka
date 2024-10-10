@@ -11,4 +11,7 @@ object ConstState {
     const val RECORD_ACTION_SELECT = 2
 
     const val SET_NO_UPDATE_POSITION = -1
+
+    const val CREATE_POSITION_ALL = -1
+    const val CREATE_POSITION_ALL_WITH_EDIT_TEXT = -2
 }

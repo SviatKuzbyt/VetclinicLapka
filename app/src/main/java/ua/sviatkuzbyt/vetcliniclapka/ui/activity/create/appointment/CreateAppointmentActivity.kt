@@ -79,13 +79,13 @@ class CreateAppointmentActivity : AppCompatActivity() {
         viewModel.createData.observe(this){
             if (! ::selectButtons.isInitialized)
                 initButtonsList()
-            val updatePosition = viewModel.getUpdatePosition()
+            val updatePosition = viewModel.getUpdatedPosition()
 
-            if (updatePosition <= CreateAppointmentViewModel.POSITION_ALL){
+            if (updatePosition <= ConstState.CREATE_POSITION_ALL){
                 for (i in selectButtons.indices){
                     setButtonText(selectButtons[i], it[i])
                 }
-                if (updatePosition == CreateAppointmentViewModel.POSITION_ALL_WITH_EDIT_TEXT){
+                if (updatePosition == ConstState.CREATE_POSITION_ALL_WITH_EDIT_TEXT){
                     binding.editTextComplaint.setText(it[4].data)
                 }
 
@@ -120,10 +120,10 @@ class CreateAppointmentActivity : AppCompatActivity() {
 
         viewModel.message.observe(this){ message ->
             makeToast(this, message)
-            Log.v("sklt", viewModel.getReturnData().toString())
+            Log.v("sklt", viewModel.getReturnedData().toString())
             if (message == R.string.added){
-                if (viewModel.getReturnData() != null){
-                    returnRecord(viewModel.getReturnData()!!)
+                if (viewModel.getReturnedData() != null){
+                    returnRecord(viewModel.getReturnedData()!!)
                 } else if (viewModel.getIsUpdateData()){
                     returnIsUpdate()
                 }

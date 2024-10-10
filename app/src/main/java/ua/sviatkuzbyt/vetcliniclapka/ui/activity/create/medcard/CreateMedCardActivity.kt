@@ -59,8 +59,8 @@ class CreateMedCardActivity : AppCompatActivity() {
         viewModel.message.observe(this){ message ->
             makeToast(this, message)
             if (message == R.string.added){
-                if (viewModel.getReturnData() != null){
-                    returnRecord(viewModel.getReturnData()!!)
+                if (viewModel.getReturnedData() != null){
+                    returnRecord(viewModel.getReturnedData()!!)
                 } else if (viewModel.getIsUpdateData()){
                     returnIsUpdate()
                 }
@@ -71,7 +71,7 @@ class CreateMedCardActivity : AppCompatActivity() {
         viewModel.message.observe(this){ message ->
             makeToast(this, message)
             if (message == R.string.added){
-                viewModel.getReturnData()?.let { data ->
+                viewModel.getReturnedData()?.let { data ->
                     returnRecord(data)
                 }
                 finish()
@@ -82,7 +82,7 @@ class CreateMedCardActivity : AppCompatActivity() {
         binding.medcardToolbar.setupWithConfirmWindow(getString(toolBarText), this)
 
         viewModel.createData.observe(this){
-            val updatePosition = viewModel.getUpdatePosition()
+            val updatePosition = viewModel.getUpdatedPosition()
             when(updatePosition){
                 0 -> setButtonText(binding.selectVetButton, it[0])
                 1 -> setButtonText(binding.selectAppointmentButton, it[1])
@@ -92,7 +92,7 @@ class CreateMedCardActivity : AppCompatActivity() {
                 }
             }
 
-            if (updatePosition == CreateAppointmentViewModel.POSITION_ALL_WITH_EDIT_TEXT){
+            if (updatePosition == ConstState.CREATE_POSITION_ALL_WITH_EDIT_TEXT){
                 binding.editTextIll.setText(it[2].data)
                 binding.editTextCure.setText(it[3].data)
             }
@@ -150,5 +150,4 @@ class CreateMedCardActivity : AppCompatActivity() {
         }
         setResult(RESULT_OK, resultData)
     }
-
 }

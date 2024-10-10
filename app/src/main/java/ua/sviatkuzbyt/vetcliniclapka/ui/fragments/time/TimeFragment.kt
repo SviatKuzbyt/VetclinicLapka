@@ -30,7 +30,7 @@ class TimeFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //select day
         binding.calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val monthStr = if(month > 8) "${month+1}"
             else "0${month+1}"
@@ -40,16 +40,22 @@ class TimeFragment : BottomSheetDialogFragment() {
         binding.time.setIs24HourView(true)
 
         binding.buttonCalendar.setOnClickListener {
+            //go to select time
             if (binding.calendar.isVisible){
                 binding.calendar.visibility = View.GONE
                 binding.timeCardView.visibility = View.VISIBLE
-                if (selectedDate.isBlank()) selectedDate = currentDay()
-            }
 
+                //fill in selectedDate
+                if (selectedDate.isBlank()){
+                    selectedDate = currentDay()
+                }
+            }
+            //send selected date
             else{
                 selectedTime = "${binding.time.hour}:${binding.time.minute}:00"
-                val result = Bundle()
-                result.putString("time", "$selectedDate $selectedTime")
+                val result = Bundle().apply {
+                    putString("time", "$selectedDate $selectedTime")
+                }
                 parentFragmentManager.setFragmentResult("timeFr", result)
                 dismiss()
             }

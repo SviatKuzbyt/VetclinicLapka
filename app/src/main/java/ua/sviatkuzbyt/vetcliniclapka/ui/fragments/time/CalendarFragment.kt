@@ -18,7 +18,6 @@ class CalendarFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var selectedDate = ""
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,17 +28,18 @@ class CalendarFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //select day
         binding.calendar.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val monthStr = if(month > 8) "${month+1}"
             else "0${month+1}"
-
             selectedDate = "$year-$monthStr-$dayOfMonth"
         }
 
+        //send selected
         binding.buttonCalendar.setOnClickListener {
-            val result = Bundle()
-            result.putString("date", selectedDate.ifBlank { currentDay() })
+            val result = Bundle().apply {
+                putString("date", selectedDate.ifBlank { currentDay() })
+            }
             parentFragmentManager.setFragmentResult("dateFr", result)
             dismiss()
         }

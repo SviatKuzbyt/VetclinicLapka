@@ -1,8 +1,11 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.setdata
 
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -158,5 +161,18 @@ class SetRecordFragment :
             putExtra("forPosition", position)
         }
         selectActivityResult.launch(selectIntent)
+    }
+
+    //show Confirm Window when back pressed
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return super.onCreateDialog(savedInstanceState).apply {
+            setOnKeyListener { _: DialogInterface, keyCode: Int, keyEvent: KeyEvent ->
+                if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.action == KeyEvent.ACTION_UP) {
+                    confirmCancelWindow.showWindow()
+                    return@setOnKeyListener true
+                }
+                return@setOnKeyListener false
+            }
+        }
     }
 }

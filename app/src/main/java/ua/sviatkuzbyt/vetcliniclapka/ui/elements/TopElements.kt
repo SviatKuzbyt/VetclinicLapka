@@ -12,7 +12,6 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.records.RecordsActivity
 import java.io.FileNotFoundException
-import java.io.Serializable
 import java.net.ConnectException
 import java.net.UnknownHostException
 
@@ -22,10 +21,6 @@ fun hideKeyboard(view: View) {
 }
 
 fun makeToast(context: Context, text: Int){
-    Toast.makeText(context, text, Toast.LENGTH_LONG).show()
-}
-
-fun makeToast(context: Context, text: String){
     Toast.makeText(context, text, Toast.LENGTH_LONG).show()
 }
 
@@ -43,7 +38,7 @@ fun postError(error: Exception, data: MutableLiveData<Int>){
     Log.e("sklt_error", "Error type: ${error::class.java.simpleName}", error)
 }
 
-class NoTextException : Exception(), Serializable
+class NoTextException : Exception()
 
 fun openSelectActivity(
     table: String,

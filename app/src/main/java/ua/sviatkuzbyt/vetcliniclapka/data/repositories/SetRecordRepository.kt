@@ -54,6 +54,8 @@ class SetRecordRepository(private val table: String, private val editId: Int) {
             jsonData.put(it.apiName, it.data)
         }
 
+        if (table == "vet" && entryItems.last().data == "0000") throw NoTextException()
+
         //add new record
         if (editId == ConstState.SET_NO_EDIT_ID){
             val insertResult = ServerApi.postData("$table/add", jsonData.toString())

@@ -1,12 +1,16 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.elements
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.MutableLiveData
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
+import ua.sviatkuzbyt.vetcliniclapka.ui.activity.records.RecordsActivity
 import java.io.FileNotFoundException
 import java.io.Serializable
 import java.net.ConnectException
@@ -40,3 +44,21 @@ fun postError(error: Exception, data: MutableLiveData<Int>){
 }
 
 class NoTextException : Exception(), Serializable
+
+fun openSelectActivity(
+    table: String,
+    filter: String?,
+    position: Int,
+    activityResult: ActivityResultLauncher<Intent>,
+    context: Context)
+{
+    val openIntent = Intent(context, RecordsActivity::class.java).apply {
+        putExtra("label", context.getString(R.string.select_recor))
+        putExtra("table", table)
+        putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
+        filter?.let { putExtra("filter", it) }
+        putExtra("forPosition", position)
+    }
+
+    activityResult.launch(openIntent)
+}

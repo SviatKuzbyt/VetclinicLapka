@@ -2,7 +2,6 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.appointment
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -14,7 +13,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.time.TimeFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
-import ua.sviatkuzbyt.vetcliniclapka.ui.activity.records.RecordsActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.openSelectActivity
 
 class CreateAppointmentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateAppointmentBinding
@@ -27,6 +26,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
     )
     private lateinit var selectButtons: List<Button>
 
+    //get selected item
     private val selectActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
         if (it.resultCode == RESULT_OK){
             it.data?.let { data ->
@@ -44,14 +44,20 @@ class CreateAppointmentActivity : AppCompatActivity() {
         binding = ActivityCreateAppointmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupViews()
+        setupViewModel()
+    }
+
+    private fun setupViews(){
+        //select buttons
         binding.selectOwnerButton.setOnClickListener {
-            val selectIntent = Intent(this, RecordsActivity::class.java).apply {
-                putExtra("table", "owner")
-                putExtra("label", getString(R.string.select_recor))
-                putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
-                putExtra("forPosition", 0)
-            }
-            selectActivityResult.launch(selectIntent)
+            openSelectActivity(
+                "owner",
+                null,
+                0,
+                selectActivityResult,
+                this
+            )
         }
 
         binding.selectPetButton.setOnClickListener {
@@ -59,15 +65,13 @@ class CreateAppointmentActivity : AppCompatActivity() {
             if (ownerId.isNullOrBlank())
                 makeToast(this, R.string.no_text)
             else{
-                val openIntent = Intent(this, RecordsActivity::class.java).apply {
-                    putExtra("label", getString(R.string.select_recor))
-                    putExtra("table", "pet")
-                    putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
-                    putExtra("filter", "id/owner&$ownerId")
-                    putExtra("forPosition", 1)
-                }
-
-                selectActivityResult.launch(openIntent)
+                openSelectActivity(
+                    "pet",
+                    "id/owner&$ownerId",
+                    1,
+                    selectActivityResult,
+                    this
+                )
             }
         }
 
@@ -76,11 +80,55 @@ class CreateAppointmentActivity : AppCompatActivity() {
             timeFragment.show(supportFragmentManager, timeFragment.tag)
         }
 
+        binding.selectVetButton.setOnClickListener {
+            val petId = viewModel.createData.value?.get(1)?.data
+            val time = viewModel.createData.value?.get(2)?.data
+
+            if (petId.isNullOrBlank() || time.isNullOrBlank())
+                makeToast(this, R.string.no_text)
+            else{
+                openSelectActivity(
+                    "vet",
+                    "appointment/$petId&$time",
+                    3,
+                    selectActivityResult,
+                    this
+                )
+            }
+        }
+
+        //getting selected time
+        supportFragmentManager.setFragmentResultListener("timeFr", this){ _, bundle ->
+            val timeLabel = bundle.getString("time") ?: "2024-01-01 00:00:00"
+            viewModel.setSelectData(timeLabel, timeLabel, 2)
+        }
+
+        //create button
+        binding.appointmentCreateButton.setOnClickListener {
+            viewModel.setRecord(
+                binding.editTextComplaint.text.toString(),
+                intent.getBooleanExtra("return", false)
+            )
+        }
+
+        //tollBar
+        val toolBarText = if (viewModel.getIsUpdateData()){
+            R.string.edit_record
+        } else{
+            R.string.create_appointment
+        }
+        binding.appointmentToolbar.setupWithConfirmWindow(getString(toolBarText), this)
+    }
+
+    private fun setupViewModel(){
+        //create data
         viewModel.createData.observe(this){
-            if (! ::selectButtons.isInitialized)
+            if (! ::selectButtons.isInitialized){
                 initButtonsList()
+            }
             val updatePosition = viewModel.getUpdatedPosition()
 
+            //set in activity
             if (updatePosition <= ConstState.CREATE_POSITION_ALL){
                 for (i in selectButtons.indices){
                     setButtonText(selectButtons[i], it[i])
@@ -94,33 +142,9 @@ class CreateAppointmentActivity : AppCompatActivity() {
             }
         }
 
-        supportFragmentManager.setFragmentResultListener("timeFr", this){ _, bundle ->
-            val timeLabel = bundle.getString("time") ?: "2024-01-01 00:00:00"
-            viewModel.setSelectData(timeLabel, timeLabel, 2)
-        }
-
-        binding.selectVetButton.setOnClickListener {
-            val petId = viewModel.createData.value?.get(1)?.data
-            val time = viewModel.createData.value?.get(2)?.data
-
-            if (petId.isNullOrBlank() || time.isNullOrBlank())
-                makeToast(this, R.string.no_text)
-            else{
-                val openIntent = Intent(this, RecordsActivity::class.java).apply {
-                    putExtra("label", getString(R.string.select_recor))
-                    putExtra("table", "vet")
-                    putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
-                    putExtra("filter", "appointment/$petId&$time")
-                    putExtra("forPosition", 3)
-                }
-
-                selectActivityResult.launch(openIntent)
-            }
-        }
-
+        //error and complete message
         viewModel.message.observe(this){ message ->
             makeToast(this, message)
-            Log.v("sklt", viewModel.getReturnedData().toString())
             if (message == R.string.added){
                 if (viewModel.getReturnedData() != null){
                     returnRecord(viewModel.getReturnedData()!!)
@@ -130,25 +154,6 @@ class CreateAppointmentActivity : AppCompatActivity() {
                 finish()
             }
         }
-
-        binding.appointmentCreateButton.setOnClickListener {
-            viewModel.setRecord(
-                binding.editTextComplaint.text.toString(),
-                intent.getBooleanExtra("return", false)
-            )
-        }
-
-        val toolBarText = if (viewModel.getIsUpdateData()) R.string.edit_record
-        else R.string.create_appointment
-        binding.appointmentToolbar.setupWithConfirmWindow(getString(toolBarText), this)
-
-    }
-
-    private fun returnIsUpdate() {
-        val resultData = Intent().apply {
-            putExtra("isUpdate", true)
-        }
-        setResult(RESULT_OK, resultData)
     }
 
     private fun initButtonsList(){
@@ -172,6 +177,13 @@ class CreateAppointmentActivity : AppCompatActivity() {
             putExtra("id", item.id)
             putExtra("label", item.label)
             putExtra("subtext", item.subtext)
+        }
+        setResult(RESULT_OK, resultData)
+    }
+
+    private fun returnIsUpdate() {
+        val resultData = Intent().apply {
+            putExtra("isUpdate", true)
         }
         setResult(RESULT_OK, resultData)
     }

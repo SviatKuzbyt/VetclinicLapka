@@ -14,6 +14,7 @@ class RecordAdapter(
     private val iconRes: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    //ViewType states
     private val EMPTY_VIEW = 0
     private val RECORD_VIEW = 1
 
@@ -21,6 +22,7 @@ class RecordAdapter(
         fun clickItem(item: RecordItem)
     }
 
+    //fill list item
     inner class RecordViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val icon = view.findViewById<View>(R.id.recordIcon)
         private val label = view.findViewById<TextView>(R.id.recordLabel)
@@ -39,8 +41,10 @@ class RecordAdapter(
         }
     }
 
+    //for empty list
     inner class EmptyHolder(view: View) : RecyclerView.ViewHolder(view)
 
+    //set view
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
        return if (viewType == RECORD_VIEW){
            RecordViewHolder(
@@ -55,6 +59,7 @@ class RecordAdapter(
        }
     }
 
+    //set data
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (viewHolder is RecordViewHolder)
             viewHolder.bind(dataSet[position])
@@ -62,6 +67,7 @@ class RecordAdapter(
 
     override fun getItemCount() = if (dataSet.isEmpty()) 1 else dataSet.size
 
+    //set ViewType (item or empty list)
     override fun getItemViewType(position: Int): Int {
         return if(dataSet.isEmpty()) EMPTY_VIEW
         else RECORD_VIEW

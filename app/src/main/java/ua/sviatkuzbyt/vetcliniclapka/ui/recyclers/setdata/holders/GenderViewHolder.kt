@@ -14,16 +14,20 @@ class GenderViewHolder(view: View) : SetRecordViewHolder(view) {
     override fun bind(item: SetRecordItem, position: Int){
         label.setText(item.label)
 
-        val selectId =
-            if (item.data == "1") R.id.itemRadioMale
-            else R.id.itemRadioFemale
+        val selectId = if (item.data == "1"){
+            R.id.itemRadioMale
+        } else{
+            R.id.itemRadioFemale
+        }
 
         radio.check(selectId)
 
         radio.setOnCheckedChangeListener { _, i ->
-            item.data =
-                if (i == R.id.itemRadioMale) "1"
-                else "2"
+            item.data = if (i == R.id.itemRadioMale) {
+                "1"
+            } else {
+                "2"
+            }
         }
     }
 }

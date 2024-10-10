@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentSetRecordBinding
@@ -149,7 +150,7 @@ class SetRecordFragment :
         val selectIntent = Intent(requireActivity(), RecordsActivity::class.java).apply {
             putExtra("table", item.apiName)
             putExtra("label", getString(R.string.select_recor))
-            putExtra("openMode", RecordsActivity.ACTION_SELECT)
+            putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
             putExtra("forPosition", position)
         }
         Log.v("sklt", item.apiName)

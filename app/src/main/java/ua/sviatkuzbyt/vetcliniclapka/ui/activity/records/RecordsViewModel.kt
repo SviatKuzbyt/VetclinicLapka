@@ -8,17 +8,17 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.RecordsRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
-import ua.sviatkuzbyt.vetcliniclapka.ui.activity.records.RecordsActivity.Companion.ACTION_VIEW
 
 class RecordsViewModel(private val intent: Intent): ViewModel() {
     private val table = intent.getStringExtra("table") ?: "Unknown"
     private val label = intent.getStringExtra("label") ?: "Unknown"
-    private val openMode = intent.getIntExtra("openMode", ACTION_VIEW)
+    private val openMode = intent.getIntExtra("openMode", ConstState.RECORD_ACTION_VIEW)
     private val repository = RecordsRepository(table)
 
     val records = MutableLiveData<MutableList<RecordItem>>()

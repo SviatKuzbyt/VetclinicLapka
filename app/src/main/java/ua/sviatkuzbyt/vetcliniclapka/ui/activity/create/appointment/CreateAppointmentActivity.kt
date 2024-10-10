@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateAppointmentBinding
@@ -47,7 +48,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
             val selectIntent = Intent(this, RecordsActivity::class.java).apply {
                 putExtra("table", "owner")
                 putExtra("label", getString(R.string.select_recor))
-                putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
                 putExtra("forPosition", 0)
             }
             selectActivityResult.launch(selectIntent)
@@ -61,7 +62,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
                 val openIntent = Intent(this, RecordsActivity::class.java).apply {
                     putExtra("label", getString(R.string.select_recor))
                     putExtra("table", "pet")
-                    putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                    putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
                     putExtra("filter", "id/owner&$ownerId")
                     putExtra("forPosition", 1)
                 }
@@ -108,7 +109,7 @@ class CreateAppointmentActivity : AppCompatActivity() {
                 val openIntent = Intent(this, RecordsActivity::class.java).apply {
                     putExtra("label", getString(R.string.select_recor))
                     putExtra("table", "vet")
-                    putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                    putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
                     putExtra("filter", "appointment/$petId&$time")
                     putExtra("forPosition", 3)
                 }

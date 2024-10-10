@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityCreateMedCardBinding
@@ -48,7 +49,7 @@ class CreateMedCardActivity : AppCompatActivity() {
             val selectIntent = Intent(this, RecordsActivity::class.java).apply {
                 putExtra("table", "vet")
                 putExtra("label", getString(R.string.select_recor))
-                putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
                 putExtra("filter", "available")
                 putExtra("forPosition", 0)
             }
@@ -106,7 +107,7 @@ class CreateMedCardActivity : AppCompatActivity() {
                 val selectIntent = Intent(this, RecordsActivity::class.java).apply {
                     putExtra("table", "appointment")
                     putExtra("label", getString(R.string.select_recor))
-                    putExtra("openMode", RecordsActivity.ACTION_SELECT)
+                    putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
                     putExtra("filter", "vetid/$vetId")
                     putExtra("forPosition", 1)
                 }

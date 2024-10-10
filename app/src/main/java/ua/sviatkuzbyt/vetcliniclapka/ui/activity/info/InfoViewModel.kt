@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.InfoItems
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.InfoRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError

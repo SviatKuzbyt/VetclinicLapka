@@ -5,13 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityRecordsBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.appointment.CreateAppointmentActivity
@@ -30,27 +31,31 @@ class RecordsActivity :
     SetRecordFragment.SetRecordActions
 {
     private lateinit var binding: ActivityRecordsBinding
-    private lateinit var viewModel: RecordsViewModel
+    private val viewModel: RecordsViewModel by viewModels {
+        RecordsViewModel.Factory(intent)
+    }
     private lateinit var adapterRecycler: RecordAdapter
 
-    private val createActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_OK){
-            it.data?.let { data ->
-                val recordItem = RecordItem(
-                    data.getIntExtra("id", 0),
-                    data.getStringExtra("label") ?: "Unknown",
-                    data.getStringExtra("subtext") ?: ""
-                )
-                add(recordItem)
+    private val createActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == RESULT_OK){
+                it.data?.let { data ->
+                    val recordItem = RecordItem(
+                        data.getIntExtra("id", 0),
+                        data.getStringExtra("label") ?: "Unknown",
+                        data.getStringExtra("subtext") ?: ""
+                    )
+                    add(recordItem)
+                }
             }
         }
-    }
 
-    private val infoActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_OK){
-            viewModel.reload()
+    private val infoActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == RESULT_OK){
+                viewModel.reload()
+            }
         }
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,14 +63,8 @@ class RecordsActivity :
         binding = ActivityRecordsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setViewModel()
         setViews()
-
-        supportFragmentManager.setFragmentResultListener("dateFr", this){ _, bundle ->
-            val date = bundle.getString("date") ?: "2024-01-01"
-            binding.filterText.setText(date)
-            viewModel.getFilterData(date)
-        }
+        setViewModel()
     }
 
     private fun setViews(){
@@ -76,9 +75,9 @@ class RecordsActivity :
         binding.filterText.setOnEditorActionListener { view, _, _ ->
             val filter = view.text.toString()
 
-            if (filter.isBlank())
+            if (filter.isBlank()){
                 makeToast(this, R.string.empty_field)
-            else{
+            } else{
                 viewModel.getFilterData(filter)
                 hideKeyboard(view)
             }
@@ -105,6 +104,19 @@ class RecordsActivity :
 
         //ToolBar
         setToolBar()
+
+        //calendar pick result
+        supportFragmentManager.setFragmentResultListener("dateFr", this){ _, bundle ->
+            val date = bundle.getString("date") ?: "2024-01-01"
+            binding.filterText.setText(date)
+            viewModel.getFilterData(date)
+        }
+    }
+
+    private fun openActivity(activity: Class<*>){
+        val createIntent = Intent(this, activity)
+        createIntent.putExtra("return", true)
+        createActivityResult.launch(createIntent)
     }
 
     private fun openFragment(){
@@ -121,12 +133,6 @@ class RecordsActivity :
         showFragment(setRecordFragment)
     }
 
-    private fun openActivity(activity: Class<*>){
-        val createIntent = Intent(this, activity)
-        createIntent.putExtra("return", true)
-        createActivityResult.launch(createIntent)
-    }
-
     private fun showFragment(fragment: BottomSheetDialogFragment){
         fragment.show(supportFragmentManager, fragment.tag)
     }
@@ -138,14 +144,6 @@ class RecordsActivity :
 
     @SuppressLint("NotifyDataSetChanged")
     private fun setViewModel() {
-        //Init viewModel
-        val factory = RecordsViewModel.Factory(intent)
-        viewModel = ViewModelProvider(this, factory)[RecordsViewModel::class.java]
-
-        viewModel.message.observe(this) {
-            makeToast(this, it)
-        }
-
         //Records list
         viewModel.records.observe(this) {
             if (!::adapterRecycler.isInitialized) {
@@ -162,13 +160,17 @@ class RecordsActivity :
                 else if(isVisible) visibility = View.GONE
             }
         }
+
+        viewModel.message.observe(this) {
+            makeToast(this, it)
+        }
     }
 
     //RecordAction interface
     override fun clickItem(item: RecordItem) {
         when(viewModel.getMode()){
-            ACTION_VIEW -> openRecord(item)
-            ACTION_SELECT -> returnRecord(item)
+            ConstState.RECORD_ACTION_VIEW -> openRecord(item)
+            ConstState.RECORD_ACTION_SELECT -> returnRecord(item)
         }
     }
 
@@ -186,6 +188,7 @@ class RecordsActivity :
             putExtra("label", item.label)
             putExtra("forPosition", intent.getIntExtra("forPosition", 0))
         }
+
         setResult(RESULT_OK, resultData)
         finish()
     }
@@ -201,9 +204,4 @@ class RecordsActivity :
     }
 
     override fun update() {}
-
-    companion object{
-        const val ACTION_VIEW = 1
-        const val ACTION_SELECT = 2
-    }
 }

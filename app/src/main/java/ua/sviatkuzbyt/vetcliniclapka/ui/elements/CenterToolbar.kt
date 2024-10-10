@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.views
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements
 
 import android.content.Context
 import android.util.AttributeSet

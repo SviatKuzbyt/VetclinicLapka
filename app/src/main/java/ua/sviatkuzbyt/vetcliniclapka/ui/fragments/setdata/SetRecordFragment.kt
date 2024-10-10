@@ -3,7 +3,6 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.fragments.setdata
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +18,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.FragmentSetRecordBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.setdata.SetRecordAdapter
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.ConfirmCancelWindow
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.ConfirmCancelWindow
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.records.RecordsActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.setdata.holders.SelectViewHolder
 
@@ -29,31 +28,35 @@ class SetRecordFragment :
 {
     private var _binding: FragmentSetRecordBinding? = null
     private val binding get() = _binding!!
-    private val confirmCancelWindow by lazy { ConfirmCancelWindow(this) }
+
     private lateinit var viewModel: SetRecordViewModel
+    private var action: SetRecordActions? = null
+
+    private val confirmCancelWindow by lazy { ConfirmCancelWindow(this) }
     private lateinit var adapter: SetRecordAdapter
-
-    private val selectActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == AppCompatActivity.RESULT_OK){
-            val resultData = it.data
-
-            resultData?.let { data ->
-                viewModel.updateSelectItem(
-                    data.getStringExtra("label") ?: "Unknown",
-                    data.getIntExtra("forPosition", 0),
-                    data.getIntExtra("id", 0).toString()
-                )
-            }
-        }
-    }
 
     interface SetRecordActions{
         fun add(item: RecordItem) {}
         fun update() {}
     }
 
-    private var action: SetRecordActions? = null
+    //set selected item
+    private val selectActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == AppCompatActivity.RESULT_OK){
+                val resultData = it.data
 
+                resultData?.let { data ->
+                    viewModel.updateSelectItem(
+                        data.getStringExtra("label") ?: "Unknown",
+                        data.getIntExtra("forPosition", 0),
+                        data.getIntExtra("id", 0).toString()
+                    )
+                }
+            }
+        }
+
+    //init SetRecordActions
     override fun onAttach(context: Context) {
         super.onAttach(context)
         if(context is SetRecordActions) action = context
@@ -86,7 +89,7 @@ class SetRecordFragment :
         //list
         viewModel.entryItems.observe(viewLifecycleOwner){
             val updatePosition = viewModel.getUpdatePosition()
-            if (updatePosition == SetRecordViewModel.NO_UPDATE_POSITION)
+            if (updatePosition == ConstState.SET_NO_UPDATE_POSITION)
                 setRecyclerAdapter(it)
             else
                 updateRecyclerAdapter(it, updatePosition)
@@ -137,6 +140,7 @@ class SetRecordFragment :
             viewModel.addData()
         }
 
+        //label
         binding.labelSetRecord.setText(viewModel.getLabel())
     }
 
@@ -153,7 +157,6 @@ class SetRecordFragment :
             putExtra("openMode", ConstState.RECORD_ACTION_SELECT)
             putExtra("forPosition", position)
         }
-        Log.v("sklt", item.apiName)
         selectActivityResult.launch(selectIntent)
     }
 }

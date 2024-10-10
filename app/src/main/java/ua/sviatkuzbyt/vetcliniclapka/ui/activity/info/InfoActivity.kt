@@ -24,6 +24,7 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
         InfoViewModel.Factory(intent)
     }
 
+    // apply update data for appointment and medcard
     private val createActivityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if (it.resultCode == RESULT_OK){

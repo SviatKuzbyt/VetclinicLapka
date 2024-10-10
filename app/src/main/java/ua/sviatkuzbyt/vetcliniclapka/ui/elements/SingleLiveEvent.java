@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.include;
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements;
 
 /*
  *  Copyright 2017 Google Inc.

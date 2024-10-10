@@ -36,6 +36,7 @@ class RecordsActivity :
     }
     private lateinit var adapterRecycler: RecordAdapter
 
+    //add new appointment or medcard to list
     private val createActivityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if (it.resultCode == RESULT_OK){
@@ -50,6 +51,7 @@ class RecordsActivity :
             }
         }
 
+    //apply item change form InfoActivity
     private val infoActivityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             if (it.resultCode == RESULT_OK){

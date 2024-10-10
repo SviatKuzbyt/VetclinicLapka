@@ -1,4 +1,4 @@
-package ua.sviatkuzbyt.vetcliniclapka.ui.elements.views
+package ua.sviatkuzbyt.vetcliniclapka.ui.elements
 
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity

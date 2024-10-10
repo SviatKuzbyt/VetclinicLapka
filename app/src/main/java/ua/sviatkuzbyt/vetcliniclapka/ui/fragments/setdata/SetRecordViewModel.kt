@@ -13,7 +13,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 
 class SetRecordViewModel(args: Bundle): ViewModel() {
     private val updateId = args.getInt("updateId", ConstState.SET_NO_EDIT_ID)
@@ -22,24 +22,22 @@ class SetRecordViewModel(args: Bundle): ViewModel() {
         args.getString("table")?: "unknown", updateId
     )
     private var newData: RecordItem? = null
-    private var updatePosition = NO_UPDATE_POSITION
-
-    fun getLabel() = label
-
+    private var updatePosition = ConstState.SET_NO_UPDATE_POSITION
     val entryItems = MutableLiveData<List<SetRecordItem>>()
-    val message =
-        SingleLiveEvent<Int>()
+    val message = SingleLiveEvent<Int>()
 
-    init { init() }
-
-    private fun init() = viewModelScope.launch(Dispatchers.IO){
-        try {
-            entryItems.postValue(repository.loadItems())
-        } catch (e: Exception){
-            postError(e, message)
+    //load list from repository
+    init {
+        viewModelScope.launch(Dispatchers.IO){
+            try {
+                entryItems.postValue(repository.loadItems())
+            } catch (e: Exception){
+                postError(e, message)
+            }
         }
     }
 
+    //save data to server
     fun addData() = viewModelScope.launch(Dispatchers.IO){
         try {
             newData = repository.setRecord()
@@ -52,14 +50,7 @@ class SetRecordViewModel(args: Bundle): ViewModel() {
         }
     }
 
-    fun getNewData() = newData
-
-    fun getUpdatePosition(): Int {
-        val position = updatePosition
-        updatePosition = NO_UPDATE_POSITION
-        return position
-    }
-
+    //set data to repository
     fun updateSelectItem(dataLabel: String, position: Int, data: String) {
         try {
             repository.updateSelectItem(dataLabel, position, data)
@@ -70,6 +61,16 @@ class SetRecordViewModel(args: Bundle): ViewModel() {
         }
     }
 
+    //get private values
+    fun getUpdatePosition(): Int {
+        val position = updatePosition
+        updatePosition = ConstState.SET_NO_UPDATE_POSITION
+        return position
+    }
+
+    fun getLabel() = label
+    fun getNewData() = newData
+
     class Factory(private val args: Bundle)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -79,9 +80,5 @@ class SetRecordViewModel(args: Bundle): ViewModel() {
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }
-    }
-
-    companion object{
-        const val NO_UPDATE_POSITION = -1
     }
 }

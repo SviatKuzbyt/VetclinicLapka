@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.data.InfoItems
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.InfoRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 
 class InfoViewModel(intent: Intent) : ViewModel() {
     private val table = intent.getStringExtra("table") ?: "Unknown"
@@ -18,7 +18,8 @@ class InfoViewModel(intent: Intent) : ViewModel() {
     private val repository = InfoRepository(table, recordId)
 
     val items = MutableLiveData<InfoItems>()
-    val message = SingleLiveEvent<Int>()
+    val message =
+        SingleLiveEvent<Int>()
 
     init {
         loadItems()

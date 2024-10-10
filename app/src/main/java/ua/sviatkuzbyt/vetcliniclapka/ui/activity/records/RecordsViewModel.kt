@@ -13,7 +13,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.RecordsRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 
 class RecordsViewModel(private val intent: Intent): ViewModel() {
     private val table = intent.getStringExtra("table") ?: "Unknown"
@@ -23,7 +23,8 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
 
     val records = MutableLiveData<MutableList<RecordItem>>()
     val showCalendarButton = MutableLiveData(repository.isSelectedDate())
-    val message = SingleLiveEvent<Int>()
+    val message =
+        SingleLiveEvent<Int>()
 
     init { init() }
 

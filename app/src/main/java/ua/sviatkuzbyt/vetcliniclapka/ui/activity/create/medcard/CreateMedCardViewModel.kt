@@ -13,7 +13,7 @@ import ua.sviatkuzbyt.vetcliniclapka.data.InfoText
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.appointment.CreateAppointmentViewModel.Companion.POSITION_ALL
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.appointment.CreateAppointmentViewModel.Companion.POSITION_ALL_WITH_EDIT_TEXT
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 
 class CreateMedCardViewModel(editId: Int): ViewModel() {
@@ -25,7 +25,8 @@ class CreateMedCardViewModel(editId: Int): ViewModel() {
 
     val createData = MutableLiveData<List<CreateRecordData>>()
     val infoData = MutableLiveData<List<InfoText>>()
-    val message = SingleLiveEvent<Int>()
+    val message =
+        SingleLiveEvent<Int>()
 
     init {
         if (editId > 0){

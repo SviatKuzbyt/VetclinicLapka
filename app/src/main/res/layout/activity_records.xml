@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.records.RecordsActivity">
 
-    <ua.sviatkuzbyt.vetcliniclapka.ui.elements.views.CenterToolbar
+    <ua.sviatkuzbyt.vetcliniclapka.ui.elements.CenterToolbar
         android:id="@+id/toolbarFilter"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

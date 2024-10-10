@@ -10,12 +10,13 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.create.CreateAppointmentRepository
-import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
+import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 
 class CreateAppointmentViewModel(editId: Int): ViewModel() {
     val createData = MutableLiveData<List<CreateRecordData>>()
-    val message = SingleLiveEvent<Int>()
+    val message =
+        SingleLiveEvent<Int>()
     private val repository = CreateAppointmentRepository(editId)
     private var updatePosition = POSITION_ALL
     private var returnData: RecordItem? = null

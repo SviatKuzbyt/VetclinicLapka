@@ -9,4 +9,6 @@ object ConstState {
 
     const val RECORD_ACTION_VIEW = 1
     const val RECORD_ACTION_SELECT = 2
+
+    const val SET_NO_UPDATE_POSITION = -1
 }

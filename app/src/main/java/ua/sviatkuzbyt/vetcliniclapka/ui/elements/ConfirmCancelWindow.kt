@@ -7,7 +7,7 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 
 class ConfirmCancelWindow {
     private lateinit var dialog: AlertDialog
-    private lateinit var builder: AlertDialog.Builder
+    private var builder: AlertDialog.Builder
 
     constructor(fragment: BottomSheetDialogFragment) {
         builder = AlertDialog.Builder(fragment.requireContext(), R.style.ConfirmCancelWindow)

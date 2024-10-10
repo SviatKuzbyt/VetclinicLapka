@@ -91,7 +91,7 @@ exports.updateVet = async (req, res) => {
     try {
         const {name, phone, spec } = req.body;
         const { updateId } = req.params; 
-        const result = await Vet.updateVet(name, phone, spec, updateId);
+        await Vet.updateVet(name, phone, spec, updateId);
         res.status(200).json({ 'result': "success" });
 
     } catch (error) {
@@ -115,7 +115,7 @@ exports.updateAvailable = async (req, res) => {
     try {
         const { available } = req.body;
         const { updateId } = req.params; 
-        const result = await Vet.updateAvailable(available, updateId);
+        await Vet.updateAvailable(available, updateId);
         res.status(200).json({ 'result': "success" });
 
     } catch (error) {

@@ -96,7 +96,6 @@ const Med = {
     },
 
     addMedCardReturn: async (appointment_id, diagnosis, treatment) => {
-        console.log(appointment_id, diagnosis, treatment)
         const [rows] = await db.execute(
             'INSERT INTO medical_card(appointment_id, diagnosis, treatment) VALUES (?, ?, ?)',
             [appointment_id, diagnosis, treatment]

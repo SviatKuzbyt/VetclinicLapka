@@ -91,7 +91,7 @@ exports.updatePet = async (req, res) => {
     try {
         const {name, breed, owner, gender, date_of_birth, features } = req.body;
         const { updateId } = req.params; 
-        const result = await Pet.updatePet(name, breed, owner, gender, date_of_birth, features, updateId);
+        await Pet.updatePet(name, breed, owner, gender, date_of_birth, features, updateId);
         res.status(200).json({ 'result': "success" });
 
     } catch (error) {

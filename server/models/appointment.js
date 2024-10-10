@@ -85,7 +85,6 @@ const Appointment = {
         );
     
         const insertId = rows.insertId;
-        console.log(insertId);
     
         return await db.execute(
             "SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' " +

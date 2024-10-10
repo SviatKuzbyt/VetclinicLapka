@@ -69,8 +69,8 @@ const Vet = {
     },
 
     getEditInfo: async (vet_id) => {
-        const [rows] = await db.execute(`
-            SELECT 
+        const [rows] = await db.execute(
+            `SELECT 
                 v.name AS vet_name,
                 v.phone AS vet_phone,
                 CONCAT(
@@ -90,11 +90,10 @@ const Vet = {
     
         const result = [];
     
-        // Format the result in the desired output structure
         if (rows.length > 0) {
             result.push({ data: rows[0].vet_name, labelData: "" });
             result.push({ data: rows[0].vet_phone, labelData: "" });
-            result.push({ data: rows[0].species, labelData: "" }); // Add species data
+            result.push({ data: rows[0].species, labelData: "" });
         }
     
         return result;
@@ -128,7 +127,6 @@ const Vet = {
     },
 
     getVetsAppointment: async (petId, date) => {
-        console.log(petId, date)
         const [specie] = await db.execute(
             `SELECT b.specie_id as 'specie_id' FROM pet p
             INNER JOIN breed b ON p.breed_id = b.breed_id
@@ -145,14 +143,13 @@ const Vet = {
             ORDER BY v.name`, [date, specie[0].specie_id]
         );
         
-
         return vets; 
     },
 
     getAvailable: async () => {
         const [rows] = await db.execute("SELECT vet_id as 'id', name as 'label', phone as 'subtext' FROM vet WHERE is_available=1 ORDER BY name");
         return rows;
-    },
+    }
 };
 
 module.exports = Vet;

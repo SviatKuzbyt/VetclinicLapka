@@ -66,16 +66,7 @@ exports.getByVetToday = async (req, res) => {
 };
 
 exports.getByDate = async (req, res) => {
-    try {exports.addPet = async (req, res) => {
-        try {
-            const { name, breed: breed_id, owner: owner_id, gender, date_of_birth, features } = req.body;
-            const insertData = await Pet.addPet(name, breed_id, owner_id, gender, date_of_birth, features);
-            res.status(201).json({ 'id': insertData.insertId, 'label': name, 'subtext': insertData.subtext });
-        } catch (error) {
-            res.status(500).json({ message: 'Server Error', error: error.message }); 
-            console.log(error);
-        }
-    };
+    try {
         const { filter } = req.params;
         const appointment = await Appointment.getByDate(filter);
         res.status(200).json(appointment);

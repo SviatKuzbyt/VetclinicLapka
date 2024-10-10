@@ -48,9 +48,7 @@ const Owner = {
             'UPDATE owner SET name = ?, phone = ? WHERE owner_id = ?',
             [name, phone, updateId]
         );
-        return result;
     }
-    
 };
 
 module.exports = Owner;

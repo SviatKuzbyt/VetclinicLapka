@@ -1,11 +1,18 @@
 package ua.sviatkuzbyt.vetcliniclapka.data
 
+import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.net.HttpURLConnection
 import java.net.URL
 
 object ServerApi {
     private const val BASIC_URL = "http://192.168.180.1:3000/"
+    private val gson = Gson()
+
+    private val getRecordItemType = object : TypeToken<RecordItem>() {}.type
+    private val getListEditInfoType = object : TypeToken<List<EditInfo>>() {}.type
+    private val getListStringType = object : TypeToken<List<String>>() {}.type
+    private val getListRecordItemType = object : TypeToken<MutableList<RecordItem>>() {}.type
 
     fun getData(path: String) = URL("$BASIC_URL$path").readText()
 
@@ -34,8 +41,15 @@ object ServerApi {
         return response
     }
 
-    val getRecordItemType = object : TypeToken<RecordItem>() {}.type
-    val getListEditInfoType = object : TypeToken<List<EditInfo>>() {}.type
-    val getListStringType = object : TypeToken<List<String>>() {}.type
-    val getListRecordItemType = object : TypeToken<MutableList<RecordItem>>() {}.type
+    fun formatRecordItem(text: String): RecordItem =
+        gson.fromJson(text, getRecordItemType)
+
+    fun formatListEditInfo(text: String): List<EditInfo> =
+        gson.fromJson(text, getListEditInfoType)
+
+    fun formatListString(text: String): List<String> =
+        gson.fromJson(text, getListStringType)
+
+    fun formatListRecordItem(text: String): MutableList<RecordItem> =
+        gson.fromJson(text, getListRecordItemType)
 }

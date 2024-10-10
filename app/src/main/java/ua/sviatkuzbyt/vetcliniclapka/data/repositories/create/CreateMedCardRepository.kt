@@ -1,6 +1,5 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.repositories.create
 
-import com.google.gson.Gson
 import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
@@ -16,7 +15,12 @@ class CreateMedCardRepository(updateId: Int): CreateRepository(
         CreateRecordData("cure")
     )
 ) {
+    override fun loadData(){
+        super.loadData()
+        getInfoData()
+    }
 
+    //save and load data for information about patient
     private val infoData = listOf(
         InfoText(R.string.name),
         InfoText(R.string.breed),
@@ -25,14 +29,9 @@ class CreateMedCardRepository(updateId: Int): CreateRepository(
         InfoText(R.string.complaint)
     )
 
-    override fun loadData(){
-        super.loadData()
-        getInfoData()
-    }
-
     fun getInfoData(): List<InfoText>{
-        val info = ServerApi.getData("medcard/infocreate/${createData[1].data}")
-        val infoList: List<String> = Gson().fromJson(info, ServerApi.getListStringType)
+        val response = ServerApi.getData("medcard/infocreate/${listForNewData[1].data}")
+        val infoList: List<String> = ServerApi.formatListString(response)
 
         for (i in infoData.indices){
             infoData[i].content = infoList[i]
@@ -41,9 +40,8 @@ class CreateMedCardRepository(updateId: Int): CreateRepository(
     }
 
     fun setRecord(ill: String, cure: String, isReturn: Boolean): RecordItem? {
-        createData[2].data = ill
-        createData[3].data = cure
-
+        listForNewData[2].data = ill
+        listForNewData[3].data = cure
         return super.setRecord(isReturn)
     }
 }

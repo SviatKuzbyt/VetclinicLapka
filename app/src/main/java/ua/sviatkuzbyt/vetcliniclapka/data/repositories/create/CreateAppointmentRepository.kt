@@ -14,7 +14,7 @@ class CreateAppointmentRepository(updateId: Int) : CreateRepository(
     )
 ){
     fun setRecord(complaint: String, isReturn: Boolean): RecordItem?{
-        createData.last().data = complaint
+        listForNewData.last().data = complaint
         return super.setRecord(isReturn)
     }
 }

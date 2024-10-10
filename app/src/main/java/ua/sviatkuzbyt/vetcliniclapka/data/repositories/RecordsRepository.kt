@@ -1,21 +1,18 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.repositories
 
-import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.FilterItem
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.data.prelists.RecordsFilter
 
 class RecordsRepository(private val table: String) {
-
     private val records = mutableListOf<RecordItem>()
     private val filterList = RecordsFilter().getFilterList(table)
-    private var currentFilter = filterList[0].apiName
+
+    private var currentSearchFilter = filterList[0].apiName
     private var lastFilter = table
 
+    //icon for recycler list
     private val icon = when(table){
         "pet" -> R.drawable.ic_round_pets
         "owner" -> R.drawable.ic_round_people
@@ -24,9 +21,27 @@ class RecordsRepository(private val table: String) {
         else -> R.drawable.ic_round_record
     }
 
+    //load all data from server
     fun getAllData(): MutableList<RecordItem>{
-        val text = ServerApi.getData(table)
-        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
+        val response = ServerApi.getData(table)
+        records.addAll(ServerApi.formatListRecordItem(response))
+        return records
+    }
+
+    //set filter
+    fun updateFilterList(oldPosition: Int, newPosition: Int) {
+        filterList[oldPosition].isSelected = false
+        filterList[newPosition].isSelected = true
+        currentSearchFilter = filterList[newPosition].apiName
+    }
+
+    //load data from server by user data
+    fun getFilterSearchData(filter: String): MutableList<RecordItem>{
+        lastFilter = "$table/filter/$currentSearchFilter/${filter.trim()}"
+
+        val response = ServerApi.getData(lastFilter)
+        updateList(ServerApi.formatListRecordItem(response))
+
         return records
     }
 
@@ -35,39 +50,21 @@ class RecordsRepository(private val table: String) {
         records.addAll(list)
     }
 
-    fun getFilterData(filter: String): MutableList<RecordItem>{
-        val trimFilter = filter.trim()
-        lastFilter = "$table/filter/$currentFilter/$trimFilter"
-        val text = ServerApi.getData(lastFilter)
-        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
+    //load data from server by other activity
+    fun getStartUpFilterData(filter: String): MutableList<RecordItem>{
+        val response = ServerApi.getData("$table/filter/$filter")
+        updateList(ServerApi.formatListRecordItem(response))
         return records
     }
 
-    fun getStartFilterData(filter: String): MutableList<RecordItem>{
-        val text = ServerApi.getData("$table/filter/$filter")
-        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
-        return records
-    }
-
-    fun getIcon() = icon
-
-    fun getFilterList(): List<FilterItem> {
-        return filterList
-    }
-
-    fun updateFilterList(oldPosition: Int, newPosition: Int) {
-        filterList[oldPosition].isSelected = false
-        filterList[newPosition].isSelected = true
-        currentFilter = filterList[newPosition].apiName
-    }
-
-    fun isSelectedDate() = currentFilter == "date"
-
+    //update list for update
     fun reload(): MutableList<RecordItem> {
-        val text = ServerApi.getData(lastFilter)
-        updateList(Gson().fromJson(text, ServerApi.getListRecordItemType))
+        val response = ServerApi.getData(lastFilter)
+        updateList(ServerApi.formatListRecordItem(response))
         return records
     }
 
+    fun isSelectedDate() = currentSearchFilter == "date"
+    fun getIcon() = icon
+    fun getFilterList() = filterList
 }
-

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.repositories.SetRecordRepository
@@ -15,7 +16,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.include.SingleLiveEvent
 
 class SetRecordViewModel(args: Bundle): ViewModel() {
-    private val updateId = args.getInt("updateId", SetRecordRepository.NO_EDIT_ID)
+    private val updateId = args.getInt("updateId", ConstState.SET_NO_EDIT_ID)
     private val label = args.getInt("label", R.string.create_record)
     private val repository = SetRecordRepository(
         args.getString("table")?: "unknown", updateId

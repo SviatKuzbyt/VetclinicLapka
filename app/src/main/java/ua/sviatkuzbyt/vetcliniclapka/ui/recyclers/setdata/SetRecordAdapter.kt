@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ConstState
 import ua.sviatkuzbyt.vetcliniclapka.data.SetRecordItem
-import ua.sviatkuzbyt.vetcliniclapka.data.repositories.SetRecordRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.setdata.holders.CheckboxSpecViewHolder
 import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.setdata.holders.GenderViewHolder
 import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.setdata.holders.SelectViewHolder
@@ -19,19 +19,19 @@ class SetRecordAdapter(
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SetRecordViewHolder {
        return when(viewType){
-           SetRecordRepository.TYPE_CHECKBOX_SPEC ->
+           ConstState.SET_TYPE_CHECKBOX_SPEC ->
                CheckboxSpecViewHolder(
                    LayoutInflater.from(viewGroup.context)
                        .inflate(R.layout.item_set_vet_spec, viewGroup, false)
                )
 
-           SetRecordRepository.TYPE_TEXT ->
+           ConstState.SET_TYPE_TEXT ->
                TextViewHolder(
                    LayoutInflater.from(viewGroup.context)
                        .inflate(R.layout.item_set_record, viewGroup, false)
                )
 
-           SetRecordRepository.TYPE_RADIO ->
+           ConstState.SET_TYPE_RADIO ->
                GenderViewHolder(
                    LayoutInflater.from(viewGroup.context)
                        .inflate(R.layout.item_select_gender, viewGroup, false)

@@ -30,7 +30,7 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
     private fun init() = viewModelScope.launch(Dispatchers.IO){
         try {
             val filter = intent.getStringExtra("filter")
-            if (filter != null) records.postValue(repository.getStartFilterData(filter))
+            if (filter != null) records.postValue(repository.getStartUpFilterData(filter))
             else records.postValue(repository.getAllData())
         } catch (e: Exception){
             postError(e, message)
@@ -40,7 +40,7 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
     fun getFilterData(filter: String){
         viewModelScope.launch(Dispatchers.IO){
             try {
-                records.postValue(repository.getFilterData(filter))
+                records.postValue(repository.getFilterSearchData(filter))
             } catch (e: Exception){
                 postError(e, message)
             }

@@ -1,9 +1,7 @@
 package ua.sviatkuzbyt.vetcliniclapka.data.repositories.create
 
-import com.google.gson.Gson
 import org.json.JSONObject
 import ua.sviatkuzbyt.vetcliniclapka.data.CreateRecordData
-import ua.sviatkuzbyt.vetcliniclapka.data.EditInfo
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
@@ -11,52 +9,60 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.NoTextException
 open class CreateRepository(
     private val table: String,
     private val updateId: Int,
-    protected val createData: List<CreateRecordData>
+    protected val listForNewData: List<CreateRecordData>
 ) {
 
+    //load data for edit record
     open fun loadData() {
-        val data = ServerApi.getData("$table/infoedit/$updateId")
-        val listData: List<EditInfo> = Gson().fromJson(data, ServerApi.getListEditInfoType)
+        val response = ServerApi.getData("$table/infoedit/$updateId")
+        val listData = ServerApi.formatListEditInfo(response)
 
         for (i in listData.indices){
-            listData[i].data?.let { createData[i].data = it }
-            createData[i].labelData = listData[i].labelData
+            listData[i].data?.let { listForNewData[i].data = it }
+            listForNewData[i].labelData = listData[i].labelData
         }
     }
 
-    fun getCreatedData() = createData
-
+    //set new data in createData list
     fun updateData(data: String, labelData: String?, position: Int){
-        createData[position].data = data
+        listForNewData[position].data = data
         labelData?.let {
-            createData[position].labelData = it
+            listForNewData[position].labelData = it
         }
     }
 
+    //save data to server
     protected fun setRecord(isReturn: Boolean): RecordItem? {
-
+        //save and return to apply changes in RecordActivity
         return if (isReturn){
             createAndReturnRecord()
-        } else if (updateId > 0){
+        }
+        //Update data on server
+        else if (updateId > 0){
             ServerApi.putData("$table/update/$updateId", formatJson())
             null
-        } else {
+        }
+        //Just save data
+        else {
             ServerApi.postData("$table/add", formatJson())
             null
         }
     }
 
+    //create json from listForNewData
     private fun formatJson(): String {
         val jsonData = JSONObject()
-        for (i in 1 until  createData.size){
-            if (createData[i].data.isBlank()) throw NoTextException()
-            jsonData.put(createData[i].apiName, createData[i].data)
+        for (i in 1 until  listForNewData.size){
+            if (listForNewData[i].data.isBlank()) throw NoTextException()
+            jsonData.put(listForNewData[i].apiName, listForNewData[i].data)
         }
         return jsonData.toString()
     }
 
     private fun createAndReturnRecord(): RecordItem {
         val textRes = ServerApi.postData("$table/addreturn", formatJson())
-        return Gson().fromJson(textRes, ServerApi.getRecordItemType)
+        return ServerApi.formatRecordItem(textRes)
     }
+
+    fun getCreatedData() = listForNewData
 }

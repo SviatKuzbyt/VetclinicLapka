@@ -4,11 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityInfoBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.appointment.CreateAppointmentActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
@@ -21,73 +20,89 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.setdata.SetRecordFragment
 class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
     SetRecordFragment.SetRecordActions {
     private lateinit var binding: ActivityInfoBinding
-    private lateinit var viewModel: InfoViewModel
-
-    private val createActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_OK){
-            val resultData = it.data
-            if (resultData?.getBooleanExtra("isUpdate", false) == true){
-                update()
-            }
-        }
+    private val viewModel: InfoViewModel by viewModels {
+        InfoViewModel.Factory(intent)
     }
 
+    private val createActivityResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if (it.resultCode == RESULT_OK){
+                val resultData = it.data
+                if (resultData?.getBooleanExtra("isUpdate", false) == true){
+                    update()
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val factory = InfoViewModel.Factory(intent)
-        viewModel = ViewModelProvider(this, factory)[InfoViewModel::class.java]
+        setupViews()
+        setupViewModel()
+    }
 
-        viewModel.message.observe(this){
-            makeToast(this, it)
-        }
+    private fun setupViews(){
+        binding.apply {
+            //ToolBar
+            infoToolBar.setup(getString(viewModel.getLabel()), this@InfoActivity)
 
-        binding.infoTextFrame.apply {
-            frameRecycler.layoutManager = LinearLayoutManager(this@InfoActivity)
-            frameLabel.setText(R.string.info)
-        }
+            //Info frame
+            infoTextFrame.apply {
+                frameRecycler.layoutManager = LinearLayoutManager(this@InfoActivity)
+                frameLabel.setText(R.string.info)
+            }
 
-        binding.infoDataFrame.apply {
-            frameRecycler.layoutManager = LinearLayoutManager(this@InfoActivity)
-            frameLabel.setText(R.string.shared_data)
-        }
+            //Shared data frame
+            infoDataFrame.apply {
+                frameRecycler.layoutManager = LinearLayoutManager(this@InfoActivity)
+                frameLabel.setText(R.string.shared_data)
+            }
 
-        binding.infoActionFrame.apply {
-            frameEditButton.setOnClickListener{
-                when(viewModel.getTable()){
-                    "appointment" -> openCreateActivity(CreateAppointmentActivity::class.java)
-                    "medcard" -> openCreateActivity(CreateMedCardActivity::class.java)
-                    else -> openFragment()
+            //action frame
+            infoActionFrame.apply {
+                frameEditButton.setOnClickListener{
+                    when(viewModel.getTable()){
+                        "appointment" -> openCreateActivity(CreateAppointmentActivity::class.java)
+                        "medcard" -> openCreateActivity(CreateMedCardActivity::class.java)
+                        else -> openFragment()
+                    }
+                }
+            }
+
+            //is available vet button
+            if(viewModel.getTable() == "vet"){
+                infoActionFrame.frameAvailableCheckBox.apply {
+                    visibility = View.VISIBLE
+
+                    setOnClickListener {
+                        viewModel.changeVetAvailable(this.isChecked)
+                    }
                 }
             }
         }
+    }
 
-        binding.infoToolBar.setup(getString(viewModel.getLabel()), this)
-
-
+    private fun setupViewModel(){
+        //frame data
         viewModel.items.observe(this){
             binding.frames.visibility = View.VISIBLE
+
             binding.infoTextFrame.frameRecycler.adapter =
                 TextAdapter(it.texts)
 
             binding.infoDataFrame.frameRecycler.adapter =
                 SharedDataAdapter(it.sharedData, this)
+
             it.isAvailableVet?.let { available ->
                 binding.infoActionFrame.frameAvailableCheckBox.isChecked = available
             }
         }
 
-        if(viewModel.getTable() == "vet"){
-            binding.infoActionFrame.frameAvailableCheckBox.apply {
-                visibility = View.VISIBLE
-
-                setOnClickListener {
-                    viewModel.changeVetAvailable(this.isChecked)
-                }
-            }
+        //error message
+        viewModel.message.observe(this){
+            makeToast(this, it)
         }
     }
 
@@ -123,14 +138,8 @@ class InfoActivity : AppCompatActivity(), SharedDataAdapter.Action,
         startActivity(openIntent)
     }
 
-    override fun add(item: RecordItem) {}
-
     override fun update() {
         viewModel.loadItems()
-        setResult(RESULT_UPDATE, Intent())
-    }
-
-    companion object{
-        const val RESULT_UPDATE = -1
+        setResult(RESULT_OK, Intent())
     }
 }

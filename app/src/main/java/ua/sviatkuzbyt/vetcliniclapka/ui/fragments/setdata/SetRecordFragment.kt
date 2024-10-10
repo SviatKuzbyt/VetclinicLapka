@@ -47,8 +47,8 @@ class SetRecordFragment :
     }
 
     interface SetRecordActions{
-        fun add(item: RecordItem)
-        fun update()
+        fun add(item: RecordItem) {}
+        fun update() {}
     }
 
     private var action: SetRecordActions? = null

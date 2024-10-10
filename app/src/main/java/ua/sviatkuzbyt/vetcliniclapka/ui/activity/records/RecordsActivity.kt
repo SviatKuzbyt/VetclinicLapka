@@ -19,7 +19,6 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.record.RecordAdapter
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.info.InfoActivity
-import ua.sviatkuzbyt.vetcliniclapka.ui.activity.info.InfoActivity.Companion.RESULT_UPDATE
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.medcard.CreateMedCardActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.time.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.record.FilterFragment
@@ -48,7 +47,7 @@ class RecordsActivity :
     }
 
     private val infoActivityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
-        if (it.resultCode == RESULT_UPDATE){
+        if (it.resultCode == RESULT_OK){
             viewModel.reload()
         }
     }

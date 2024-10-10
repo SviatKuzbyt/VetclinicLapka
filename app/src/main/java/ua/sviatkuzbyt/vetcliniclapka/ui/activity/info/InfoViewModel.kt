@@ -21,15 +21,11 @@ class InfoViewModel(intent: Intent) : ViewModel() {
     val items = MutableLiveData<InfoItems>()
     val message = SingleLiveEvent<Int>()
 
-    fun getLabel() =
-        try { repository.getLabel()}
-        catch (_: Exception){ R.string.error }
+    init {
+        loadItems()
+    }
 
-    fun getId() = recordId
-    fun getTable() = table
-
-    init { loadItems() }
-
+    //get items from server at startup or update
     fun loadItems() = viewModelScope.launch(Dispatchers.IO){
         try {
             items.postValue(repository.loadItems())
@@ -45,6 +41,10 @@ class InfoViewModel(intent: Intent) : ViewModel() {
             postError(e, message)
         }
     }
+
+    fun getLabel() = repository.getLabel()
+    fun getId() = recordId
+    fun getTable() = table
 
     class Factory(private val intent: Intent)
         : ViewModelProvider.Factory {

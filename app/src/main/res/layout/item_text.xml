@@ -17,6 +17,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/itemTextContent"
         android:textAppearance="@style/TextBasic"
-        android:text="Temp text"
         android:layout_marginHorizontal="20dp"/>
 </LinearLayout>

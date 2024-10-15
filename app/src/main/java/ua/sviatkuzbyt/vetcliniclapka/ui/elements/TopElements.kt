@@ -35,7 +35,7 @@ fun postError(error: Exception, data: MutableLiveData<Int>){
     data.postValue(message)
 
     //TEMP (for test)
-    Log.e("sklt_error", "Error type: ${error::class.java.simpleName}", error)
+    Log.e("sklt_error", error.toString(), error)
 }
 
 class NoTextException : Exception()

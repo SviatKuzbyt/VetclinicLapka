@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.1"
+agp = "8.7.0"
 gson = "2.10.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -7,12 +7,16 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
+ktorServerCore = "3.0.0"
+ktorServerNetty = "3.0.0"
 lifecycleViewmodelKtx = "2.8.6"
+logbackClassic = "1.5.10"
 material = "1.12.0"
 activity = "1.9.2"
 constraintlayout = "2.1.4"
 volley = "1.2.1"
 legacySupportV4 = "1.0.0"
+jetbrainsKotlinJvm = "1.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -23,6 +27,14 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorServerCore" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktorServerCore" }
+ktor-server-host-common = { module = "io.ktor:ktor-server-host-common", version.ref = "ktorServerCore" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty", version.ref = "ktorServerNetty" }
+ktor-server-core = { module = "io.ktor:ktor-server-core", version.ref = "ktorServerCore" }
+ktor-server-sessions = { module = "io.ktor:ktor-server-sessions", version.ref = "ktorServerCore" }
+ktor-server-tests = { module = "io.ktor:ktor-server-tests", version.ref = "ktorServerCore" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassic" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -32,4 +44,5 @@ androidx-legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 

@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "VetclinicLapka"
 include(":app")
+include(":Api")

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="16dp">
+
+    <TextView
+        android:id="@+id/itemReportNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/green"/>
+
+    <TextView
+        android:id="@+id/itemReportContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:fontFamily="@font/roboto"
+        android:textColor="@color/black"
+        android:layout_marginTop="4dp"/>
+</LinearLayout>

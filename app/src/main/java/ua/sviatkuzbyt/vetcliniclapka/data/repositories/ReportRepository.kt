@@ -16,7 +16,7 @@ import java.io.OutputStream
 class ReportRepository(private val context: Context) {
 
     fun getReport() = mutableListOf(
-        "some data 1", "some data 2", "some data 3"
+        "<b>some</b> data 1", "some data 2", "some data 3"
     )
 
     fun saveReportToPdf(list: ListView) {

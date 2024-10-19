@@ -2,6 +2,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.recyclers
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,7 +35,7 @@ class ReportAdapter(private val context: Context, private val items: MutableList
         } else{
             itemReportLabel.text = "${context.getString(R.string.num)}$position"
         }
-        itemReportContent.text = getItem(position)
+        itemReportContent.text = Html.fromHtml(getItem(position), Html.FROM_HTML_MODE_COMPACT)
         return view
     }
 }

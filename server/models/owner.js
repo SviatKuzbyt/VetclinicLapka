@@ -78,10 +78,6 @@ const Owner = {
             GROUP BY o.owner_id;`,
             params
         );
-    
-        if (result.length === 0) {
-            return "Немає відповідних записів.";
-        }
 
         let formateResult = []
 

@@ -102,6 +102,60 @@ const Pet = {
             'UPDATE pet SET name = ?, breed_id = ?, owner_id = ?, gender = ?, date_of_birth = ?, features = ? WHERE pet_id = ?',
             [name, breed_id, owner_id, gender, date_of_birth, features, updateId]
         );
+    },
+
+    getReport: async (filter, key) => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'name':
+                filterRow = `WHERE p.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'owner':
+                filterRow = `WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'breed':
+                filterRow = `WHERE b.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
+    
+        const [result] = await db.execute(
+            `select 
+            p.name as 'pet_name',
+            CONCAT(b.name, ', ', s.name) as 'breed_name',
+            CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender',
+            DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
+            CASE WHEN p.features is null Then 'Немає' ELSE p.features END AS 'features',
+            CONCAT(o.name, ' (', o.phone, ')') as 'owner',
+            COUNT(a.appointment_id) AS appointment_count
+            from pet p 
+            inner join breed b on p.breed_id = b.breed_id 
+            inner join specie s on b.specie_id = s.specie_id 
+            inner join owner o on p.owner_id = o.owner_id 
+            LEFT JOIN appointment a ON p.pet_id = a.pet_id
+            ${filterRow}
+            GROUP BY p.pet_id, p.name;`,
+            params
+        );
+
+        let formateResult = []
+
+        for(let i in result){
+            formateResult.push(
+                `<b>Ім'я:</b> ${result[i].pet_name}<br><b>Порода:</b> ${result[i].breed_name}<br>
+                <b>Стать:</b> ${result[i].gender}<br><b>Дата народження:</b> ${result[i].date_of_birth}<br>
+                <b>Особливості здоров'я:</b> ${result[i].features}<br><b>Власник:</b> ${result[i].owner}<br>
+                <b>Кількість звертань:</b> ${result[i].appointment_count}`
+            )
+        }
+    
+        return formateResult;
     }
 };
 

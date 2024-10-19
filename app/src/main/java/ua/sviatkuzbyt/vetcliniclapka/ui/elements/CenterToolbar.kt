@@ -21,7 +21,7 @@ class CenterToolbar @JvmOverloads constructor(
     private var confirmCancelWindow: ConfirmCancelWindow? = null
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.my_view_toolbar, this, true)
+        LayoutInflater.from(context).inflate(R.layout.center_toolbar, this, true)
         button = findViewById(R.id.btnToolbarBack)
         label = findViewById(R.id.labelToolbarBack)
     }

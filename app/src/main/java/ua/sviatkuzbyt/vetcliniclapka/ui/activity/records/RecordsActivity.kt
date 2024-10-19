@@ -21,6 +21,7 @@ import ua.sviatkuzbyt.vetcliniclapka.ui.elements.hideKeyboard
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.info.InfoActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.activity.create.medcard.CreateMedCardActivity
+import ua.sviatkuzbyt.vetcliniclapka.ui.activity.report.ReportActivity
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.time.CalendarFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.record.FilterFragment
 import ua.sviatkuzbyt.vetcliniclapka.ui.fragments.setdata.SetRecordFragment
@@ -141,7 +142,15 @@ class RecordsActivity :
 
     private fun setToolBar(){
         val text = viewModel.getLabel()
-        binding.toolbarFilter.setup(text, this)
+        binding.toolbarFilter.setup(
+            text, this, R.drawable.ic_report
+        ) {
+            openReportActivity()
+        }
+    }
+
+    private fun openReportActivity(){
+        startActivity(Intent(this, ReportActivity::class.java))
     }
 
     @SuppressLint("NotifyDataSetChanged")

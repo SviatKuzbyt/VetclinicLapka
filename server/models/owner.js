@@ -87,7 +87,7 @@ const Owner = {
 
         for(let i in result){
             formateResult.push(
-                `<b>Ім'я:</b> ${result[i].owner_name}<br><b>Телефон:</b> ${result[i].owner_phone}<br><b>Домашні вихованці:</b> ${result[i].pets}<br>`
+                `<b>Ім'я:</b> ${result[i].owner_name}<br><b>Телефон:</b> ${result[i].owner_phone}<br><b>Домашні вихованці:</b> ${result[i].pets}`
             )
         }
     

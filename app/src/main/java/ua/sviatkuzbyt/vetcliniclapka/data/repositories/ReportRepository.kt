@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.ListView
+import ua.sviatkuzbyt.vetcliniclapka.R
+import ua.sviatkuzbyt.vetcliniclapka.data.ServerApi
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SavePdfException
 import java.io.File
 import java.io.FileOutputStream
@@ -21,25 +23,30 @@ import java.time.format.DateTimeFormatter
 class ReportRepository(private val context: Context, private val intent: Intent) {
 
     fun getReport(): MutableList<String> {
-        val reportItems = mutableListOf(
-            "some data <br>some data <br>some data <br>some data <br>some data <br>some data",
-            "some data <br>some data <br>some data <br>some data <br>some data <br>some data",
-            "some data <br>some data <br>some data <br>some data <br>some data <br>some data",
-        )
-        reportItems.add(0, getReportInfo(reportItems.size))
+        val filterKey = intent.getStringExtra("filterKey") ?: ""
+        val reportItems = getItems(filterKey)
+        reportItems.add(0, getReportInfo(filterKey, reportItems.size))
         return reportItems
     }
 
-    private fun getReportInfo(itemsCount: Int): String{
+    private fun getItems(filterKey: String): MutableList<String> {
+        val tableApi = intent.getStringExtra("tableApi")
+        val filter = if(filterKey.isBlank()) "all"
+        else intent.getStringExtra("filterApi")?: "all"
+
+        val response = ServerApi.getData("$tableApi/report/$filter/$filterKey")
+        return ServerApi.formatMutableListString(response)
+    }
+
+    private fun getReportInfo(filterKey: String, itemsCount: Int): String{
         val table = intent.getStringExtra("table")
         val filter = intent.getStringExtra("filter")
-        val filterKey = intent.getStringExtra("filterKey")
-        Log.v("sklt", "${intent.getStringExtra("tableApi")} ${intent.getStringExtra("filterApi")}")
         val time = getCurrentTime()
+        val formatedKey = filterKey.ifBlank { "Всі записи" }
 
         return "<b>Таблиця:</b> $table<br>" +
                 "<b>Відфільтровано за:</b> $filter<br>" +
-                "<b>Значення фільтру:</b> $filterKey<br>" +
+                "<b>Значення фільтру:</b> $formatedKey<br>" +
                 "<b>Час створення:</b> $time<br>" +
                 "<b>Кількість записів:</b> $itemsCount"
     }
@@ -61,7 +68,7 @@ class ReportRepository(private val context: Context, private val intent: Intent)
         var page = document.startPage(PdfDocument.PageInfo.Builder(width, height, currentPage).create())
 
         var layout = LinearLayout(context)
-        var top = 0
+        var top = 50
 
         for (i in 0 until adapter.count) {
             val itemView = adapter.getView(i, null, list)
@@ -71,10 +78,10 @@ class ReportRepository(private val context: Context, private val intent: Intent)
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
             )
 
-            if (top + itemView.measuredHeight >= height - 36){
+            if (top + itemView.measuredHeight >= height - 50){
                 layout.draw(page.canvas)
                 document.finishPage(page)
-                top = 0
+                top = 50
                 currentPage ++
                 page = document.startPage(PdfDocument.PageInfo.Builder(width, height, currentPage).create())
                 layout = LinearLayout(context)
@@ -93,10 +100,11 @@ class ReportRepository(private val context: Context, private val intent: Intent)
 
     private fun saveDocument(document: PdfDocument){
         try {
+            val fileName = "report_${System.currentTimeMillis()}.pdf"
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                savePdfInScopedStorage(context, document)
+                savePdfInScopedStorage(context, document, fileName)
             } else{
-                savePdfLegacy(document)
+                savePdfLegacy(document, fileName)
             }
         } catch (_: Exception){
             document.close()
@@ -104,9 +112,7 @@ class ReportRepository(private val context: Context, private val intent: Intent)
         }
     }
 
-    private fun savePdfInScopedStorage(context: Context, document: PdfDocument) {
-        val fileName = "report.pdf"
-
+    private fun savePdfInScopedStorage(context: Context, document: PdfDocument, fileName: String) {
         val resolver = context.contentResolver
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
@@ -125,9 +131,9 @@ class ReportRepository(private val context: Context, private val intent: Intent)
         document.close()
     }
 
-    private fun savePdfLegacy(document: PdfDocument) {
+    private fun savePdfLegacy(document: PdfDocument, fileName: String) {
         val directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
-        val file = File(directory, "report.pdf")
+        val file = File(directory, fileName)
 
         if (!directory.exists()) {
             directory.mkdirs()

@@ -12,6 +12,7 @@ object ServerApi {
     private val getRecordItemType = object : TypeToken<RecordItem>() {}.type
     private val getListEditInfoType = object : TypeToken<List<EditInfo>>() {}.type
     private val getListStringType = object : TypeToken<List<String>>() {}.type
+    private val getMutableListStringType = object : TypeToken<MutableList<String>>() {}.type
     private val getListRecordItemType = object : TypeToken<MutableList<RecordItem>>() {}.type
 
     fun getData(path: String) = URL("$BASIC_URL$path").readText()
@@ -49,6 +50,9 @@ object ServerApi {
 
     fun formatListString(text: String): List<String> =
         gson.fromJson(text, getListStringType)
+
+    fun formatMutableListString(text: String): MutableList<String> =
+        gson.fromJson(text, getMutableListStringType)
 
     fun formatListRecordItem(text: String): MutableList<RecordItem> =
         gson.fromJson(text, getListRecordItemType)

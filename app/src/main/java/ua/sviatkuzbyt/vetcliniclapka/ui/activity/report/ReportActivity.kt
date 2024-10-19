@@ -3,6 +3,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.activity.report
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.databinding.ActivityReportBinding
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.makeToast
 import ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.ReportAdapter
@@ -23,6 +24,12 @@ class ReportActivity : AppCompatActivity() {
 
         viewModel.message.observe(this){
             makeToast(this, it)
+        }
+
+        binding.reportToolbar.setup(
+            getString(R.string.report), this, R.drawable.ic_save
+        ){
+            viewModel.saveReportToPdf(binding.reportList)
         }
     }
 }

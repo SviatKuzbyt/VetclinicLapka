@@ -84,4 +84,6 @@
     <string name="create_medcard">Створення медкарти</string>
     <string name="num">Запис №</string>
     <string name="report">Звіт</string>
+    <string name="save_pdf_error">Не вдалося зберегти. Перевірте, чи надано доступ до файлів</string>
+    <string name="save_pdf">Звіт збережено до папки \"Документи\"</string>
 </resources>

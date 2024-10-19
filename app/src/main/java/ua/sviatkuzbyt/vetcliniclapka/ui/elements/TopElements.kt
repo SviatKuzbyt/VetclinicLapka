@@ -30,15 +30,16 @@ fun postError(error: Exception, data: MutableLiveData<Int>){
         is ConnectException -> R.string.no_connection
         is UnknownHostException -> R.string.no_connection
         is FileNotFoundException -> R.string.error_server
+        is SavePdfException -> R.string.save_pdf_error
         else -> R.string.error
     }
     data.postValue(message)
 
-    //TEMP (for test)
     Log.e("sklt_error", "Error type: ${error::class.java.simpleName}", error)
 }
 
-class NoTextException : Exception()
+class NoTextException: Exception()
+class SavePdfException: Exception()
 
 fun openSelectActivity(
     table: String,

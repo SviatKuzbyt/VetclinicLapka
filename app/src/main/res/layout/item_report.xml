@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingHorizontal="24dp"
-    android:paddingVertical="16dp"
+    android:paddingTop="16dp"
     android:background="@color/white_light"
     android:id="@+id/reportItem">
 
@@ -12,7 +12,7 @@
         android:layout_width="86dp"
         android:layout_height="30dp"
         android:background="@drawable/logo_report"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="16dp"
         android:visibility="gone"
         android:id="@+id/reportLabel"/>
 
@@ -20,7 +20,7 @@
         android:id="@+id/itemReportLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
+        android:textSize="12dp"
         android:fontFamily="@font/roboto_bold"
         android:textColor="@color/green"/>
 
@@ -28,7 +28,7 @@
         android:id="@+id/itemReportContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:textSize="10dp"
         android:fontFamily="@font/roboto"
         android:textColor="@color/black"/>
 </LinearLayout>

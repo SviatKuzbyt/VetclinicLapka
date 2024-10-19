@@ -150,7 +150,15 @@ class RecordsActivity :
     }
 
     private fun openReportActivity(){
-        startActivity(Intent(this, ReportActivity::class.java))
+        val reportIntent = Intent(this, ReportActivity::class.java).apply {
+            putExtra("table", viewModel.getLabel())
+            putExtra("tableApi", viewModel.getTable())
+            putExtra("filter", getString(viewModel.getSelectedFilter()))
+            putExtra("filterApi", viewModel.getSelectedFilterApi())
+            putExtra("filterKey", binding.filterText.text.toString())
+        }
+
+        startActivity(reportIntent)
     }
 
     @SuppressLint("NotifyDataSetChanged")

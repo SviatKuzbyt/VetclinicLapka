@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.LinearLayout
 import android.widget.TextView
 import ua.sviatkuzbyt.vetcliniclapka.R
 
@@ -27,12 +26,13 @@ class ReportAdapter(private val context: Context, private val items: MutableList
 
         val itemReportLabel: TextView = view.findViewById(R.id.itemReportLabel)
         val itemReportContent: TextView = view.findViewById(R.id.itemReportContent)
+        val label: View = view.findViewById(R.id.reportLabel)
 
         if (position == 0){
-            val label: View = view.findViewById(R.id.reportLabel)
             label.visibility = View.VISIBLE
             itemReportLabel.setText(R.string.report)
         } else{
+            label.visibility = View.GONE
             itemReportLabel.text = "${context.getString(R.string.num)}$position"
         }
         itemReportContent.text = Html.fromHtml(getItem(position), Html.FROM_HTML_MODE_COMPACT)

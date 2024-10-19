@@ -67,4 +67,6 @@ class RecordsRepository(private val table: String) {
     fun isSelectedDate() = currentSearchFilter == "date"
     fun getIcon() = icon
     fun getFilterList() = filterList
+    fun getSelectedFilterApi() = currentSearchFilter
+    fun getSelectedFilter() = filterList.find{it.isSelected}?.label ?: R.string.error
 }

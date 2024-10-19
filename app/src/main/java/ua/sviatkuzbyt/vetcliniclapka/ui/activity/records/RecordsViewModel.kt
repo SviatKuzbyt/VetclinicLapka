@@ -81,6 +81,9 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
     fun getTable() = table
     fun getMode() = openMode
 
+    fun getSelectedFilterApi() = repository.getSelectedFilterApi()
+    fun getSelectedFilter() = repository.getSelectedFilter()
+
     fun reload() = viewModelScope.launch(Dispatchers.IO){
         try {
             records.postValue(repository.reload())

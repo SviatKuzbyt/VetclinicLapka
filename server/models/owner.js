@@ -48,7 +48,52 @@ const Owner = {
             'UPDATE owner SET name = ?, phone = ? WHERE owner_id = ?',
             [name, phone, updateId]
         );
+    },
+
+    getReport: async (filter, key) => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'name':
+                filterRow = `WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'phone':
+                filterRow = `WHERE o.phone LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
+    
+        const [result] = await db.execute(
+            `SELECT 
+                o.name AS owner_name,
+                o.phone AS owner_phone,
+                GROUP_CONCAT(p.name ORDER BY p.name ASC SEPARATOR ', ') AS pets
+            FROM owner o
+            JOIN pet p ON o.owner_id = p.owner_id
+            ${filterRow}
+            GROUP BY o.owner_id;`,
+            params
+        );
+    
+        if (result.length === 0) {
+            return "Немає відповідних записів.";
+        }
+
+        let formateResult = []
+
+        for(let i in result){
+            formateResult.push(
+                `<b>Ім'я:</b> ${result[i].owner_name}<br><b>Телефон:</b> ${result[i].owner_phone}<br><b>Домашні вихованці:</b> ${result[i].pets}<br>`
+            )
+        }
+    
+        return formateResult;
     }
+    
 };
 
 module.exports = Owner;

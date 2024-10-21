@@ -64,7 +64,7 @@ const Pet = {
                 CONCAT(b.name, ', ', s.name) as 'breed_name', 
                 CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', 
                 DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
-                CASE WHEN p.features is null Then 'Немає' ELSE p.features END AS 'features' 
+                CASE WHEN p.features is null Then 'Немає' WHEN p.features = '' Then 'Немає' ELSE p.features END AS 'features' 
             FROM pet p 
             INNER JOIN breed b ON p.breed_id = b.breed_id 
             INNER JOIN specie s ON b.specie_id = s.specie_id 
@@ -128,7 +128,7 @@ const Pet = {
     },
 
     updatePet: async (name, breed_id, owner_id, gender, date_of_birth, features, updateId) => {
-        const [result] = await db.execute(
+        await db.execute(
             'UPDATE pet SET name = ?, breed_id = ?, owner_id = ?, gender = ?, date_of_birth = ?, features = ? WHERE pet_id = ?',
             [name, breed_id, owner_id, gender, date_of_birth, features, updateId]
         );
@@ -161,7 +161,7 @@ const Pet = {
                 CONCAT(b.name, ', ', s.name) as 'breed_name',
                 CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender',
                 DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
-                CASE WHEN p.features is null Then 'Немає' ELSE p.features END AS 'features',
+                CASE WHEN p.features is null Then 'Немає' WHEN p.features = '' Then 'Немає' ELSE p.features END AS 'features',
                 CONCAT(o.name, ' (', o.phone, ')') as 'owner',
                 COUNT(a.appointment_id) AS appointment_count
             from pet p 

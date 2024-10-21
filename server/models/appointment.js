@@ -1,39 +1,52 @@
 const db = require('../config/db');
 
 const Appointment = {
-    getAll: async () => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id ORDER BY a.time DESC");
-        return rows;
-    },
 
-    getByVet: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.name LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
+    getItems: async (filter, key = '') => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'pet':
+                filterRow = `WHERE p.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'vet':
+                filterRow = `WHERE v.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'complaint':
+                filterRow = `WHERE a.complaint LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'owner':
+                filterRow = `INNER JOIN owner o ON p.owner_id = o.owner_id WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'date':
+                filterRow = `WHERE DATE(a.time) = ?`;
+                params.push(key);
+                break; 
+            case 'vettoday':
+                filterRow = `WHERE v.name LIKE ? AND DATE(a.time) = CURDATE()`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
 
-    getByPet: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE p.name LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
+        const [result] = await db.execute(
+            `SELECT 
+                a.appointment_id as 'id', 
+                a.complaint as 'label', 
+                CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' 
+            FROM vetclinic_lapka.appointment a 
+            INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id 
+            INNER JOIN vet v ON a.vet_id = v.vet_id
+            ${filterRow} ORDER BY a.time DESC`, params
+        );
 
-    getByOwner: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE o.name LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
-
-    getByComplaint: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE a.complaint LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
-
-    getByVetToday: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.name LIKE ? AND DATE(a.`time`) = CURDATE() ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
-
-    getByDate: async (filter) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE DATE(a.`time`) = ? ORDER BY a.time DESC", [filter] )
-        return rows; 
+        return result;
     },
 
     getInfo: async (appointment_id) => {
@@ -62,7 +75,15 @@ const Appointment = {
                 filter = 'mc.card_id';
         }
 
-        const [rows] = await db.execute(`SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id WHERE ${filter} = ? ORDER BY a.time DESC`, [parentid] )
+        const [rows] = await db.execute(`
+            SELECT 
+                a.appointment_id as 'id', 
+                a.complaint as 'label', 
+                CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' 
+            FROM vetclinic_lapka.appointment a 
+            INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id 
+            WHERE ${filter} = ? ORDER BY a.time DESC`, [parentid] 
+        )
         return rows; 
     },
 
@@ -74,7 +95,16 @@ const Appointment = {
     },
 
     getByVetId: async (vetid) => {
-        const [rows] = await db.execute("SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM vetclinic_lapka.appointment a INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.vet_id = ? AND DATE(a.`time`) = CURDATE() ORDER BY a.`time` DESC", [vetid] )
+        const [rows] = await db.execute(`
+            SELECT 
+            a.appointment_id as 'id', 
+            a.complaint as 'label', 
+            CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' 
+            FROM vetclinic_lapka.appointment a 
+            INNER JOIN vetclinic_lapka.pet p ON a.pet_id = p.pet_id 
+            INNER JOIN vet v ON a.vet_id = v.vet_id 
+            WHERE v.vet_id = ? AND DATE(a.time) = CURDATE() ORDER BY a.time DESC`, [vetid] 
+        )
         return rows; 
     },
 
@@ -87,22 +117,23 @@ const Appointment = {
         const insertId = rows.insertId;
     
         return await db.execute(
-            "SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' " +
-            "FROM appointment a INNER JOIN pet p ON a.pet_id = p.pet_id WHERE a.appointment_id = ? LIMIT 1", 
+            `SELECT a.appointment_id as 'id', a.complaint as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext'
+            FROM appointment a INNER JOIN pet p ON a.pet_id = p.pet_id WHERE a.appointment_id = ? LIMIT 1`, 
             [insertId]
         );
     },
     
     getDataForEdit: async(appointment_id) => {
         const [rows] = await db.execute(
-            `SELECT o.owner_id as 'owner',
-            o.name as 'owner_name',
-            p.pet_id as 'pet',
-            p.name as 'pet_name',
-            a.complaint as 'complaint',
-            DATE_FORMAT(a.time , '%Y-%m-%d %H:%i:%s') as 'time',
-            v.vet_id as 'vet',
-            v.name as 'vet_name'
+            `SELECT 
+                o.owner_id as 'owner',
+                o.name as 'owner_name',
+                p.pet_id as 'pet',
+                p.name as 'pet_name',
+                a.complaint as 'complaint',
+                DATE_FORMAT(a.time , '%Y-%m-%d %H:%i:%s') as 'time',
+                v.vet_id as 'vet',
+                v.name as 'vet_name'
             FROM appointment a 
             INNER JOIN pet p ON a.pet_id = p.pet_id 
             INNER JOIN vet v ON a.vet_id = v.vet_id 

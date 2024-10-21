@@ -168,7 +168,7 @@ const Med = {
         }
     
         const [result] = await db.execute(
-            `select p.name as 'pet_name', 
+            `select CONCAT(p.name, ', ', b.name) as 'pet', 
                 CONCAT(o.name, ' (', o.phone, ')') as 'owner', 
                 CONCAT(v.name, ' (', v.phone, ')') as 'vet', 
                 DATE_FORMAT(a.time , '%Y.%m.%d %H:%m') as 'time',
@@ -178,7 +178,9 @@ const Med = {
             inner join appointment a on mc.appointment_id = a.appointment_id  
             inner join pet p on a.pet_id = p.pet_id 
             inner join vet v on a.vet_id = v.vet_id 
-            inner join owner o on p.owner_id = o.owner_id ${filterRow}
+            inner join owner o on p.owner_id = o.owner_id 
+            inner join breed b on p.breed_id = b.breed_id
+            ${filterRow}
             ORDER BY a.time DESC`,
             params
         );
@@ -187,7 +189,7 @@ const Med = {
 
         for(let i in result){
             formateResult.push(
-                `<b>Улюбленець:</b> ${result[i].pet_name}<br><b>Власник:</b> ${result[i].owner}<br>
+                `<b>Улюбленець:</b> ${result[i].pet}<br><b>Власник:</b> ${result[i].owner}<br>
                 <b>Ветеринар:</b> ${result[i].vet}<br><b>Час прийому:</b> ${result[i].time}<br>
                 <b>Діагноз:</b> ${result[i].diagnosis}<br><b>Лікування:</b> ${result[i].treatment}`
             )

@@ -124,6 +124,68 @@ const Appointment = {
             'UPDATE appointment SET pet_id = ?, time = ? , vet_id = ?, complaint = ? WHERE appointment_id = ?',
             [pet, time, vet, complaint, updateId]
         );
+    },
+
+    getReport: async (filter, key) => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'pet':
+                filterRow = `WHERE p.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'vet':
+                filterRow = `WHERE v.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'complaint':
+                filterRow = `WHERE a.complaint LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'owner':
+                filterRow = `WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'date':
+                filterRow = `WHERE DATE(a.time) = ?`;
+                params.push(key);
+                break; 
+            case 'vettoday':
+                filterRow = `WHERE v.name LIKE ? AND DATE(a.time) = CURDATE()`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
+    
+        const [result] = await db.execute(
+            `select CONCAT(p.name, ', ', b.name) as 'pet', 
+                CONCAT(o.name, ' (', o.phone, ')') as 'owner', 
+                CONCAT(v.name, ' (', v.phone, ')') as 'vet', 
+                DATE_FORMAT(a.time , '%Y.%m.%d %H:%m') as 'time',
+                a.complaint as 'complaint'
+            from appointment a 
+            inner join pet p on a.pet_id = p.pet_id 
+            inner join vet v on a.vet_id = v.vet_id 
+            inner join owner o on p.owner_id = o.owner_id
+            inner join breed b on p.breed_id = b.breed_id
+            ${filterRow}
+            ORDER BY a.time DESC`,
+            params
+        );
+
+        let formateResult = []
+
+        for(let i in result){
+            formateResult.push(
+                `<b>Улюбленець:</b> ${result[i].pet}<br><b>Власник:</b> ${result[i].owner}<br>
+                <b>Ветеринар:</b> ${result[i].vet}<br><b>Час прийому:</b> ${result[i].time}<br>
+                <b>Скарга:</b> ${result[i].complaint}`
+            )
+        }
+    
+        return formateResult;
     }
 };
 

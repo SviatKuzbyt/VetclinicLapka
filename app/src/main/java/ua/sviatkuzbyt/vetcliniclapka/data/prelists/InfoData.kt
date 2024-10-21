@@ -22,14 +22,14 @@ class InfoData(private val table: String) {
             InfoText(R.string.name),
             InfoText(R.string.breed),
             InfoText(R.string.gender),
-            InfoText(R.string.date_of_birth)
+            InfoText(R.string.date_of_birth),
+            InfoText(R.string.features)
         )
 
         "vet" -> listOf(
             InfoText(R.string.name),
             InfoText(R.string.phone),
-            InfoText(R.string.speciality),
-            InfoText(R.string.is_available)
+            InfoText(R.string.speciality)
         )
 
         "appointment" -> listOf(

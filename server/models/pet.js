@@ -1,24 +1,37 @@
 const db = require('../config/db');
 
 const Pet = {
-    getAll: async () => {
-        const [rows] = await db.execute("SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id ORDER BY p.name");
-        return rows;
-    },
 
-    getByName: async (filter) => {
-        const [rows] = await db.execute("SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.name LIKE ? ORDER BY p.name", [`%${filter}%`] )
-        return rows; 
-    },
+    getItems: async (filter, key = '') => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'name':
+                filterRow = `WHERE p.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'owner':
+                filterRow = `WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'breed':
+                filterRow = `WHERE b.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
 
-    getByOwner: async (filter) => {
-        const [rows] = await db.execute("SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE o.name LIKE ? ORDER BY p.name", [`%${filter}%`] )
-        return rows; 
-    },
+        const [result] = await db.execute(
+            `SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' 
+            FROM pet p 
+            INNER JOIN breed b ON p.breed_id = b.breed_id 
+            INNER JOIN owner o ON p.owner_id = o.owner_id 
+            ${filterRow} ORDER BY p.name`, params
+        );
 
-    getByBreed: async (filter) => {
-        const [rows] = await db.execute("SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE b.name LIKE ? ORDER BY p.name", [`%${filter}%`] )
-        return rows; 
+        return result;
     },
 
     addPet: async (name, breed_id, owner_id, gender, date_of_birth, features) => {
@@ -46,8 +59,19 @@ const Pet = {
 
     getInfo: async (pet_id) => {
         const [rows] = await db.execute(
-            "SELECT p.name as 'pet_name', CONCAT(b.name, ', ', s.name) as 'breed_name', CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN specie s ON b.specie_id = s.specie_id WHERE p.pet_id = ? LIMIT 1", [pet_id]);
-        return [rows[0].pet_name, rows[0].breed_name, rows[0].gender, rows[0].date_of_birth];
+            `SELECT 
+                p.name as 'pet_name', 
+                CONCAT(b.name, ', ', s.name) as 'breed_name', 
+                CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', 
+                DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
+                CASE WHEN p.features is null Then 'Немає' ELSE p.features END AS 'features' 
+            FROM pet p 
+            INNER JOIN breed b ON p.breed_id = b.breed_id 
+            INNER JOIN specie s ON b.specie_id = s.specie_id 
+            WHERE p.pet_id = ? LIMIT 1`, [pet_id]
+        );
+
+        return [rows[0].pet_name, rows[0].breed_name, rows[0].gender, rows[0].date_of_birth, rows[0].features];
     },
 
     getById: async (column, parentid) => {
@@ -66,7 +90,13 @@ const Pet = {
                 filter = 'mc.card_id';
         }
 
-        const [rows] = await db.execute(`SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' FROM pet p INNER JOIN breed b ON p.breed_id = b.breed_id INNER JOIN owner o ON p.owner_id = o.owner_id ${filter} = ? ORDER BY p.name`, [parentid] )        
+        const [rows] = await db.execute(
+            `SELECT p.pet_id as 'id', p.name as 'label', CONCAT(b.name, ', ', o.name) as 'subtext' 
+            FROM pet p 
+            INNER JOIN breed b ON p.breed_id = b.breed_id 
+            INNER JOIN owner o ON p.owner_id = o.owner_id ${filter} = ? ORDER BY p.name`, 
+            [parentid] 
+        )        
         return rows; 
 
     },
@@ -74,14 +104,14 @@ const Pet = {
     getEditInfo: async (petid) => {
         const [rows] = await db.execute(`
             SELECT 
-            p.name as 'name',
-            b.name as 'bread_name',
-            o.name as "owner_name",
-            p.gender as 'gender',
-            DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
-            p.features as 'features',
-            p.breed_id as 'bread',
-            p.owner_id as 'owner'
+                p.name as 'name',
+                b.name as 'bread_name',
+                o.name as "owner_name",
+                p.gender as 'gender',
+                DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
+                p.features as 'features',
+                p.breed_id as 'bread',
+                p.owner_id as 'owner'
             FROM pet p
             INNER JOIN breed b ON p.breed_id =b.breed_id 
             INNER JOIN owner o ON p.owner_id = o.owner_id
@@ -127,13 +157,13 @@ const Pet = {
     
         const [result] = await db.execute(
             `select 
-            p.name as 'pet_name',
-            CONCAT(b.name, ', ', s.name) as 'breed_name',
-            CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender',
-            DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
-            CASE WHEN p.features is null Then 'Немає' ELSE p.features END AS 'features',
-            CONCAT(o.name, ' (', o.phone, ')') as 'owner',
-            COUNT(a.appointment_id) AS appointment_count
+                p.name as 'pet_name',
+                CONCAT(b.name, ', ', s.name) as 'breed_name',
+                CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender',
+                DATE_FORMAT(p.date_of_birth, '%Y.%m.%d') as 'date_of_birth',
+                CASE WHEN p.features is null Then 'Немає' ELSE p.features END AS 'features',
+                CONCAT(o.name, ' (', o.phone, ')') as 'owner',
+                COUNT(a.appointment_id) AS appointment_count
             from pet p 
             inner join breed b on p.breed_id = b.breed_id 
             inner join specie s on b.specie_id = s.specie_id 

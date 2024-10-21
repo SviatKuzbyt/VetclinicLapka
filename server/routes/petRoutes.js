@@ -3,9 +3,7 @@ const router = express.Router();
 const petController = require('../controllers/petController');
 
 router.get('/', petController.getAllPets);
-router.get('/filter/name/:filter', petController.getByName);
-router.get('/filter/owner/:filter', petController.getByOwner);
-router.get('/filter/breed/:filter', petController.getByBreed);
+router.get('/filter/:filter/:key', petController.getByFilter);
 router.post('/add', petController.addPet);
 router.get('/info/:id', petController.getInfo);
 router.get('/filter/id/:column&:parentid', petController.getById);

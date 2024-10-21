@@ -2,7 +2,7 @@ const Pet = require('../models/pet');
 
 exports.getAllPets = async (req, res) => {
     try {
-        const pet = await Pet.getAll();
+        const pet = await Pet.getItems('all');
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
@@ -10,32 +10,10 @@ exports.getAllPets = async (req, res) => {
     }
 };
 
-exports.getByName = async (req, res) => {
+exports.getByFilter = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const pet = await Pet.getByName(filter);
-        res.status(200).json(pet);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByOwner = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const pet = await Pet.getByOwner(filter);
-        res.status(200).json(pet);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByBreed = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const pet = await Pet.getByBreed(filter);
+        const { filter, key } = req.params;
+        const pet = await Pet.getItems(filter, key);
         res.status(200).json(pet);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });

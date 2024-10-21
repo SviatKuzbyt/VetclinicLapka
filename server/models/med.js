@@ -1,39 +1,58 @@
 const db = require('../config/db');
 
 const Med = {
-    getAll: async () => {
-        const [rows] = await db.execute("SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id ORDER BY a.`time` DESC");
-        return rows;
-    },
 
-    getByVet: async (filter) => {
-        const [rows] = await db.execute("SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext'FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id INNER JOIN vet v ON a.vet_id = v.vet_id WHERE v.name LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
+    getItems: async (filter, key = '') => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'pet':
+                filterRow = `WHERE p.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'vet':
+                filterRow = `WHERE v.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'diagnosis':
+                filterRow = `WHERE mc.diagnosis LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'owner':
+                filterRow = `INNER JOIN owner o ON p.owner_id = o.owner_id WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'date':
+                filterRow = `WHERE DATE(a.time) = ?`;
+                params.push(key);
+                break; 
+            default:
+                filterRow = ``;
+        }
 
-    getByPet: async (filter) => {
-        const [rows] = await db.execute("SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext'FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id WHERE p.name LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
+        const [result] = await db.execute(
+            `SELECT 
+                mc.card_id as 'id', 
+                mc.diagnosis as 'label', 
+                CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext'
+            FROM medical_card mc 
+            INNER JOIN appointment a ON mc.appointment_id = a.appointment_id 
+            INNER JOIN pet p ON a.pet_id = p.pet_id 
+            INNER JOIN vet v ON a.vet_id = v.vet_id 
+            ${filterRow} ORDER BY a.time DESC`, params);
 
-    getByDiagnosis: async (filter) => {
-        const [rows] = await db.execute("SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext'FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id WHERE mc.diagnosis LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
-
-    getByOwner: async (filter) => {
-        const [rows] = await db.execute("SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext'FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id INNER JOIN owner o ON p.owner_id = o.owner_id WHERE o.name LIKE ? ORDER BY a.`time` DESC", [`%${filter}%`] )
-        return rows; 
-    },
-
-    getByDate: async (filter) => {
-        const [rows] = await db.execute("SELECT mc.card_id as 'id', mc.diagnosis as 'label', CONCAT(p.name, ', ', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i')) as 'subtext' FROM medical_card mc INNER JOIN appointment a ON mc.appointment_id = a.appointment_id INNER JOIN pet p ON a.pet_id = p.pet_id WHERE DATE(a.`time`) = ? ORDER BY a.`time` DESC", [filter] )
-        return rows; 
+        return result;
     },
 
     getInfo: async (card_id) => {
         const [rows] = await db.execute(
-            `SELECT p.name as 'pet', o.name as 'owner', DATE_FORMAT(a.time, '%Y.%m.%d %H:%i') as 'date', v.name as 'vet', mc.diagnosis, mc.treatment
+            `SELECT 
+                p.name as 'pet', 
+                o.name as 'owner', 
+                DATE_FORMAT(a.time, '%Y.%m.%d %H:%i') as 'date',
+                v.name as 'vet', mc.diagnosis, 
+                mc.treatment
             FROM medical_card mc
             INNER JOIN appointment a ON mc.appointment_id = a.appointment_id 
             INNER JOIN pet p ON a.pet_id  = p.pet_id 
@@ -77,7 +96,12 @@ const Med = {
 
     getInfoCreate: async (appointment_id) => {
         const [rows] = await db.execute(
-            `SELECT p.name as 'name', b.name as 'breed', CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', DATE_FORMAT(p.date_of_birth , '%Y.%m.%d') as 'date_of_birth', a.complaint as 'complaint'
+            `SELECT 
+                p.name as 'name', 
+                b.name as 'breed', 
+                CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', 
+                DATE_FORMAT(p.date_of_birth , '%Y.%m.%d') as 'date_of_birth',
+                a.complaint as 'complaint'
             FROM appointment a 
             INNER JOIN pet p ON a.pet_id  = p.pet_id 
             INNER JOIN breed b ON p.breed_id = b.breed_id 
@@ -112,11 +136,11 @@ const Med = {
     getDataForEdit: async(med_id) => {
         const [rows] = await db.execute(
             `SELECT v.vet_id  as 'vet',
-            v.name as 'vet_name',
-            a.appointment_id as 'appointment',
-            a.complaint as 'complaint',
-            mc.diagnosis as 'diagnosis',
-            mc.treatment as 'treatment'
+                v.name as 'vet_name',
+                a.appointment_id as 'appointment',
+                a.complaint as 'complaint',
+                mc.diagnosis as 'diagnosis',
+                mc.treatment as 'treatment'
             FROM medical_card mc 
             INNER JOIN appointment a ON mc.appointment_id = a.appointment_id 
             INNER JOIN vet v ON a.vet_id = v.vet_id 
@@ -200,4 +224,3 @@ const Med = {
 };
 
 module.exports = Med;
-

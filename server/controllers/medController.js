@@ -1,8 +1,8 @@
 const Med = require('../models/med');
 
-exports.getAllMedCards = async (req, res) => {
+exports.getAll = async (req, res) => {
     try {
-        const med = await Med.getAll();
+        const med = await Med.getItems('all');
         res.status(200).json(med);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
@@ -10,54 +10,10 @@ exports.getAllMedCards = async (req, res) => {
     }
 };
 
-exports.getByVet = async (req, res) => {
+exports.getByFilter = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const med = await Med.getByVet(filter);
-        res.status(200).json(med);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByPet = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const med = await Med.getByPet(filter);
-        res.status(200).json(med);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByDiagnosis = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const med = await Med.getByDiagnosis(filter);
-        res.status(200).json(med);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByOwner = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const med = await Med.getByOwner(filter);
-        res.status(200).json(med);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByDate = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const med = await Med.getByDate(filter);
+        const { filter, key } = req.params;
+        const med = await Med.getItems(filter, key);
         res.status(200).json(med);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });

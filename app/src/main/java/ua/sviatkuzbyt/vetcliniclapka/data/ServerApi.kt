@@ -6,7 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 object ServerApi {
-    private const val BASIC_URL = "http://192.168.50.226:3000/"
+    private const val BASIC_URL = "http://lapka-api.local:3000/"
     private val gson = Gson()
 
     private val getRecordItemType = object : TypeToken<RecordItem>() {}.type

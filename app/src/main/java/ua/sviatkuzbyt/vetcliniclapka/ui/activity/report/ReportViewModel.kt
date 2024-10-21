@@ -11,8 +11,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ua.sviatkuzbyt.vetcliniclapka.R
-import ua.sviatkuzbyt.vetcliniclapka.data.repositories.ReportRepository
-import ua.sviatkuzbyt.vetcliniclapka.ui.activity.records.RecordsViewModel
+import ua.sviatkuzbyt.vetcliniclapka.data.repositories.report.ReportRepository
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.SingleLiveEvent
 import ua.sviatkuzbyt.vetcliniclapka.ui.elements.postError
 

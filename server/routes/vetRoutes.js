@@ -3,9 +3,7 @@ const router = express.Router();
 const vetController = require('../controllers/vetController');
 
 router.get('/', vetController.getAllVets);
-router.get('/filter/name/:filter', vetController.getByName);
-router.get('/filter/phone/:filter', vetController.getByPhone);
-router.get('/filter/specie/:filter', vetController.getBySpecie);
+router.get('/filter/:filter/:key', vetController.getByFilter);
 router.post('/add', vetController.addVet);
 router.get('/info/:id', vetController.getInfo);
 router.get('/filter/id/:column&:parentid', vetController.getById);
@@ -17,6 +15,5 @@ router.get('/filter/appointment/:petId&:date', vetController.getVetsAppointment)
 router.get('/filter/available', vetController.getAvailable);
 router.get('/report/:filter/:key', vetController.getReport);
 router.get('/report/:filter', vetController.getReport);
-
 
 module.exports = router;

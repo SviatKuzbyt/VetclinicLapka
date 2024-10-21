@@ -20,9 +20,7 @@ class ReportViewModel(application: Application, intent: Intent): AndroidViewMode
     val message = SingleLiveEvent<Int>()
     private val repository = ReportRepository(application, intent)
 
-    init {
-        loadReport()
-    }
+    init { loadReport() }
 
     private fun loadReport() = viewModelScope.launch(Dispatchers.IO){
         try {

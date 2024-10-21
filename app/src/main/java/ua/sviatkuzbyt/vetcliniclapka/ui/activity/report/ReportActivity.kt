@@ -25,12 +25,14 @@ class ReportActivity : AppCompatActivity() {
         }
 
         viewModel.message.observe(this){
+            binding.reportToolbar.setEnableActionButton(true)
             makeToast(this, it)
         }
 
         binding.reportToolbar.setup(
             getString(R.string.report), this, R.drawable.ic_save
-        ){
+        ) {
+            binding.reportToolbar.setEnableActionButton(false)
             viewModel.saveReportToPdf(binding.reportList)
         }
     }

@@ -114,6 +114,8 @@ class RecordsActivity :
             binding.filterText.setText(date)
             viewModel.getFilterData(date)
         }
+
+        offButtonsForBreed()
     }
 
     private fun openActivity(activity: Class<*>){
@@ -159,6 +161,13 @@ class RecordsActivity :
         }
 
         startActivity(reportIntent)
+    }
+
+    private fun offButtonsForBreed(){
+        if (viewModel.getTable() == "breed"){
+            binding.buttonCreate.visibility = View.GONE
+            binding.toolbarFilter.hideActionButton()
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")

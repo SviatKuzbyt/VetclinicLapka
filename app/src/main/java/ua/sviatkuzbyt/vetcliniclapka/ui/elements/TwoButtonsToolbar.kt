@@ -2,6 +2,7 @@ package ua.sviatkuzbyt.vetcliniclapka.ui.elements
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,12 +16,14 @@ class TwoButtonsToolbar @JvmOverloads constructor(
     private var backButton: Button
     private var actionButton: Button
     private var label: TextView
+
     init {
         LayoutInflater.from(context).inflate(R.layout.toolbar_two_buttons, this, true)
         backButton = findViewById(R.id.btnToolbarBack)
         actionButton = findViewById(R.id.btnOtherAction)
         label = findViewById(R.id.labelToolbarBack)
     }
+
     fun setup(text: String, activity: AppCompatActivity, actionIcon: Int, action: () -> Unit) {
         label.text = text
         backButton.setOnClickListener {
@@ -30,5 +33,13 @@ class TwoButtonsToolbar @JvmOverloads constructor(
         actionButton.setOnClickListener{
             action.invoke()
         }
+    }
+
+    fun setEnableActionButton(isEnable: Boolean){
+        actionButton.isEnabled = isEnable
+    }
+
+    fun hideActionButton(){
+        actionButton.visibility = View.INVISIBLE
     }
 }

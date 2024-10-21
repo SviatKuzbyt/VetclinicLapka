@@ -140,7 +140,7 @@ const Pet = {
             inner join owner o on p.owner_id = o.owner_id 
             LEFT JOIN appointment a ON p.pet_id = a.pet_id
             ${filterRow}
-            GROUP BY p.pet_id, p.name;`,
+            GROUP BY p.pet_id, p.name ORDER BY p.name`,
             params
         );
 

@@ -15,5 +15,7 @@ router.post('/add', medController.addMedCard)
 router.post('/addreturn', medController.addMedCardReturn);
 router.get('/infoedit/:med_id', medController.getDataForEdit);
 router.put('/update/:card_id', medController.updateMedCard);
+router.get('/report/:filter/:key', medController.getReport);
+router.get('/report/:filter', medController.getReport);
 
 module.exports = router;

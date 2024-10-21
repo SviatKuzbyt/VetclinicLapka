@@ -136,6 +136,64 @@ const Med = {
             'UPDATE medical_card SET appointment_id = ?, diagnosis = ?, treatment = ? WHERE card_id = ?',
             [appointment_id, diagnosis, treatment, card_id]
         );
+    },
+
+    getReport: async (filter, key) => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'pet':
+                filterRow = `WHERE p.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'vet':
+                filterRow = `WHERE v.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'diagnosis':
+                filterRow = `WHERE mc.diagnosis LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'owner':
+                filterRow = `WHERE o.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'date':
+                filterRow = `WHERE DATE(a.time) = ?`;
+                params.push(key);
+                break; 
+            default:
+                filterRow = ``;
+        }
+    
+        const [result] = await db.execute(
+            `select p.name as 'pet_name', 
+                CONCAT(o.name, ' (', o.phone, ')') as 'owner', 
+                CONCAT(v.name, ' (', v.phone, ')') as 'vet', 
+                DATE_FORMAT(a.time , '%Y.%m.%d %H:%m') as 'time',
+                mc.diagnosis as 'diagnosis',
+                mc.treatment as 'treatment'
+            from medical_card mc 
+            inner join appointment a on mc.appointment_id = a.appointment_id  
+            inner join pet p on a.pet_id = p.pet_id 
+            inner join vet v on a.vet_id = v.vet_id 
+            inner join owner o on p.owner_id = o.owner_id ${filterRow}
+            ORDER BY a.time DESC`,
+            params
+        );
+
+        let formateResult = []
+
+        for(let i in result){
+            formateResult.push(
+                `<b>Улюбленець:</b> ${result[i].pet_name}<br><b>Власник:</b> ${result[i].owner}<br>
+                <b>Ветеринар:</b> ${result[i].vet}<br><b>Час прийому:</b> ${result[i].time}<br>
+                <b>Діагноз:</b> ${result[i].diagnosis}<br><b>Лікування:</b> ${result[i].treatment}`
+            )
+        }
+    
+        return formateResult;
     }
 };
 

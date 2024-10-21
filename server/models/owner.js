@@ -75,7 +75,7 @@ const Owner = {
             FROM owner o
             JOIN pet p ON o.owner_id = p.owner_id
             ${filterRow}
-            GROUP BY o.owner_id;`,
+            GROUP BY o.owner_id ORDER BY o.name`,
             params
         );
 

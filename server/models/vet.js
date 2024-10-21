@@ -165,7 +165,7 @@ const Vet = {
                 params.push(`%${key}%`);
                 break; 
             case 'specie':
-                filterRow = `s.name LIKE ?`;
+                filterRow = `WHERE s.name LIKE ?`;
                 params.push(`%${key}%`);
                 break; 
             default:
@@ -185,7 +185,7 @@ const Vet = {
             LEFT JOIN appointment a ON v.vet_id = a.vet_id
             LEFT JOIN medical_card mc ON a.appointment_id = mc.appointment_id
             ${filterRow}
-            GROUP BY v.vet_id;`, params
+            GROUP BY v.vet_id ORDER BY v.name`, params
         );
 
         let formateResult = []

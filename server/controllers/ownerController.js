@@ -2,7 +2,7 @@ const Owner = require('../models/owner');
 
 exports.getAllOwners = async (req, res) => {
     try {
-        const owners = await Owner.getAll();
+        const owners = await Owner.getItems('all');
         res.status(200).json(owners);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
@@ -10,21 +10,10 @@ exports.getAllOwners = async (req, res) => {
     }
 };
 
-exports.getByName = async (req, res) => {
+exports.getByFilter = async (req, res) => {
     try {
-        const { filter } = req.params;
-        const owners = await Owner.getByName(filter);
-        res.status(200).json(owners);
-    } catch (error) {
-        res.status(500).json({ message: 'Server Error', error: error.message });
-        console.log(error);
-    }
-};
-
-exports.getByPhone = async (req, res) => {
-    try {
-        const { filter } = req.params;
-        const owners = await Owner.getByPhone(filter);
+        const { filter, key } = req.params;
+        const owners = await Owner.getItems(filter, key);
         res.status(200).json(owners);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });

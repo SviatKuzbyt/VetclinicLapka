@@ -1,19 +1,29 @@
 const db = require('../config/db');
 
 const Owner = {
-    getAll: async () => {
-        const [rows] = await db.execute("SELECT owner_id as 'id', name as 'label', phone as 'subtext' FROM vetclinic_lapka.owner ORDER BY name");
-        return rows;
-    },
 
-    getByName: async (filter) => {
-        const [rows] = await db.execute("SELECT owner_id as 'id', name as 'label', phone as 'subtext' FROM vetclinic_lapka.owner WHERE name LIKE ? ORDER BY name", [`%${filter}%`] )
-        return rows; 
-    },
+    getItems: async (filter, key = '') => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'name':
+                filterRow = `WHERE name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'phone':
+                filterRow = `WHERE phone LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
 
-    getByPhone: async (filter) => {
-        const [rows] = await db.execute("SELECT owner_id as 'id', name as 'label', phone as 'subtext' FROM vetclinic_lapka.owner WHERE phone LIKE ? ORDER BY name", [`%${filter}%`] )
-        return rows; 
+        const [result] = await db.execute(
+            `SELECT owner_id as 'id', name as 'label', phone as 'subtext' 
+            FROM vetclinic_lapka.owner ${filterRow} ORDER BY name`, params);
+
+        return result;
     },
 
     addOwner: async (name, phone) => {
@@ -30,7 +40,10 @@ const Owner = {
     },
 
     getById: async (parentid) => {
-        const [rows] = await db.execute("SELECT o.owner_id as 'id', o.name as 'label', o.phone as 'subtext' FROM pet p INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ?", [parentid] )
+        const [rows] = await db.execute(
+            `SELECT o.owner_id as 'id', o.name as 'label', o.phone as 'subtext' 
+            FROM pet p INNER JOIN owner o ON p.owner_id = o.owner_id WHERE p.pet_id = ?`, [parentid] 
+        )
         return rows; 
     },
 
@@ -44,7 +57,7 @@ const Owner = {
     },
 
     updateOwner: async (name, phone, updateId) => {
-        const [result] = await db.execute(
+        await db.execute(
             'UPDATE owner SET name = ?, phone = ? WHERE owner_id = ?',
             [name, phone, updateId]
         );

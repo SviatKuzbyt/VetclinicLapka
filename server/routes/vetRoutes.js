@@ -15,6 +15,8 @@ router.get('/available/get/:id', vetController.isAvailable);
 router.put('/available/put/:updateId', vetController.updateAvailable);
 router.get('/filter/appointment/:petId&:date', vetController.getVetsAppointment);
 router.get('/filter/available', vetController.getAvailable);
+router.get('/report/:filter/:key', vetController.getReport);
+router.get('/report/:filter', vetController.getReport);
 
 
 module.exports = router;

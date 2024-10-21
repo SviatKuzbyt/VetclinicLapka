@@ -103,8 +103,8 @@ exports.updatePet = async (req, res) => {
 exports.getReport = async (req, res) => {
     try {
         const { filter, key } = req.params;
-        const owners = await Pet.getReport(filter, key);
-        res.status(200).json(owners);
+        const report = await Pet.getReport(filter, key);
+        res.status(200).json(report);
     } catch (error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
         console.log(error);

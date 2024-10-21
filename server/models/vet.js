@@ -149,6 +149,56 @@ const Vet = {
     getAvailable: async () => {
         const [rows] = await db.execute("SELECT vet_id as 'id', name as 'label', phone as 'subtext' FROM vet WHERE is_available=1 ORDER BY name");
         return rows;
+    },
+
+    getReport: async (filter, key) => {
+        let filterRow;
+        let params = [];
+    
+        switch (filter) {
+            case 'name':
+                filterRow = `WHERE v.name LIKE ?`;
+                params.push(`%${key}%`);
+                break;
+            case 'phone':
+                filterRow = `WHERE v.phone LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            case 'specie':
+                filterRow = `s.name LIKE ?`;
+                params.push(`%${key}%`);
+                break; 
+            default:
+                filterRow = ``;
+        }
+    
+        const [result] = await db.execute(
+            `SELECT 
+                v.name AS vet_name,
+                v.phone AS vet_phone,
+                CASE WHEN v.is_available = 1 Then 'Доступний' ELSE 'Не доступний' END AS 'is_available',
+                GROUP_CONCAT(DISTINCT s.name ORDER BY s.name ASC SEPARATOR ', ') AS species_names,
+                COUNT(DISTINCT mc.card_id) AS medical_card_count
+            FROM vet v
+            LEFT JOIN vet_speciality vs ON v.vet_id = vs.vet_id
+            LEFT JOIN specie s ON vs.specie_id = s.specie_id
+            LEFT JOIN appointment a ON v.vet_id = a.vet_id
+            LEFT JOIN medical_card mc ON a.appointment_id = mc.appointment_id
+            ${filterRow}
+            GROUP BY v.vet_id;`, params
+        );
+
+        let formateResult = []
+
+        for(let i in result){
+            formateResult.push(
+                `<b>Ім'я:</b> ${result[i].vet_name}<br><b>Телефон:</b> ${result[i].vet_phone}<br>
+                <b>Дотсупний:</b> ${result[i].is_available}<br><b>Спеціальність:</b> ${result[i].species_names}<br>
+                <b>К-сть медичних записів:</b> ${result[i].medical_card_count}`
+            )
+        }
+    
+        return formateResult;
     }
 };
 

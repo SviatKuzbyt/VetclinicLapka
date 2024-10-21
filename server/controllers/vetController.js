@@ -144,3 +144,14 @@ exports.getAvailable = async (req, res) => {
         console.log(error);
     }
 };
+
+exports.getReport = async (req, res) => {
+    try {
+        const { filter, key } = req.params;
+        const report = await Vet.getReport(filter, key);
+        res.status(200).json(report);
+    } catch (error) {
+        res.status(500).json({ message: 'Server Error', error: error.message });
+        console.log(error);
+    }
+};

@@ -37,7 +37,7 @@ class RecordsRepository(private val table: String) {
 
     //load data from server by user data
     fun getFilterSearchData(filter: String): MutableList<RecordItem>{
-        lastFilter = "$table/filter/$currentSearchFilter/${filter.trim()}"
+        lastFilter = "$table/filter-search/$currentSearchFilter/${filter.trim()}"
 
         val response = ServerApi.getData(lastFilter)
         updateList(ServerApi.formatListRecordItem(response))
@@ -69,4 +69,8 @@ class RecordsRepository(private val table: String) {
     fun getFilterList() = filterList
     fun getSelectedFilterApi() = currentSearchFilter
     fun getSelectedFilter() = filterList.find{it.isSelected}?.label ?: R.string.error
+
+    fun add(item: RecordItem) {
+        records.add(0, item)
+    }
 }

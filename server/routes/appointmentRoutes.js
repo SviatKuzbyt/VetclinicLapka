@@ -3,7 +3,7 @@ const router = express.Router();
 const appointmentController = require('../controllers/appointmentController');
 
 router.get('/', appointmentController.getAll);
-router.get('/filter/:filter/:key', appointmentController.getByFilter);
+router.get('/filter-search/:filter/:key', appointmentController.getByFilter);
 router.get('/info/:id', appointmentController.getInfo);
 router.get('/filter/id/:column&:parentid', appointmentController.getById);
 router.post('/add', appointmentController.addAppointment);

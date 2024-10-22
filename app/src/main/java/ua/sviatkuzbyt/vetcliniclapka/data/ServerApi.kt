@@ -1,5 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.data
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.net.HttpURLConnection
@@ -15,7 +16,10 @@ object ServerApi {
     private val getMutableListStringType = object : TypeToken<MutableList<String>>() {}.type
     private val getListRecordItemType = object : TypeToken<MutableList<RecordItem>>() {}.type
 
-    fun getData(path: String) = URL("$BASIC_URL$path").readText()
+    fun getData(path: String): String{
+        Log.v("sklt", "$BASIC_URL$path")
+        return URL("$BASIC_URL$path").readText()
+    }
 
     fun postData(path: String, dataToPost: String) =
         sendData(path, dataToPost, "POST")

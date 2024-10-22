@@ -92,6 +92,10 @@ class RecordsViewModel(private val intent: Intent): ViewModel() {
         }
     }
 
+    fun add(item: RecordItem) {
+        repository.add(item)
+    }
+
     class Factory(private val intent: Intent)
         : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -1,5 +1,6 @@
 package ua.sviatkuzbyt.vetcliniclapka.ui.recyclers.record
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,11 @@ import ua.sviatkuzbyt.vetcliniclapka.R
 import ua.sviatkuzbyt.vetcliniclapka.data.RecordItem
 
 class RecordAdapter(
-    private val dataSet: MutableList<RecordItem>,
     private val action: Action,
     private val iconRes: Int
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val dataSet: MutableList<RecordItem> = mutableListOf()
 
     //ViewType states
     private val EMPTY_VIEW = 0
@@ -79,5 +81,12 @@ class RecordAdapter(
 
         dataSet.add(0, item)
         notifyItemInserted(0)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun addAll(list: MutableList<RecordItem>){
+        dataSet.clear()
+        dataSet.addAll(list)
+        notifyDataSetChanged()
     }
 }

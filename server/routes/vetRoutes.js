@@ -3,7 +3,7 @@ const router = express.Router();
 const vetController = require('../controllers/vetController');
 
 router.get('/', vetController.getAllVets);
-router.get('/filter/:filter/:key', vetController.getByFilter);
+router.get('/filter-search/:filter/:key', vetController.getByFilter);
 router.post('/add', vetController.addVet);
 router.get('/info/:id', vetController.getInfo);
 router.get('/filter/id/:column&:parentid', vetController.getById);

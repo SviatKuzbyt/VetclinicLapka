@@ -3,7 +3,7 @@ const router = express.Router();
 const ownerController = require('../controllers/ownerController');
 
 router.get('/', ownerController.getAllOwners);
-router.get('/filter/:filter/:key', ownerController.getByFilter);
+router.get('/filter-search/:filter/:key', ownerController.getByFilter);
 router.post('/add', ownerController.addOwner);
 router.get('/info/:id', ownerController.getInfo);
 router.get('/filter/id/:column&:parentid', ownerController.getById);

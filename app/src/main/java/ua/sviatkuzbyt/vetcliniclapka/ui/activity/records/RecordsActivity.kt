@@ -73,6 +73,8 @@ class RecordsActivity :
     private fun setViews(){
         //RecyclerView
         binding.recordsRecycler.layoutManager = LinearLayoutManager(this)
+        adapterRecycler = RecordAdapter(this, viewModel.getIcon())
+        binding.recordsRecycler.adapter = adapterRecycler
 
         //EditText
         binding.filterText.setOnEditorActionListener { view, _, _ ->
@@ -174,11 +176,7 @@ class RecordsActivity :
     private fun setViewModel() {
         //Records list
         viewModel.records.observe(this) {
-            if (!::adapterRecycler.isInitialized) {
-                adapterRecycler = RecordAdapter(it, this, viewModel.getIcon())
-                binding.recordsRecycler.adapter = adapterRecycler
-            } else
-                adapterRecycler.notifyDataSetChanged()
+            adapterRecycler.addAll(it)
         }
 
         //CalendarButton
@@ -226,6 +224,7 @@ class RecordsActivity :
         try {
             adapterRecycler.add(item)
             binding.recordsRecycler.scrollToPosition(0)
+            viewModel.add(item)
         } catch (_: Exception){
             makeToast(this, R.string.reload_page)
         }

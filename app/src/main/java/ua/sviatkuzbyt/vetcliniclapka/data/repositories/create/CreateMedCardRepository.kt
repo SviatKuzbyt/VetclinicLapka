@@ -26,6 +26,7 @@ class CreateMedCardRepository(updateId: Int): CreateRepository(
         InfoText(R.string.breed),
         InfoText(R.string.gender),
         InfoText(R.string.date_of_birth),
+        InfoText(R.string.features),
         InfoText(R.string.complaint)
     )
 

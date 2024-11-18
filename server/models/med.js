@@ -101,6 +101,7 @@ const Med = {
                 b.name as 'breed', 
                 CASE WHEN p.gender = 1 Then 'Самець' ELSE 'Самка' END AS 'gender', 
                 DATE_FORMAT(p.date_of_birth , '%Y.%m.%d') as 'date_of_birth',
+                CASE WHEN p.features is null Then 'Немає' WHEN p.features = '' Then 'Немає' ELSE p.features END AS 'features',
                 a.complaint as 'complaint'
             FROM appointment a 
             INNER JOIN pet p ON a.pet_id  = p.pet_id 
@@ -108,7 +109,7 @@ const Med = {
             WHERE a.appointment_id = ? LIMIT 1`,
             [appointment_id]
         )
-        return [rows[0].name, rows[0].breed, rows[0].gender, rows[0].date_of_birth, rows[0].complaint]; 
+        return [rows[0].name, rows[0].breed, rows[0].gender, rows[0].date_of_birth, rows[0].features, rows[0].complaint]; 
     },
 
     addMedCard: async (appointment_id, diagnosis, treatment) => {

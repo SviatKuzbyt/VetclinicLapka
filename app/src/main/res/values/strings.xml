@@ -5,7 +5,7 @@
     <string name="new_medcard">Медична карта</string>
     <string name="watch">Перегляд</string>
     <string name="pets">Домашні улюбленці</string>
-    <string name="owners">Хазяїни</string>
+    <string name="owners">Власники</string>
     <string name="vets">Ветеринари</string>
     <string name="medhistory">Медична історія</string>
     <string name="appointment_history">Записи на прийом</string>
@@ -79,8 +79,8 @@
     <string name="selecting_appointment">Вибір запису</string>
     <string name="select_appointment">Оберіть запис</string>
     <string name="conclusion">Висновок</string>
-    <string name="enter_ill">Введіть хворобу...</string>
-    <string name="enter_cure">Введіть лікування...</string>
+    <string name="enter_ill">Введіть хворобу…</string>
+    <string name="enter_cure">Введіть лікування…</string>
     <string name="create_medcard">Створення медкарти</string>
     <string name="num">Запис №</string>
     <string name="report">Звіт</string>
